@@ -11,56 +11,61 @@ namespace DPA_Musicsheets.Builder
 	class LilypondContent
 	{
 
+		String lilypondContentString;
+		int _beatNote = 4;    // De waarde van een beatnote.
+		int _bpm = 120;       // Aantal beatnotes per minute.
+		int _beatsPerBar;     // Aantal beatnotes per maat.
+
+		int previousMidiKey = 60; // Central C;
+		int previousNoteAbsoluteTicks = 0;
+		double percentageOfBarReached = 0;
+		bool startedNoteIsClosed = true;
+		int division;
+
 		public class Builder
 		{
 			private StringBuilder lilypondContent;
-			private int _beatNote = 4;    // De waarde van een beatnote.
-			private int _bpm = 120;       // Aantal beatnotes per minute.
-			private int _beatsPerBar;     // Aantal beatnotes per maat.
-
-			private int previousMidiKey = 60; // Central C;
-			private int previousNoteAbsoluteTicks = 0;
-			private double percentageOfBarReached = 0;
-			private bool startedNoteIsClosed = true;
-			private int division;
-
-
+			private LilypondContent lilypond;
 
 			public Builder(int division)
 			{
 				lilypondContent = new StringBuilder();
 				lilypondContent.AppendLine("\\relative c' {");
 				lilypondContent.AppendLine("\\clef treble");
-				this.division = division;
+				this.lilypond.division = division;
 			}
 
-			public void addTimeSignature(MetaMessage metaMessage)
+			public void addTimeSignature(MidiEvent midiEvent)
 			{
+				var metaMessage = midiEvent.MidiMessage as MetaMessage;
 				byte[] timeSignatureBytes = metaMessage.GetBytes();
-				_beatNote = timeSignatureBytes[0];
-				_beatsPerBar = (int)(1 / Math.Pow(timeSignatureBytes[1], -2));
-				lilypondContent.AppendLine($"\\time {_beatNote}/{_beatsPerBar}");
+				lilypond._beatNote = timeSignatureBytes[0];
+				lilypond._beatsPerBar = (int)(1 / Math.Pow(timeSignatureBytes[1], -2));
+				lilypondContent.AppendLine($"\\time {lilypond._beatNote}/{lilypond._beatsPerBar}");
 			}
 
-			public void addTempo(MetaMessage metaMessage)
+			public void addTempo(MidiEvent midiEvent)
 			{
+				var metaMessage = midiEvent.MidiMessage as MetaMessage;
 				byte[] tempoBytes = metaMessage.GetBytes();
 				int tempo = (tempoBytes[0] & 0xff) << 16 | (tempoBytes[1] & 0xff) << 8 | (tempoBytes[2] & 0xff);
-				_bpm = 60000000 / tempo;
-				lilypondContent.AppendLine($"\\tempo 4={_bpm}");
+				lilypond._bpm = 60000000 / tempo;
+				lilypondContent.AppendLine($"\\tempo 4={lilypond._bpm}");
 			}
 
 			public void addEndOfTrack(MidiEvent midiEvent)
 			{
-				if (previousNoteAbsoluteTicks > 0)
+				if (lilypond.previousNoteAbsoluteTicks > 0)
 				{
 					// Finish the last notelength.
 					double percentageOfBar;
-					lilypondContent.Append(MidiToLilyHelper.GetLilypondNoteLength(previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, division, _beatNote, _beatsPerBar, out percentageOfBar));
+					lilypondContent.Append(MidiToLilyHelper.GetLilypondNoteLength(lilypond.previousNoteAbsoluteTicks
+						, midiEvent.AbsoluteTicks, lilypond.division, lilypond._beatNote, lilypond._beatsPerBar, out percentageOfBar));
+
 					lilypondContent.Append(" ");
 
-					percentageOfBarReached += percentageOfBar;
-					if (percentageOfBarReached >= 1)
+					lilypond.percentageOfBarReached += percentageOfBar;
+					if (lilypond.percentageOfBarReached >= 1)
 					{
 						lilypondContent.AppendLine("|");
 						percentageOfBar = percentageOfBar - 1;
@@ -76,26 +81,27 @@ namespace DPA_Musicsheets.Builder
 					if (channelMessage.Data2 > 0) // Data2 = loudness
 					{
 						// Append the new note.
-						lilypondContent.Append(MidiToLilyHelper.GetLilyNoteName(previousMidiKey, channelMessage.Data1));
+						lilypondContent.Append(MidiToLilyHelper.GetLilyNoteName(lilypond.previousMidiKey, channelMessage.Data1));
 
-						previousMidiKey = channelMessage.Data1;
-						startedNoteIsClosed = false;
+						lilypond.previousMidiKey = channelMessage.Data1;
+						lilypond.startedNoteIsClosed = false;
 					}
-					else if (!startedNoteIsClosed)
+					else if (!lilypond.startedNoteIsClosed)
 					{
 						// Finish the previous note with the length.
 						double percentageOfBar;
-						lilypondContent.Append(MidiToLilyHelper.GetLilypondNoteLength(previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, division, _beatNote, _beatsPerBar, out percentageOfBar));
-						previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
+						lilypondContent.Append(MidiToLilyHelper.GetLilypondNoteLength(lilypond.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks,
+							lilypond.division, lilypond._beatNote, lilypond._beatsPerBar, out percentageOfBar));
+						lilypond.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
 						lilypondContent.Append(" ");
 
-						percentageOfBarReached += percentageOfBar;
-						if (percentageOfBarReached >= 1)
+						lilypond.percentageOfBarReached += percentageOfBar;
+						if (lilypond.percentageOfBarReached >= 1)
 						{
 							lilypondContent.AppendLine("|");
-							percentageOfBarReached -= 1;
+							lilypond.percentageOfBarReached -= 1;
 						}
-						startedNoteIsClosed = true;
+						lilypond.startedNoteIsClosed = true;
 					}
 					else
 					{
@@ -105,8 +111,14 @@ namespace DPA_Musicsheets.Builder
 
 			}
 
+			public LilypondContent build()
+			{
+				lilypondContent.Append("}");
+				lilypond.lilypondContentString = lilypondContent.ToString();
+
+				return lilypond;
+			}
+
 		}
-
-
 	}
 }
