@@ -69,11 +69,11 @@
     </Reference>
     <Reference Include="PSAMControlLibrary, Version=2.1.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\PSAMControlLibrary.dll</HintPath>
+      <HintPath>..\PSAMControlLibrary.dll</HintPath>
     </Reference>
     <Reference Include="PSAMWPFControlLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\PSAMWPFControlLibrary.dll</HintPath>
+      <HintPath>..\PSAMWPFControlLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Sanford.Multimedia.Midi, Version=6.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sanford.Multimedia.Midi.6.4.1\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
@@ -103,6 +103,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Builder\LilypondContentBuilder.cs" />
+    <Compile Include="Factories\FileLoaderFactory.cs" />
+    <Compile Include="Managers\FileLoader\IFileLoader.cs" />
+    <Compile Include="Managers\FileLoader\LilyPondLoader.cs" />
+    <Compile Include="Managers\FileLoader\MidiLoader.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Models\LilypondToken.cs" />
@@ -114,6 +119,7 @@
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\Octave.cs" />
     <Compile Include="Models\Pitch.cs" />
+    <Compile Include="Utils\FileHandler.cs" />
     <Compile Include="ViewModels\MidiPlayerViewModel.cs" />
     <Compile Include="ViewModels\StaffsViewModel.cs" />
     <Compile Include="Views\MidiPlayerCtrl.xaml.cs">

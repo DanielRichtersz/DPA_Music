@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    class Bar
-    {
-        List<Note> Notes;
-        int beatsInBar;
+	class Bar
+	{
+		private List<Note> Notes;
+		private int beatsInBar;
 
-        public Bar(int beatsInBar)
-        {
-            Notes = new List<Note>();
-            this.beatsInBar = beatsInBar;
-        }
-    }
+		public Bar(int beatsInBar)
+		{
+			Notes = new List<Note>();
+			this.beatsInBar = beatsInBar;
+		}
+
+		public void addNote(Note n)
+		{
+			Notes.Add(n);
+		}
+	}
 }
