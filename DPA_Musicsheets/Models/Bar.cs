@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-	class Bar
+	class Bar : IStaffElement
 	{
 		private List<Note> Notes;
 		private int beatsInBar;
@@ -16,6 +16,11 @@ namespace DPA_Musicsheets.Models
 			Notes = new List<Note>();
 			this.beatsInBar = beatsInBar;
 		}
+
+        public List<Note> GetNotes()
+        {
+            return this.Notes;
+        }
 
 		public void addNote(Note n)
 		{

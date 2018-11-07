@@ -10,7 +10,7 @@ namespace DPA_Musicsheets.Models
     //Pitch: Enum of C, D, E, F, G, A, B
     //Octave
     //Has mole b or cross #
-    class Note //: INote Hint v Docent
+    class Note // INote Hint v Docent
     {
         private Pitch pitch;
         private Octave octave;

@@ -10,8 +10,7 @@ namespace DPA_Musicsheets.Builder
 {
 	class LilypondContent
 	{
-
-		String lilypondContentString;
+		string lilypondContentString;
 		int _beatNote = 4;    // De waarde van een beatnote.
 		int _bpm = 120;       // Aantal beatnotes per minute.
 		int _beatsPerBar;     // Aantal beatnotes per maat.

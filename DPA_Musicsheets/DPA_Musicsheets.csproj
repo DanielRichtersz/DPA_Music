@@ -110,11 +110,13 @@
     <Compile Include="Managers\FileLoader\MidiLoader.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />
+    <Compile Include="Interfaces\IStaffElement.cs" />
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />
     <Compile Include="Models\Bar.cs" />
     <Compile Include="Models\Duration.cs" />
     <Compile Include="Models\MoleOrCross.cs" />
+    <Compile Include="Models\Staff.cs" />
     <Compile Include="Models\Track.cs" />
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\Octave.cs" />
