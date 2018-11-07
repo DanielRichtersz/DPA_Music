@@ -25,6 +25,21 @@ namespace DPA_Musicsheets.Models
 		public void addNote(Note n)
 		{
 			Notes.Add(n);
+            if (!this.CheckNoteDurations())
+            {
+                //Error
+            }
 		}
-	}
+
+        private bool CheckNoteDurations()
+        {
+            int totalDuration = 0;
+            //TODO: Check if duration of all notes are equal to the beatsPerBar property
+            foreach (Note note in this.Notes)
+            {
+                totalDuration += (1 / (int)note.duration);
+            }
+            return totalDuration == this.beatsInBar;
+        }
+    }
 }

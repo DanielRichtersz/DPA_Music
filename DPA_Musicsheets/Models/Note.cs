@@ -12,19 +12,21 @@ namespace DPA_Musicsheets.Models
     //Has mole b or cross #
     class Note // INote Hint v Docent
     {
-        private Pitch pitch;
-        private Octave octave;
-        private MoleOrCross moleOrCross;
-        private Duration duration;
-        private bool hasPoint;
-        private bool hasTilde;
+        public Pitch pitch {get; set;}
+        public Octave octave {get;set;}
+        public MoleOrCross moleOrCross { get; set; }
+        public Duration duration { get; set; }
+        public bool hasPoint { get; set; }
+        public bool hasTilde { get; set; }
 
-        public Note(Pitch pitch, Octave octave, MoleOrCross moleOrCross, Duration duration, bool hasTilde)
+        public Note(Pitch pitch, Octave octave, MoleOrCross moleOrCross, Duration duration, bool hasPoint, bool hasTilde)
         {
             this.pitch = pitch;
             this.octave = octave;
             this.moleOrCross = moleOrCross;
             this.duration = duration;
+            this.hasTilde = hasTilde;
+            this.hasPoint = hasPoint;
         }
     }
 }
