@@ -8,7 +8,23 @@ namespace DPA_Musicsheets.Models
 {
     class Track
     {
-        List<Bar> Bars;
+        private List<Bar> Bars;
+
+        public Track()
+        {
+
+        }
+
+        private void AddBar(Tuple<int, int> beatsInBar)
+        {
+            this.Bars.Add(new Bar(beatsInBar));
+        }
+
+        private void AddBar(Bar newBar)
+        {
+            this.Bars.Add(newBar);
+        }
+
         //Relative
         //clef  (sleutel met daarachter treble, alt, tenor, of bass
         //{} om hele track?

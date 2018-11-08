@@ -15,6 +15,10 @@ namespace DPA_Musicsheets.Models
 
         }
 
+        /// <summary>
+        /// Returns the containing bars
+        /// </summary>
+        /// <returns>All the bars, including possible repeating parts, that are in this Staff object</returns>
         public List<Bar> GetBars()
         {
             List<Bar> returnBars = new List<Bar>();
