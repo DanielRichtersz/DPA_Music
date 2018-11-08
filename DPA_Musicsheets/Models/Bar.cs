@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-	class Bar : IStaffElement
+	public class Bar : IStaffElement
 	{
 		private List<Note> Notes;
 		private int beatsInBar;

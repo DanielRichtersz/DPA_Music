@@ -8,7 +8,7 @@ namespace DPA_Musicsheets.Models
 {
     //Enum
     //Has Octave
-    enum Pitch {
+    public enum Pitch {
         A,
         B,
         C,

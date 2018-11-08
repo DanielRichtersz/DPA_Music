@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    enum Duration
+    public enum Duration
     {
         Hele = 1,
         Halve = 2,

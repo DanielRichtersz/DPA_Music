@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    class Track
+    public class Track
     {
         List<Bar> Bars;
         //Relative

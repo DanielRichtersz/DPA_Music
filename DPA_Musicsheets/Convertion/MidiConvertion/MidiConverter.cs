@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DPA_Musicsheets.Models
+namespace DPA_Musicsheets.Convertion.MidiConvertion
 {
-    public enum MoleOrCross
+    class MidiConverter
     {
-        Mole,
-        Cross,
-        None
     }
 }

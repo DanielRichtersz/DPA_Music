@@ -104,6 +104,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Builder\LilypondContentBuilder.cs" />
+    <Compile Include="Builder\NoteBuilder.cs" />
+    <Compile Include="Convertion\MidiConvertion\MidiConverter.cs" />
     <Compile Include="Factories\FileLoaderFactory.cs" />
     <Compile Include="Managers\FileLoader\IFileLoader.cs" />
     <Compile Include="Managers\FileLoader\LilyPondLoader.cs" />
@@ -240,6 +242,7 @@
     <Content Include="Files\Eenvoudige voorbeeldfiles\Rusten.ly" />
     <Content Include="Files\Eenvoudige voorbeeldfiles\Standaard_noten.ly" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -10,7 +10,7 @@ namespace DPA_Musicsheets.Models
     //Pitch: Enum of C, D, E, F, G, A, B
     //Octave
     //Has mole b or cross #
-    class Note // INote Hint v Docent
+    public class Note // INote Hint v Docent
     {
         public Pitch pitch {get; set;}
         public Octave octave {get;set;}
@@ -18,6 +18,8 @@ namespace DPA_Musicsheets.Models
         public Duration duration { get; set; }
         public bool hasPoint { get; set; }
         public bool hasTilde { get; set; }
+
+        public Note() { }
 
         public Note(Pitch pitch, Octave octave, MoleOrCross moleOrCross, Duration duration, bool hasPoint, bool hasTilde)
         {

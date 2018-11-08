@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    enum Octave {
+    public enum Octave {
         contra,
         small,
         oneStriped
