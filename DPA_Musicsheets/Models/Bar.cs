@@ -33,12 +33,14 @@ namespace DPA_Musicsheets.Models
 
         private bool CheckNoteDurations()
         {
-            int totalDuration = 0;
-            foreach (Note note in this.Notes)
-            {
-                totalDuration += (1 / (int)note.duration);
-            }
-            return totalDuration == this.beatsInBar;
+            return false;
+            //TODO
+            //Tuple<int, int> totalDuration = new Tuple<0, 0>();
+            //foreach (Note note in this.Notes)
+            //{
+            //    totalDuration += (1 / (int)note.duration);
+            //}
+            //return totalDuration == this.beatsInBar;
         }
     }
 }
