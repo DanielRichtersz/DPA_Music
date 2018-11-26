@@ -12,7 +12,7 @@ namespace DPA_Musicsheets.Models
 
         public Staff()
         {
-
+            Bars = new List<IStaffElement>();
         }
 
         /// <summary>

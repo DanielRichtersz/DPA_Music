@@ -105,6 +105,7 @@
     </ApplicationDefinition>
     <Compile Include="Builder\LilypondContentBuilder.cs" />
     <Compile Include="Builder\NoteBuilder.cs" />
+    <Compile Include="Convertion\LilypondConvertion\LilipondConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMetaTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\Strategies\MessageChannelConverter.cs" />
@@ -251,7 +252,7 @@
     <Content Include="Files\Eenvoudige voorbeeldfiles\Standaard_noten.ly" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Convertion\MidiConvertion\LilyPondStrategies\" />
+    <Folder Include="Convertion\LilypondConvertion\Strategies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
