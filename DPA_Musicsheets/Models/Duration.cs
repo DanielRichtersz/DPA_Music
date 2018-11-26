@@ -13,6 +13,7 @@ namespace DPA_Musicsheets.Models
         Kwart = 4,
         Achste = 8,
         Zestiende = 16,
-        TweeEnDertig = 32
+        TweeEnDertig = 32,
+        None = 0
     }
 }

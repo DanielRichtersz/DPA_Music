@@ -8,21 +8,40 @@ namespace DPA_Musicsheets.Models
 {
     public class Track
     {
-        private List<Bar> Bars;
+        private List<Staff> Staffs = new List<Staff>();
+        public Tuple<int, int> defaultBeatsInBar { get; set; }
+        public int beatsPerMinute { get; set; }
+        public int previousNoteAbsoluteTicks { get; set; }
+        public int division { get; set; }
 
         public Track()
         {
 
         }
 
-        private void AddBar(Tuple<int, int> beatsInBar)
+        public void AddStaff(Tuple<int, int> beatsInBar)
         {
-            this.Bars.Add(new Bar(beatsInBar));
+            Staff staff = new Staff();
+            staff.Bars.Add(new Bar(beatsInBar));
+            this.Staffs.Add(staff);
+            defaultBeatsInBar = beatsInBar;
         }
 
-        private void AddBar(Bar newBar)
+        public void CreateNewStaff()
         {
-            this.Bars.Add(newBar);
+            Staff staff = new Staff();
+            staff.Bars.Add(new Bar(defaultBeatsInBar));
+            Staffs.Add(staff);
+        }
+
+        public void AddStaff(Staff staff)
+        {
+            this.Staffs.Add(staff);
+        }
+
+        public List<Staff> GetStaffs()
+        {
+            return Staffs;
         }
 
         //Relative

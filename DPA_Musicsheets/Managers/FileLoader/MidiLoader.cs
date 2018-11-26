@@ -56,6 +56,8 @@ namespace DPA_Musicsheets.Managers.FileLoader
 					// We want to split this so that we can expand our functionality later with new keywords for example.
 					// Hint: Command pattern? Strategies? Factory method?
 					// gebruik een builder om al die noten te maken
+                    //Note note new node
+
 					switch (midiMessage.MessageType)
 					{
 						case MessageType.Meta:

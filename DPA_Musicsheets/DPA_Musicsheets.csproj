@@ -105,11 +105,19 @@
     </ApplicationDefinition>
     <Compile Include="Builder\LilypondContentBuilder.cs" />
     <Compile Include="Builder\NoteBuilder.cs" />
+    <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />
+    <Compile Include="Convertion\MidiConvertion\IMetaTypeConverter.cs" />
+    <Compile Include="Convertion\MidiConvertion\Strategies\MessageChannelConverter.cs" />
+    <Compile Include="Convertion\MidiConvertion\Strategies\MetaTimeSignature.cs" />
     <Compile Include="Convertion\MidiConvertion\MidiConverter.cs" />
+    <Compile Include="Convertion\MidiConvertion\Strategies\MetaTrackEndConverter.cs" />
+    <Compile Include="Convertion\MidiConvertion\Strategies\TempoMetaConverter.cs" />
+    <Compile Include="Convertion\MidiConvertion\Strategies\TypeMetaConverter.cs" />
     <Compile Include="Factories\FileLoaderFactory.cs" />
     <Compile Include="Managers\FileLoader\IFileLoader.cs" />
     <Compile Include="Managers\FileLoader\LilyPondLoader.cs" />
     <Compile Include="Managers\FileLoader\MidiLoader.cs" />
+    <Compile Include="Managers\MidiHelper.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Interfaces\IStaffElement.cs" />

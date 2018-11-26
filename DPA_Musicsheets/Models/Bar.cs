@@ -31,6 +31,19 @@ namespace DPA_Musicsheets.Models
             }
 		}
 
+        public void print()
+        {
+            string line = "";
+
+            foreach (var note in Notes)
+            {
+
+                line += note.pitch.ToString() + note.duration.ToString() + " ";
+
+            }
+            Console.WriteLine(line);
+        }
+
         private bool CheckNoteDurations()
         {
             return false;

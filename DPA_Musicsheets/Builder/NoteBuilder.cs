@@ -10,7 +10,8 @@ namespace DPA_Musicsheets.Builder
     public class NoteBuilder
     {
         private Dictionary<string, Octave> octaves = new Dictionary<string, Octave>() {
-            { ",", Octave.contra }, { "'", Octave.oneStriped}, { "", Octave.small} };
+            { ",", Octave.contra1 }, { "'", Octave.oneStriped}, { "", Octave.small}, { ",,", Octave.contra2 }, { "''", Octave.twoStriped}
+            , { ",,,", Octave.contra3 }, { "'''", Octave.threeStriped}, { ",,,,", Octave.contra4 }, { "''''", Octave.fourStriped}};
         private Dictionary<string, MoleOrCross> moles = new Dictionary<string, MoleOrCross>() {
             { "es", MoleOrCross.Mole}, { "is", MoleOrCross.Cross}, { "", MoleOrCross.None} };
         private Dictionary<string, Duration> durations = new Dictionary<string, Duration>() {
@@ -26,30 +27,59 @@ namespace DPA_Musicsheets.Builder
             return outNote;
         }
         
-        public void setPitch(string pitch)
+        public NoteBuilder setPitch(string pitch)
         {
             Enum.TryParse<Pitch>(pitch.ToUpper(), out Pitch pEnum);
             note.pitch = pEnum;
+            return this;
         }
 
-        public void setOctave(string octave)
+        public NoteBuilder setPitch(Pitch pitch)
+        {
+            note.pitch = pitch;
+            return this;
+        }
+
+        public NoteBuilder setOctave(string octave)
         {
             note.octave = octaves[octave];
+            return this;
         }
 
-        public void setMole(string mole)
+        public NoteBuilder setOctave(Octave octave)
+        {
+            note.octave = octave;
+            return this;
+        }
+
+        public NoteBuilder setMole(string mole)
         {
             note.moleOrCross = moles[mole];
+            return this;
         }
 
-        public void setDuration(string duration)
+        public NoteBuilder setMole(MoleOrCross mole)
+        {
+            note.moleOrCross = mole;
+            return this;
+        }
+
+        public NoteBuilder setDuration(string duration)
         {
             note.duration = durations[duration];
+            return this;
         }
 
-        public void setPoint()
+        public NoteBuilder setDuration(Duration duration)
         {
-            note.hasPoint = true;
+            note.duration = duration;
+            return this;
+        }
+
+        public NoteBuilder setPoints(int points)
+        {
+            note.points = points;
+            return this;
         }
 
         public void setTilde()
