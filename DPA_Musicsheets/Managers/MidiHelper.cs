@@ -18,6 +18,7 @@ namespace DPA_Musicsheets.Managers
             //int octave = (midiKey / 12) - 1;
             pitch = pitches[midiKey % 12]; 
 
+            // Check if note has distance more than 6 == Octave higher or lower
             int distance = midiKey - previousMidiKey;
 
             int baseOctave = 0;

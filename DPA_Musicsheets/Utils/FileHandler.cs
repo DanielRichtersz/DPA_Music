@@ -10,6 +10,7 @@ using DPA_Musicsheets.Managers;
 
 namespace DPA_Musicsheets.Utils
 {
+    // Loads the file loaders (MidiLoader, LilyPondLoader) to read files
 	class FileHandler
 	{
 
