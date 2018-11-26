@@ -26,13 +26,13 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
                 {
                     Pitch pitch;
                     Octave octave;
+                    MoleOrCross mole;
 
-                    MidiHelper.GetPitch(previousMidiKey, channelMessage.Data1, out pitch, out octave);
-
-                    noteBuilder.setPitch(pitch).setOctave(octave);
+                    MidiHelper.GetPitch(previousMidiKey, channelMessage.Data1, out pitch, out octave, out mole);
 
                     // Append the new note.
-                    //string notePitch = MidiToLilyHelper.GetLilyNoteName(previousMidiKey, channelMessage.Data1);
+                    noteBuilder.setPitch(pitch).setOctave(octave).setMole(mole);
+
 
                     previousMidiKey = channelMessage.Data1;
                     startedNoteIsClosed = false;
@@ -40,9 +40,6 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
                 else if (!startedNoteIsClosed)
                 {
                     var beats = track.defaultBeatsInBar;
-
-                    // Finish the previous note with the length.
-                    track.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
                     
                     int dots = 0;
                     double percentageOfBar;
@@ -50,19 +47,24 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
                     Duration duration = MidiHelper.getDuration(track.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, track.division, 
                         beats.Item1, beats.Item2, out percentageOfBar, out dots);
 
+                    // Finish the previous note with the length.
+                    track.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
+
                     noteBuilder.setDuration(duration).setPoints(dots);
+
+                    track.AddNote(noteBuilder.build());
 
                     percentageOfBarReached += percentageOfBar;
                     if (percentageOfBarReached >= 1)
                     {
-                        //lilypondContent.AppendLine("|");
+                        track.addNewBar();
                         percentageOfBarReached -= 1;
                     }
+                    
                     startedNoteIsClosed = true;
                 }
                 else
                 {
-                    //lilypondContent.Append("r");
                     noteBuilder.setPitch(Pitch.R);
                 }
             }

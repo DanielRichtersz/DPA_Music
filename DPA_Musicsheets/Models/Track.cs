@@ -34,6 +34,18 @@ namespace DPA_Musicsheets.Models
             Staffs.Add(staff);
         }
 
+        public void AddNote(Note n)
+        {
+            Bar b = (Bar)Staffs.Last().Bars.Last();
+            b.addNote(n);
+        }
+
+        public void addNewBar()
+        {
+            Bar b = new Bar(defaultBeatsInBar);
+            Staffs.Last().Bars.Add(b);
+        }
+
         public void AddStaff(Staff staff)
         {
             this.Staffs.Add(staff);
@@ -42,6 +54,51 @@ namespace DPA_Musicsheets.Models
         public List<Staff> GetStaffs()
         {
             return Staffs;
+        }
+
+        public void print()
+        {
+
+            foreach(var s in Staffs)
+            {
+
+                Console.WriteLine('{');
+
+                foreach(var b in s.Bars)
+                {
+                    Bar bar = (Bar)b;
+
+                    foreach(var n in bar.GetNotes())
+                    {
+                        string notepitch = n.pitch + "";
+                        if(n.moleOrCross == MoleOrCross.Cross)
+                        {
+                            notepitch += "is";
+                        }
+
+                        Console.Write(notepitch);
+
+                        if(n.octave == Octave.contra1)
+                        {
+                            Console.Write(",");
+                        }
+                        if(n.octave == Octave.oneStriped)
+                        {
+                            Console.Write("'");
+                        }
+                        int duration = (int) n.duration;
+                        Console.Write(duration);
+
+                        Console.Write(new string('.', n.points) + " ");
+
+                    }
+
+                    Console.Write("|" + "\n");
+                }
+
+                Console.WriteLine("}");
+            }
+
         }
 
         //Relative

@@ -1,4 +1,5 @@
-﻿using DPA_Musicsheets.ViewModels;
+﻿using DPA_Musicsheets.Convertion.MidiConvertion;
+using DPA_Musicsheets.ViewModels;
 using Sanford.Multimedia.Midi;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace DPA_Musicsheets.Managers.FileLoader
 		{
 			MidiSequence = new Sequence();
 			MidiSequence.Load(path);
+
+            MidiConverter mc = new MidiConverter();
+
+            mc.convertMidiToStaff(MidiSequence);
 
 			return LoadMidiIntoLilypond(MidiSequence);
 

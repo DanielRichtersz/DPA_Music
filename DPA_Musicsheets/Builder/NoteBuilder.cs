@@ -18,7 +18,7 @@ namespace DPA_Musicsheets.Builder
             {"1", Duration.Hele },{"2", Duration.Halve },{"4", Duration.Kwart},{"8", Duration.Achste},{"16", Duration.Zestiende }
             ,{"32", Duration.TweeEnDertig} };
 
-        private Note note = new Note(Pitch.A, Octave.small, MoleOrCross.None, Duration.Hele, false, false);
+        private Note note = new Note(Pitch.A, Octave.small, MoleOrCross.None, Duration.Hele, 0, false);
         public Note build()
         {
             Note outNote = note;
