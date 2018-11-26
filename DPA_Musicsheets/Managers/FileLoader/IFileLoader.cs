@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DPA_Musicsheets.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,6 @@ namespace DPA_Musicsheets.Managers
 {
 	interface IFileLoader
 	{
-
-		string fileToString(string path);
+		Track fileToTrack(string path);
 	}
 }
