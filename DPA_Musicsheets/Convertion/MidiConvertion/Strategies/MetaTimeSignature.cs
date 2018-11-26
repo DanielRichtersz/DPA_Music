@@ -8,6 +8,7 @@ using Sanford.Multimedia.Midi;
 
 namespace DPA_Musicsheets.Convertion.MidiConvertion
 {
+    // Extracts the beatNote/beatsPerBar from the Event
     class MetaTimeSignature : IMetaTypeConverter
     {
         public void convert(MidiEvent midiEvent, ref Models.Track track)

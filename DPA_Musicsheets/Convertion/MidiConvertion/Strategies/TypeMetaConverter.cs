@@ -9,6 +9,7 @@ using Sanford.Multimedia.Midi;
 
 namespace DPA_Musicsheets.Convertion.MidiConvertion
 {
+    // Determine what MetaType the event is
     public class TypeMetaConverter : IMessageTypeConverter
     {
         private Dictionary<MetaType, IMetaTypeConverter> converters = new Dictionary<MetaType, IMetaTypeConverter>() {
