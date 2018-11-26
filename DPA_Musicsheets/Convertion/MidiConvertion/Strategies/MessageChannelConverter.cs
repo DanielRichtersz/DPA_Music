@@ -10,6 +10,7 @@ using Sanford.Multimedia.Midi;
 
 namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
 {
+    // Tries to make a note from the event
     class MessageChannelConverter : IMessageTypeConverter
     {
         private int previousMidiKey;
@@ -17,6 +18,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
         private double percentageOfBarReached;
         private NoteBuilder noteBuilder = new NoteBuilder();
 
+        // Converts the event to note
         public void convert(MidiEvent midiEvent, ref Models.Track track)
         {
             var channelMessage = midiEvent.MidiMessage as ChannelMessage;

@@ -8,6 +8,7 @@ using Sanford.Multimedia.Midi;
 
 namespace DPA_Musicsheets.Convertion.MidiConvertion
 {
+    // Extracts tempo from the event
     class TempoMetaConverter : IMetaTypeConverter
     {
         public void convert(MidiEvent midiEvent, ref Models.Track track)

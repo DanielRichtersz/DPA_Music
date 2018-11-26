@@ -10,6 +10,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
 {
     class MetaTrackEndConverter : IMetaTypeConverter
     {
+        // Write away as string. After refractor this is obsolete, will be done at printing the file
         public void convert(MidiEvent midiEvent, ref Models.Track track)
         {
             //What if i did absolutely nothing
