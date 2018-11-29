@@ -9,17 +9,17 @@ namespace DPA_Musicsheets.Managers
 {
     class MidiHelper
     {
-        private static Dictionary<int, Pitch> pitches = new Dictionary<int, Pitch>() {
+        private Dictionary<int, Pitch> pitches = new Dictionary<int, Pitch>() {
             {0,Pitch.C}, {1,Pitch.C}, {2,Pitch.D}, {3,Pitch.D}, {4,Pitch.E}, {5,Pitch.F},
             {6,Pitch.F}, {7,Pitch.G}, {8,Pitch.G}, {9,Pitch.A}, {10,Pitch.A}, {11,Pitch.B} };
-        private static Dictionary<int, MoleOrCross> moles = new Dictionary<int, MoleOrCross>()
+        private Dictionary<int, MoleOrCross> moles = new Dictionary<int, MoleOrCross>()
         {
             { 0, MoleOrCross.None }, { 1, MoleOrCross.Cross }, {2, MoleOrCross.None }, {3, MoleOrCross.Cross}, {4, MoleOrCross.None },
             { 5, MoleOrCross.None }, { 6, MoleOrCross.Cross}, {7, MoleOrCross.None }, {8, MoleOrCross.Cross},
             { 9, MoleOrCross.None }, {10, MoleOrCross.Cross}, {11, MoleOrCross.None }
         };
         
-        public static void GetPitch(int previousMidiKey, int midiKey, out Pitch pitch, out Octave octave, out MoleOrCross moc)
+        public void GetPitch(int previousMidiKey, int midiKey, out Pitch pitch, out Octave octave, out MoleOrCross moc)
         {
             int key = midiKey % 12;
 
@@ -46,7 +46,7 @@ namespace DPA_Musicsheets.Managers
             octave = (Octave)baseOctave;
         }
 
-        public static Duration getDuration(int absoluteTicks, int nextNoteAbsoluteTicks, int division,
+        public Duration getDuration(int absoluteTicks, int nextNoteAbsoluteTicks, int division,
             int beatNote, int beatsPerBar, out double percentageOfBar, out int dots)
         {
             Duration duration = 0;

@@ -17,6 +17,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
         private bool startedNoteIsClosed;
         private double percentageOfBarReached;
         private NoteBuilder noteBuilder = new NoteBuilder();
+        private MidiHelper helper = new MidiHelper();
 
         // Converts the event to note
         public void convert(MidiEvent midiEvent, ref Models.Track track)
@@ -30,7 +31,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
                     Octave octave;
                     MoleOrCross mole;
 
-                    MidiHelper.GetPitch(previousMidiKey, channelMessage.Data1, out pitch, out octave, out mole);
+                    helper.GetPitch(previousMidiKey, channelMessage.Data1, out pitch, out octave, out mole);
 
                     // Append the new note.
                     noteBuilder.setPitch(pitch).setOctave(octave).setMole(mole);
@@ -46,7 +47,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
                     int dots = 0;
                     double percentageOfBar;
 
-                    Duration duration = MidiHelper.getDuration(track.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, track.division, 
+                    Duration duration = helper.getDuration(track.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, track.division, 
                         beats.Item1, beats.Item2, out percentageOfBar, out dots);
 
                     // Finish the previous note with the length.

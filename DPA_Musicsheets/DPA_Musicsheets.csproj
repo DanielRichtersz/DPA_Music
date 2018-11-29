@@ -103,7 +103,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Builder\LilypondContentBuilder.cs" />
     <Compile Include="Builder\NoteBuilder.cs" />
     <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMetaTypeConverter.cs" />
