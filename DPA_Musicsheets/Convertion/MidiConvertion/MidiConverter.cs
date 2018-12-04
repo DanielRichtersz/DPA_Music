@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Track = DPA_Musicsheets.Models.Track;
 
 namespace DPA_Musicsheets.Convertion.MidiConvertion
 {
@@ -18,7 +19,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
         private Staff mainStaff = new Staff();
         private Models.Track domainTrack = new Models.Track();
 
-        public void convertMidiToStaff(Sequence sequence)
+        public Track convertMidiToStaff(Sequence sequence)
         {
             domainTrack.division = sequence.Division;
             //get all tracks and loop through their events to create the staffs, bars and notes
@@ -42,7 +43,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
                 }
 
             }
-            domainTrack.print();
+            return domainTrack;
         }
 
         private void processMetaType(MidiEvent midiEvent)

@@ -4,12 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Managers.FileLoader
 {
 	class LilyPondLoader : IFileLoader
 	{
-		public string fileToString(string path)
+		public Track fileToString(string path)
 		{
 			StringBuilder sb = new StringBuilder();
 			foreach (var line in File.ReadAllLines(path))
@@ -17,7 +18,7 @@ namespace DPA_Musicsheets.Managers.FileLoader
 				sb.AppendLine(line);
 			}
 
-			return sb.ToString();
+			return null;
 		}
 	}
 }
