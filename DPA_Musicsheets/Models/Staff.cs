@@ -8,7 +8,7 @@ namespace DPA_Musicsheets.Models
 {
     public class Staff : IStaffElement
     {
-        public List<IStaffElement> Bars;
+        public List<IStaffElement> Bars { get; set; }
 
         public Staff()
         {

@@ -7,6 +7,7 @@ using System.IO;
 using DPA_Musicsheets.Factories;
 using DPA_Musicsheets.Managers.FileLoader;
 using DPA_Musicsheets.Managers;
+using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Utils
 {
@@ -24,7 +25,7 @@ namespace DPA_Musicsheets.Utils
 
 		}
 
-		public String readFile(String path)
+		public Track readFile(String path)
 		{
 
 			if (!isMusicFile(path))

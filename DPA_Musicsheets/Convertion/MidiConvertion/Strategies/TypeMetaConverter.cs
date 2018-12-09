@@ -21,9 +21,13 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
             MetaMessage metaMessage = midiEvent.MidiMessage as MetaMessage;
             MetaType metaType = metaMessage.MetaType;
 
-            var converter = converters[metaType];
+            if (converters.ContainsKey(metaType))
+            {
 
-            converter.convert(midiEvent, ref track);
+                var converter = converters[metaType];
+
+                converter.convert(midiEvent, ref track);
+            }
 
         }
     }

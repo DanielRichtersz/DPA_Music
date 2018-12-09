@@ -1,4 +1,5 @@
-﻿using DPA_Musicsheets.Managers;
+﻿using DPA_Musicsheets.Convertion.MidiConvertion.Strategies;
+using DPA_Musicsheets.Managers;
 using DPA_Musicsheets.Models;
 using Sanford.Multimedia.Midi;
 using System;
@@ -6,28 +7,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Track = DPA_Musicsheets.Models.Track;
 
 namespace DPA_Musicsheets.Convertion.MidiConvertion
 {
     class MidiConverter
     {
-
-        string lilypondContentString;
-        int _beatNote = 4;    // De waarde van een beatnote.
-        int _bpm = 120;       // Aantal beatnotes per minute.
-        int _beatsPerBar;     // Aantal beatnotes per maat.
-
-        int previousMidiKey = 60; // Central C;
-        int previousNoteAbsoluteTicks = 0;
-        double percentageOfBarReached = 0;
-        bool startedNoteIsClosed = true;
-        int division;
+        private MessageChannelConverter channelConverter = new MessageChannelConverter();
+        private TypeMetaConverter metaConverter = new TypeMetaConverter();
 
         private Staff mainStaff = new Staff();
+        private Models.Track domainTrack = new Models.Track();
 
-        public void convertMidiToStaff(Sequence sequence)
+        public Track convertMidiToStaff(Sequence sequence)
         {
-            
+            domainTrack.division = sequence.Division;
             //get all tracks and loop through their events to create the staffs, bars and notes
             for(int i = 0; i < sequence.Count(); i++)
             {
@@ -36,15 +30,21 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
                 foreach(var mEvent in track.Iterator())
                 {
 
+                    if(mEvent.MidiMessage.MessageType == MessageType.Channel)
+                    {
+                        channelConverter.convert(mEvent, ref domainTrack);
+                    }
+                    else
+                    {
+                        metaConverter.convert(mEvent, ref domainTrack);
+                    }
 
 
                 }
 
             }
-
+            return domainTrack;
         }
-
-        private StringBuilder lilypondContent;
 
         private void processMetaType(MidiEvent midiEvent)
         {

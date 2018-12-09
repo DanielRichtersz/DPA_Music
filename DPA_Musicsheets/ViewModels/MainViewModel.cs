@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DPA_Musicsheets.Models;
+using Microsoft.Practices.ServiceLocation;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -19,6 +21,7 @@ namespace DPA_Musicsheets.ViewModels
         private string _fileName;
         private string _currentState;
         private MusicLoader _musicLoader;
+        private TrackConverter trackConverter;
 
         public string FileName
         {
@@ -46,8 +49,6 @@ namespace DPA_Musicsheets.ViewModels
 
         public MainViewModel(MusicLoader musicLoader)
         {
-            // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer?
-            _musicLoader = musicLoader;
             FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
         }
 
@@ -62,7 +63,12 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand LoadCommand => new RelayCommand(() =>
         {
-            _musicLoader.OpenFile(FileName);
+            Track track = trackConverter.GetTrack(FileName);
+
+            ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText =
+                trackConverter.convertToLilypondText(track);
+            ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.convertToMusicalSymbols(track));
+                
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys
