@@ -2,9 +2,6 @@
 using DPA_Musicsheets.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Builder
 {
@@ -47,9 +44,10 @@ namespace DPA_Musicsheets.Builder
                     //Skip the s
                     ++i;
                     //Dont loop further
-                    break;
+                    continue;
                 }
-
+                
+                // Chain of responsibility
                 foreach (BuilderCommand bc in chain)
                 {
                     if (bc.Execute(chainParam[i]))
@@ -58,7 +56,9 @@ namespace DPA_Musicsheets.Builder
                     }
                 }
             }
-            return noteBuilder.build();
+            Note note = noteBuilder.build();
+            Console.WriteLine("Made note: " + note.ToString());
+            return note;
         }
     }
 }
