@@ -12,7 +12,7 @@ namespace DPA_Musicsheets.Managers.FileLoader
 	class LilyPondLoader : IFileLoader
 	{
         LilypondConverter lilypondConverter = new LilypondConverter();
-		public Track fileToTrack(string path)
+		public string fileToString(string path)
 		{
 			StringBuilder sb = new StringBuilder();
 			foreach (var line in File.ReadAllLines(path))
@@ -25,7 +25,7 @@ namespace DPA_Musicsheets.Managers.FileLoader
             lilypondConverter.CreateTrackFromStringParts(stringParts);
 
             Track track = new Track(); ;
-			return track;
+			return "string";
 		}
 
         public string[] stringToParts(string lilyPondString)

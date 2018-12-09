@@ -46,6 +46,25 @@ namespace DPA_Musicsheets.Builder
             return this;
         }
 
+        public NoteBuilder increaseOctave()
+        {
+            if (note.octave != Octave.fourStriped)
+            {
+                note.octave++;
+            }
+
+            return this;
+        }
+
+        public NoteBuilder decreaseOctave()
+        {
+            if (note.octave != Octave.contra4)
+            {
+                note.octave--;
+            }
+            return this;
+        }
+
         public NoteBuilder setOctave(Octave octave)
         {
             note.octave = octave;
@@ -73,6 +92,12 @@ namespace DPA_Musicsheets.Builder
         public NoteBuilder setDuration(Duration duration)
         {
             note.duration = duration;
+            return this;
+        }
+
+        public NoteBuilder addPoint()
+        {
+            note.points++;
             return this;
         }
 

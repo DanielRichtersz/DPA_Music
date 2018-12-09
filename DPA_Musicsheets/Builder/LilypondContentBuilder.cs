@@ -107,7 +107,6 @@ namespace DPA_Musicsheets.Builder
 						lilypondContent.Append("r");
 					}
 				}
-
 			}
 
 			public LilypondContent build()

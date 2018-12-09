@@ -1,4 +1,5 @@
-﻿using DPA_Musicsheets.Models;
+﻿using DPA_Musicsheets.Builder;
+using DPA_Musicsheets.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
     {
         public void CreateTrackFromStringParts(string[] stringParts)
         {
+            NoteBuilder noteBuilder = new NoteBuilder();
+            NoteBuilderHandler noteBuilderHandler = new NoteBuilderHandler();
             Track track = new Track();
 
             Tuple<int, int> time = new Tuple<int, int>(4, 4);
@@ -18,20 +21,32 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
             int bpm = 0;
 
             //Add all bars and staffs to this staff
-            Staff root = new Staff();
-            Staff lastAdded = new Staff();
+            Staff currentStaff = new Staff();
+            Bar currentBar = new Bar(time);
             for (int i = 0; i < stringParts.Length; ++i)
             {
                 // Call strategies to convert string to objects
                 // Reserved words
                 if (stringParts[i] == "{")
                 {
-                    lastAdded = new Staff();
+                    if (currentStaff.Bars.Count > 0)
+                    {
+                        track.AddStaff(currentStaff);
+                        currentStaff = new Staff();
+                    }
+                }
+                else if (stringParts[i] == "|")
+                {
+                    if (currentBar.GetNotes().Count > 0)
+                    {
+                        currentStaff.Bars.Add(currentBar);
+                        currentBar = new Bar(time);
+                    }
                 }
                 else if (stringParts[i] == "}")
                 {
                     //End of previous bar/repeatance
-                    root.Bars.Add(lastAdded);
+                    currentStaff.Bars.Add(currentBar);
 
                     Bar bar = new Bar(time);
                     //Foreach note between start and endpoint, create note and add to bar
@@ -41,6 +56,10 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
                     // Encountered end of repeat
                     // Create a copy of the entire repeat
                     // Staff repeatStaff = new Staff(noteArray);
+                }
+                else if (stringParts[i] == "/clef")
+                {
+
                 }
                 else if (stringParts[i] == "/time")
                 {
@@ -52,6 +71,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
                     if (timePartOneConversion && timePartTwoConversion)
                     {
                         time = new Tuple<int, int>(timePartOne, timePartTwo);
+                        currentBar.SetBeatsInBar(time);
                     }
                 }
                 else if (stringParts[i] == "/tempo")
@@ -66,11 +86,22 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
                         tempo = nTempo;
                         bpm = nBpm;
                     }
+                    track.beatsPerMinute = bpm;
+                    
                 }
                 else
                 {
                     //Create note from string
-
+                    string noteString = stringParts[i];
+                    noteBuilder.setPitch(noteString.Substring(0, 1));
+                    if (noteString.Substring(1, 1).Equals("i"))
+                    {
+                        noteBuilder.setMole(MoleOrCross.Mole);
+                    }
+                    else if (noteString.Substring(1, 1).Equals("e")) {
+                        noteBuilder.setMole(MoleOrCross.Cross);
+                    }
+                    Note newnote = noteBuilderHandler.ExecuteChain("n3'");
                 }
             }
         }

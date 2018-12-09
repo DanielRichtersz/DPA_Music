@@ -17,6 +17,11 @@ namespace DPA_Musicsheets.Models
 			this.beatsInBar = beatsInBar;
 		}
 
+        public void SetBeatsInBar(Tuple<int, int> beatsInBar)
+        {
+            this.beatsInBar = beatsInBar;
+        }
+
         public List<Note> GetNotes()
         {
             return this.Notes;

@@ -103,8 +103,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Builder\Commands\BuilderCommand.cs" />
+    <Compile Include="Builder\Commands\SetDurationCommand.cs" />
+    <Compile Include="Builder\Commands\SetMoleOrCrossCommand.cs" />
+    <Compile Include="Builder\Commands\SetOctaveCommand.cs" />
+    <Compile Include="Builder\Commands\SetPitchCommand.cs" />
+    <Compile Include="Builder\Commands\SetPointsCommand.cs" />
+    <Compile Include="Builder\Commands\SetTildeCommand.cs" />
     <Compile Include="Builder\LilypondContentBuilder.cs" />
     <Compile Include="Builder\NoteBuilder.cs" />
+    <Compile Include="Builder\NoteBuilderHandler.cs" />
     <Compile Include="Convertion\LilypondConvertion\LilipondConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMetaTypeConverter.cs" />
