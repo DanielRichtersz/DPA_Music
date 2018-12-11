@@ -21,10 +21,6 @@ namespace DPA_Musicsheets.Managers.FileLoader
             MidiConverter mc = new MidiConverter();
             
 		    return mc.convertMidiToStaff(midiSequence);
-
         }
-        
-
-
 	}
 }

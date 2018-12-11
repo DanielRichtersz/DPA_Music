@@ -19,52 +19,23 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
             lilypondStrategies.Add("|", new AddNewBarToTrack());
             lilypondStrategies.Add("/time", new SetBeatsPerBar());
             lilypondStrategies.Add("/tempo", new SetBeatsPerMinute());
-            lilypondStrategies.Add("default", new SetBeatsPerMinute());
+            lilypondStrategies.Add("note", new SetBeatsPerMinute());
         }
 
         public Track CreateTrackFromStringParts(string[] stringParts)
         {
             Track track = new Track();
 
-
             for (int i = 0; i < stringParts.Length; ++i)
             {
-                ILilypondStrategy lilyPondStrategy = lilypondStrategies.TryGetValue(stringParts[i], out lilyPondStrategy) ? lilyPondStrategy : lilypondStrategies["default"];
-                lilyPondStrategy.Execute(ref track, stringParts[i]);
+                // Call strategies to convert string to objects
                 try
                 {
                     lilypondStrategies[stringParts[i]].Execute(ref track, stringParts[i + 1]);
                 }
-                catch ()
+                catch (KeyNotFoundException knf)
                 {
-                }
-                // Call strategies to convert string to objects
-                // Reserved words
-                if (stringParts[i] == "{")
-                {
-
-                }
-                else if (stringParts[i] == "|")
-                {
-                }
-                else if (stringParts[i] == "/clef")
-                {
-                    //TODO
-                    // Niks mee doen volgens Rick
-                }
-                else if (stringParts[i] == "/time")
-                {
-
-                }
-                else if (stringParts[i] == "/tempo")
-                {
-
-                }
-                else
-                {
-                    //DONE
-                    //Create note from string
-
+                    lilypondStrategies["note"].Execute(ref track, stringParts[i]);
                 }
             }
 

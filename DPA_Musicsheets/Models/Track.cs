@@ -9,6 +9,8 @@ namespace DPA_Musicsheets.Models
     public class Track
     {
         private List<Staff> Staffs = new List<Staff>();
+        private int tempBpm = 0;
+
         public Tuple<int, int> defaultBeatsInBar { get; set; }
         public int previousNoteAbsoluteTicks { get; set; }
         public int division { get; set; }
@@ -29,8 +31,17 @@ namespace DPA_Musicsheets.Models
         public void CreateNewStaff()
         {
             Staff staff = new Staff();
+            if (tempBpm != 0)
+            {
+                staff.BeatsPerMinute = this.tempBpm;
+            }
             staff.Bars.Add(new Bar(defaultBeatsInBar));
             Staffs.Add(staff);
+        }
+
+        internal void SetTempo(int nTempo)
+        {
+            throw new NotImplementedException();
         }
 
         public void AddNote(Note n)
@@ -47,8 +58,15 @@ namespace DPA_Musicsheets.Models
 
         public void SetBeatsPerMinute(int bpm)
         {
-            Staff s = Staffs.Last();
-            s.BeatsPerMinute = bpm;
+            if (Staffs.Count > 0)
+            {
+                Staff s = Staffs.Last();
+                s.BeatsPerMinute = bpm;
+            }
+            else
+            {
+                this.tempBpm = bpm;
+            }
         }
 
         public void addNewBar()
@@ -70,34 +88,34 @@ namespace DPA_Musicsheets.Models
         public void print()
         {
 
-            foreach(var s in Staffs)
+            foreach (var s in Staffs)
             {
 
                 Console.WriteLine('{');
 
-                foreach(var b in s.Bars)
+                foreach (var b in s.Bars)
                 {
                     Bar bar = (Bar)b;
 
-                    foreach(var n in bar.GetNotes())
+                    foreach (var n in bar.GetNotes())
                     {
                         string notepitch = n.pitch + "";
-                        if(n.moleOrCross == MoleOrCross.Cross)
+                        if (n.moleOrCross == MoleOrCross.Cross)
                         {
                             notepitch += "is";
                         }
 
                         Console.Write(notepitch);
 
-                        if(n.octave == Octave.contra1)
+                        if (n.octave == Octave.contra1)
                         {
                             Console.Write(",");
                         }
-                        if(n.octave == Octave.oneStriped)
+                        if (n.octave == Octave.oneStriped)
                         {
                             Console.Write("'");
                         }
-                        int duration = (int) n.duration;
+                        int duration = (int)n.duration;
                         Console.Write(duration);
 
                         Console.Write(new string('.', n.points) + " ");

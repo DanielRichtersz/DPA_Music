@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Managers.FileLoader
 {
@@ -16,12 +15,16 @@ namespace DPA_Musicsheets.Managers.FileLoader
         public Track fileToString(string path)
         {
             StringBuilder sb = new StringBuilder();
+
+            int i = 0;
+            string[] stringArray = new string[] { };
 			foreach (var line in File.ReadAllLines(path))
 			{
 				sb.AppendLine(line);
+                stringArray[++i] = line;
 			}
 
-			return null;
+			return lilypondConverter.CreateTrackFromStringParts(stringArray);
 		}
 	}
 }

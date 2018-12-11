@@ -19,6 +19,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
             if (nTempoConversion && nBpmConversion)
             {
                 track.SetBeatsPerMinute(nBpm);
+                track.SetTempo(nTempo);
             }
         }
     }

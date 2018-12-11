@@ -29,17 +29,17 @@ namespace DPA_Musicsheets.Builder
             chain.Add(setTildeCommand);
         }
 
-        public Note ExecuteChain(string chainParam)
+        public Note ExecuteChain(string newNote)
         {
-            for (int i = 0; 0 != chainParam.Length; ++i)
+            for (int i = 0; 0 != newNote.Length; ++i)
             {
                 // Niet netjes/correct chain of responsibility
-                if (chainParam[i] == 'e' || chainParam[i] == 'i')
+                if (newNote[i] == 'e' || newNote[i] == 'i')
                 {
                     //If next char is s, execute setPitchCommand hardcoded
-                    if (chainParam[i + 1] == 's')
+                    if (newNote[i + 1] == 's')
                     {
-                        chain[3].Execute(chainParam[i]);
+                        chain[3].Execute(newNote[i]);
                     }
                     //Skip the s
                     ++i;
@@ -50,7 +50,7 @@ namespace DPA_Musicsheets.Builder
                 // Chain of responsibility
                 foreach (BuilderCommand bc in chain)
                 {
-                    if (bc.Execute(chainParam[i]))
+                    if (bc.Execute(newNote[i]))
                     {
                         break;
                     }

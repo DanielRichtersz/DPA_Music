@@ -110,7 +110,6 @@
     <Compile Include="Builder\Commands\SetPitchCommand.cs" />
     <Compile Include="Builder\Commands\SetPointsCommand.cs" />
     <Compile Include="Builder\Commands\SetTildeCommand.cs" />
-    <Compile Include="Builder\LilypondContentBuilder.cs" />
     <Compile Include="Builder\NoteBuilder.cs" />
     <Compile Include="Builder\NoteBuilderHandler.cs" />
     <Compile Include="Convertion\LilypondConvertion\LilipondConverter.cs" />
