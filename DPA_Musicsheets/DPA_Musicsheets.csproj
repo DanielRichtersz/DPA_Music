@@ -114,6 +114,12 @@
     <Compile Include="Builder\NoteBuilder.cs" />
     <Compile Include="Builder\NoteBuilderHandler.cs" />
     <Compile Include="Convertion\LilypondConvertion\LilipondConverter.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\AddNewBarToTrack.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\AddNewNoteToTrack.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\AddStaffToTrack.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\ILilypondStrategy.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\SetBeatsPerBar.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\SetBeatsPerMinute.cs" />
     <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMetaTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\Strategies\MessageChannelConverter.cs" />
@@ -260,9 +266,7 @@
     <Content Include="Files\Eenvoudige voorbeeldfiles\Rusten.ly" />
     <Content Include="Files\Eenvoudige voorbeeldfiles\Standaard_noten.ly" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Convertion\LilypondConvertion\Strategies\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

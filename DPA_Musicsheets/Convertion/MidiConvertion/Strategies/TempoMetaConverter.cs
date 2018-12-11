@@ -20,7 +20,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
 
             //lilypondContent.AppendLine($"\\tempo 4={_bpm}");
 
-            track.beatsPerMinute = _bpm;
+            track.SetBeatsPerMinute(_bpm);
         }
     }
 }

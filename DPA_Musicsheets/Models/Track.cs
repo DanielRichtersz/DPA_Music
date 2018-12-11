@@ -10,7 +10,6 @@ namespace DPA_Musicsheets.Models
     {
         private List<Staff> Staffs = new List<Staff>();
         public Tuple<int, int> defaultBeatsInBar { get; set; }
-        public int beatsPerMinute { get; set; }
         public int previousNoteAbsoluteTicks { get; set; }
         public int division { get; set; }
 
@@ -38,6 +37,18 @@ namespace DPA_Musicsheets.Models
         {
             Bar b = (Bar)Staffs.Last().Bars.Last();
             b.addNote(n);
+        }
+
+        public void SetBeatsPerBar(Tuple<int, int> tuple)
+        {
+            Bar b = (Bar)Staffs.Last().Bars.Last();
+            b.SetBeatsInBar(tuple);
+        }
+
+        public void SetBeatsPerMinute(int bpm)
+        {
+            Staff s = Staffs.Last();
+            s.BeatsPerMinute = bpm;
         }
 
         public void addNewBar()
