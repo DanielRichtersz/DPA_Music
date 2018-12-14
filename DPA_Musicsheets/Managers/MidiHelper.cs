@@ -28,7 +28,7 @@ namespace DPA_Musicsheets.Managers
             moc = moles[key];
 
             // Check if note has distance more than 6 == Octave higher or lower
-            int distance = midiKey - previousMidiKey;
+            int distance = (previousMidiKey != 0) ? midiKey - previousMidiKey : 0;
 
             int baseOctave = 0;
             while (distance < -6)

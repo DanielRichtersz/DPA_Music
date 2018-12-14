@@ -81,6 +81,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -113,6 +114,14 @@
     <Compile Include="Convertion\MidiConvertion\Strategies\TempoMetaConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\Strategies\TypeMetaConverter.cs" />
     <Compile Include="Factories\FileLoaderFactory.cs" />
+    <Compile Include="Managers\Components\AlterDecorator.cs" />
+    <Compile Include="Managers\Components\DotsDecorator.cs" />
+    <Compile Include="Managers\Components\NoteDurationDecorator.cs" />
+    <Compile Include="Managers\Components\IWpfDecorator.cs" />
+    <Compile Include="Managers\Components\NoteValues.cs" />
+    <Compile Include="Managers\Components\OctaveDecorator.cs" />
+    <Compile Include="Managers\Components\PitchDecorator.cs" />
+    <Compile Include="Managers\Components\TildeDecorator.cs" />
     <Compile Include="Managers\FileLoader\IFileLoader.cs" />
     <Compile Include="Managers\FileLoader\LilyPondLoader.cs" />
     <Compile Include="Managers\FileLoader\MidiLoader.cs" />
@@ -121,6 +130,7 @@
     <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Interfaces\IStaffElement.cs" />
     <Compile Include="Managers\TrackConverter.cs" />
+    <Compile Include="Managers\WpfStaffComponent.cs" />
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />
     <Compile Include="Models\Bar.cs" />

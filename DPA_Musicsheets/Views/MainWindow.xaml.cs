@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 using DPA_Musicsheets;
 using PSAMWPFControlLibrary;
 using DPA_Musicsheets.ViewModels;
+using Key = System.Windows.Input.Key;
 
 namespace DPA_Musicsheets
 {
@@ -32,6 +33,19 @@ namespace DPA_Musicsheets
         public MainWindow()
         {
             InitializeComponent();
+            RoutedCommand newCmd = new RoutedCommand();
+            newCmd.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(newCmd, btnNew_Click));
+        }
+
+        private void btnNew_Click(object sender, ExecutedRoutedEventArgs e)
+        {
+            Console.WriteLine("Hello World");
+        }
+
+        void btnNew_Click()
+        {
+            
         }
     }
 }

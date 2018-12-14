@@ -49,7 +49,10 @@ namespace DPA_Musicsheets.ViewModels
 
         public MainViewModel(MusicLoader musicLoader)
         {
+            _musicLoader = musicLoader;
+            this.trackConverter = new TrackConverter();
             FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
+
         }
 
         public ICommand OpenFileCommand => new RelayCommand(() =>
@@ -64,10 +67,11 @@ namespace DPA_Musicsheets.ViewModels
         public ICommand LoadCommand => new RelayCommand(() =>
         {
             Track track = trackConverter.GetTrack(FileName);
+            track.print();
 
             ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText =
                 trackConverter.convertToLilypondText(track);
-            ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.convertToMusicalSymbols(track));
+            ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
                 
         });
 
