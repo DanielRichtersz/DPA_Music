@@ -7,9 +7,9 @@ using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
 {
-    class AddNewBarToTrack : ILilypondStrategy
+    public class AddNewBarToTrack : ILilypondStrategy
     {
-        public void Execute(ref Track track, string stringPart)
+        public void Execute(ref Track track, ref int i, string stringPart)
         {
             track.addNewBar();
         }

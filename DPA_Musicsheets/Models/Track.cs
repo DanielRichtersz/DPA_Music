@@ -8,16 +8,17 @@ namespace DPA_Musicsheets.Models
 {
     public class Track
     {
-        private List<Staff> Staffs = new List<Staff>();
-        private int tempBpm = 0;
-
-        public Tuple<int, int> defaultBeatsInBar { get; set; }
         public int previousNoteAbsoluteTicks { get; set; }
         public int division { get; set; }
+        public Tuple<int, int> defaultBeatsInBar { get; set; }
+
+        private List<Staff> Staffs = new List<Staff>();
+        private int tempBpm = 120;
+        private int tempo = 4;
 
         public Track()
         {
-
+            this.defaultBeatsInBar = new Tuple<int, int>(4, 4);
         }
 
         public void AddStaff(Tuple<int, int> beatsInBar)
@@ -31,6 +32,7 @@ namespace DPA_Musicsheets.Models
         public void CreateNewStaff()
         {
             Staff staff = new Staff();
+
             if (tempBpm != 0)
             {
                 staff.BeatsPerMinute = this.tempBpm;
@@ -41,18 +43,41 @@ namespace DPA_Musicsheets.Models
 
         internal void SetTempo(int nTempo)
         {
-            throw new NotImplementedException();
+            this.tempo = nTempo;
         }
 
         public void AddNote(Note n)
         {
-            Bar b = (Bar)Staffs.Last().Bars.Last();
-            b.addNote(n);
+            // Get last bar and calculate if the length is already at 4
+            Bar b = GetLastBar();
+            int length = 0;
+
+            if (b != null)
+            {
+                foreach (Note note in b.GetNotes())
+                {
+                    length += (1 / (int)note.GetNoteDuration());
+                }
+
+                // If the total length is the max length from \time or if addding the new note will surpass this length, create a new Bar
+                if (length == this.defaultBeatsInBar.Item1 || length + (1 / n.GetNoteDuration()) > this.defaultBeatsInBar.Item1)
+                {
+                    this.addNewBar();
+                    b = GetLastBar();
+                }
+
+                b.addNote(n);
+            }
+        }
+
+        private Bar GetLastBar()
+        {
+            return (Bar)Staffs.Last().Bars.Last();
         }
 
         public void SetBeatsPerBar(Tuple<int, int> tuple)
         {
-            Bar b = (Bar)Staffs.Last().Bars.Last();
+            Bar b = GetLastBar();
             b.SetBeatsInBar(tuple);
         }
 
@@ -78,6 +103,7 @@ namespace DPA_Musicsheets.Models
         public void AddStaff(Staff staff)
         {
             this.Staffs.Add(staff);
+            this.addNewBar();
         }
 
         public List<Staff> GetStaffs()

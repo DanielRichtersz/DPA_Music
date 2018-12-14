@@ -7,9 +7,9 @@ using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
 {
-    class SetBeatsPerBar : ILilypondStrategy
+    public class SetBeatsPerBar : ILilypondStrategy
     {
-        public void Execute(ref Track track, string stringPart)
+        public void Execute(ref Track track, ref int i, string stringPart)
         {
             Tuple<int, int> time = new Tuple<int, int>(4, 4);
 
@@ -23,6 +23,8 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
                 time = new Tuple<int, int>(timePartOne, timePartTwo);
                 track.SetBeatsPerBar(time);
             }
+
+            ++i;
         }
     }
 }

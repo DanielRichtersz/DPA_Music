@@ -7,9 +7,9 @@ using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
 {
-    class SetBeatsPerMinute : ILilypondStrategy
+    public class SetBeatsPerMinute : ILilypondStrategy
     {
-        public void Execute(ref Track track, string stringPart)
+        public void Execute(ref Track track, ref int i, string stringPart)
         {
             int nTempo;
             int nBpm;
@@ -21,6 +21,8 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
                 track.SetBeatsPerMinute(nBpm);
                 track.SetTempo(nTempo);
             }
+
+            ++i;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DPA_Musicsheets.Builder
 {
-    class NoteBuilderHandler
+    public class NoteBuilderHandler
     {
         private List<BuilderCommand> chain;
         private NoteBuilder noteBuilder;
@@ -31,26 +31,37 @@ namespace DPA_Musicsheets.Builder
 
         public Note ExecuteChain(string newNote)
         {
-            for (int i = 0; 0 != newNote.Length; ++i)
+            for (int i = 0; i < newNote.Length; i++)
             {
-                // Niet netjes/correct chain of responsibility
+                string subString = "";
+
+                // Pitch
                 if (newNote[i] == 'e' || newNote[i] == 'i')
                 {
                     //If next char is s, execute setPitchCommand hardcoded
-                    if (newNote[i + 1] == 's')
+                    if (i != newNote.Length - 1 && newNote[i + 1] == 's')
                     {
-                        chain[3].Execute(newNote[i]);
+                        subString = (newNote.Substring(i, 2));
+                        i++;
                     }
-                    //Skip the s
-                    ++i;
-                    //Dont loop further
-                    continue;
+                }
+
+                int parseInt;
+                bool isNumber = int.TryParse(newNote.Substring(i, 1), out parseInt);
+                if (isNumber && i != newNote.Length - 1)
+                {
+                    isNumber = int.TryParse(newNote.Substring(i, 2), out parseInt);
+                    if (isNumber)
+                    {
+                        subString = newNote.Substring(i, 2);
+                        i++;
+                    }
                 }
                 
                 // Chain of responsibility
                 foreach (BuilderCommand bc in chain)
                 {
-                    if (bc.Execute(newNote[i]))
+                    if (bc.Execute(subString))
                     {
                         break;
                     }

@@ -64,10 +64,10 @@ namespace DPA_Musicsheets.ViewModels
         public ICommand LoadCommand => new RelayCommand(() =>
         {
             Track track = trackConverter.GetTrack(FileName);
-
-            ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText =
-                trackConverter.convertToLilypondText(track);
-            ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.convertToMusicalSymbols(track));
+            track.print();
+            //ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText =
+            //    trackConverter.convertToLilypondText(track);
+            //ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.convertToMusicalSymbols(track));
                 
         });
 

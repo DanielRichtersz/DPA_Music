@@ -7,25 +7,29 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Builder.Commands
 {
-    class SetOctaveCommand : BuilderCommand
+    public class SetOctaveCommand : BuilderCommand
     {
         public SetOctaveCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
         {
             this.NoteBuilder = noteBuilder;
         }
 
-        public override bool Execute(char c)
+        public override bool Execute(string s)
         {
-            if (c == '\'')
+            foreach (char c in s)
             {
-                this.NoteBuilder.increaseOctave();
-                return true;
+                if (c == '\'')
+                {
+                    this.NoteBuilder.increaseOctave();
+                    return true;
+                }
+                if (c == ',')
+                {
+                    this.NoteBuilder.decreaseOctave();
+                    return true;
+                }
             }
-            if (c == ',')
-            {
-                this.NoteBuilder.decreaseOctave();
-                return true;
-            }
+
             return false;
         }
     }

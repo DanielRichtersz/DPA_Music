@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Managers.FileLoader
@@ -16,13 +17,13 @@ namespace DPA_Musicsheets.Managers.FileLoader
         {
             StringBuilder sb = new StringBuilder();
 
-            int i = 0;
-            string[] stringArray = new string[] { };
 			foreach (var line in File.ReadAllLines(path))
 			{
 				sb.AppendLine(line);
-                stringArray[++i] = line;
 			}
+
+            string fullString = sb.ToString();
+            string[] stringArray = Regex.Replace(fullString, @"\s+", " ").Split(' ');
 
 			return lilypondConverter.CreateTrackFromStringParts(stringArray);
 		}

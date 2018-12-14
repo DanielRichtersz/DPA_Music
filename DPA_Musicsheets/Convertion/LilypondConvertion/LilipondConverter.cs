@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Convertion.LilypondConvertion
 {
-    class LilypondConverter
+    public class LilypondConverter
     {
         Dictionary<string, ILilypondStrategy> lilypondStrategies = new Dictionary<string, ILilypondStrategy>();
 
@@ -17,9 +17,13 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
         {
             lilypondStrategies.Add("{", new AddStaffToTrack());
             lilypondStrategies.Add("|", new AddNewBarToTrack());
-            lilypondStrategies.Add("/time", new SetBeatsPerBar());
-            lilypondStrategies.Add("/tempo", new SetBeatsPerMinute());
-            lilypondStrategies.Add("note", new SetBeatsPerMinute());
+            lilypondStrategies.Add(@"\time", new SetBeatsPerBar());
+            lilypondStrategies.Add(@"\tempo", new SetBeatsPerMinute());
+            lilypondStrategies.Add(@"\relative", new Relative());
+            lilypondStrategies.Add(@"\clef", new Clef());
+            lilypondStrategies.Add(@"\repeat", new Repeat());
+            lilypondStrategies.Add(@"\alternative", new Alternative());
+            lilypondStrategies.Add("note", new AddNewNoteToTrack());
         }
 
         public Track CreateTrackFromStringParts(string[] stringParts)
@@ -28,14 +32,16 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
 
             for (int i = 0; i < stringParts.Length; ++i)
             {
+                string stringPart = stringParts[i];
                 // Call strategies to convert string to objects
-                try
+                if (lilypondStrategies.ContainsKey(stringParts[i]))
                 {
-                    lilypondStrategies[stringParts[i]].Execute(ref track, stringParts[i + 1]);
+                    lilypondStrategies[stringParts[i]].Execute(ref track, ref i, stringParts[i + 1]);
+                    
                 }
-                catch (KeyNotFoundException knf)
+                else
                 {
-                    lilypondStrategies["note"].Execute(ref track, stringParts[i]);
+                    lilypondStrategies["note"].Execute(ref track, ref i, stringParts[i]);
                 }
             }
 

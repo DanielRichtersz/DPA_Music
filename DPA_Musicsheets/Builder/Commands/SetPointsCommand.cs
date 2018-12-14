@@ -6,19 +6,21 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Builder.Commands
 {
-    class SetPointsCommand : BuilderCommand
+    public class SetPointsCommand : BuilderCommand
     {
         public SetPointsCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
         {
             this.NoteBuilder = noteBuilder;
         }
 
-        public override bool Execute(char c)
+        public override bool Execute(string s)
         {
-            if (c == '.')
-            {
-                this.NoteBuilder.addPoint();
-                return true;
+            foreach (char c in s) {
+                if (c == '.')
+                {
+                    this.NoteBuilder.addPoint();
+                    return true;
+                }
             }
             return false;
         }

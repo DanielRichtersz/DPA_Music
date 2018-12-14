@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Builder.Commands
 {
-    class SetPitchCommand : BuilderCommand
+    public class SetPitchCommand : BuilderCommand
     {
         public SetPitchCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
         {
             this.NoteBuilder = noteBuilder;
         }
 
-        public override bool Execute(char c)
+        public override bool Execute(string s)
         {
-            if (char.IsLetter(c))
+            foreach (char c in s)
             {
-                this.NoteBuilder.setPitch(c.ToString());
-                return true;
+                if (char.IsLetter(c))
+                {
+                    this.NoteBuilder.setPitch(c.ToString());
+                    return true;
+                }
             }
             return false;
         }

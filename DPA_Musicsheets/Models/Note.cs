@@ -15,11 +15,26 @@ namespace DPA_Musicsheets.Models
         public Pitch pitch {get; set;}
         public Octave octave {get;set;}
         public MoleOrCross moleOrCross { get; set; }
-        public Duration duration { get; set; }
+        public Duration duration { get;  set; }
         public int points { get; set; }
         public bool hasTilde { get; set; }
 
         public Note() { }
+
+        public int GetNoteDuration()
+        {
+            int totalDuration = (int)this.duration;
+
+            if (this.points != 0)
+            {
+                for (int i = 1; i < this.points; ++i)
+                {
+                    totalDuration += totalDuration / (2 * i);
+                }
+            }
+
+            return totalDuration;
+        }
 
         public Note(Pitch pitch, Octave octave, MoleOrCross moleOrCross, Duration duration, int points, bool hasTilde)
         {

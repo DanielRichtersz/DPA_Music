@@ -116,7 +116,11 @@
     <Compile Include="Convertion\LilypondConvertion\Strategies\AddNewBarToTrack.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\AddNewNoteToTrack.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\AddStaffToTrack.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\Alternative.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\Clef.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\ILilypondStrategy.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\Relative.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\Repeat.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\SetBeatsPerBar.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\SetBeatsPerMinute.cs" />
     <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />

@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Builder.Commands
 {
-    class SetTildeCommand : BuilderCommand
+    public class SetTildeCommand : BuilderCommand
     {
         public SetTildeCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
         {
             this.NoteBuilder = noteBuilder;
         }
 
-        public override bool Execute(char c)
+        public override bool Execute(string s)
         {
-            if (c == '~')
+            foreach (char c in s)
             {
-                this.NoteBuilder.setTilde();
-                return true;
+                if (c == '~')
+                {
+                    this.NoteBuilder.setTilde();
+                    return true;
+                }
             }
             return false;
         }

@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Builder.Commands
 {
-    abstract class BuilderCommand
+    public abstract class BuilderCommand
     {
         public BuilderCommand(ref NoteBuilder noteBuilder)
         {
 
         }
 
-        public abstract bool Execute(char c);
+        public abstract bool Execute(string c);
 
-        public NoteBuilder NoteBuilder { get => this.NoteBuilder; set => this.NoteBuilder = value; }
+        public NoteBuilder NoteBuilder { get; set; }
     }
 }

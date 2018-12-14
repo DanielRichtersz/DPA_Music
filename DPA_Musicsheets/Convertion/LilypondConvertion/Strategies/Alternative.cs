@@ -7,11 +7,11 @@ using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
 {
-    public class AddStaffToTrack : ILilypondStrategy
+    public class Alternative : ILilypondStrategy
     {
         public void Execute(ref Track track, ref int i, string stringPart)
         {
-            track.AddStaff(new Staff());
+            ++i;
         }
     }
 }

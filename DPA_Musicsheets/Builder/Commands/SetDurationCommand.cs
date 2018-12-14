@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Builder.Commands
 {
-    class SetDurationCommand : BuilderCommand
+    public class SetDurationCommand : BuilderCommand
     {
         public SetDurationCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
         {
             this.NoteBuilder = noteBuilder;
         }
 
-        public override bool Execute(char c)
+        public override bool Execute(string s)
         {
-            if (char.IsDigit(c))
+            int parseInt;
+            bool parseSucces = int.TryParse(s, out parseInt);
+            if (parseSucces)
             {
-                NoteBuilder.setDuration(c.ToString());
+                NoteBuilder.setDuration(s);
                 return true;
             }
             return false;

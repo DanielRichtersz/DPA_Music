@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
 {
-    interface ILilypondStrategy
+    public interface ILilypondStrategy
     {
-        void Execute(ref Track track, string stringPart);
+        void Execute(ref Track track, ref int i, string stringPart);
     }
 }
