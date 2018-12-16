@@ -27,7 +27,7 @@ namespace DPA_Musicsheets.Builder.Commands
                     this.NoteBuilder.setMole(MoleOrCross.Cross);
                     return true;
                 }
-            
+            this.NoteBuilder.setMole(MoleOrCross.None);
 
             return false;
         }

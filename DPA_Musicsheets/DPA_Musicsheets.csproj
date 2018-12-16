@@ -118,11 +118,13 @@
     <Compile Include="Convertion\LilypondConvertion\Strategies\AddStaffToTrack.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\Alternative.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\Clef.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\EndOfStaff.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\ILilypondStrategy.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\Relative.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\Repeat.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\SetBeatsPerBar.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\SetBeatsPerMinute.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\ZeroStrategy.cs" />
     <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMetaTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\Strategies\MessageChannelConverter.cs" />

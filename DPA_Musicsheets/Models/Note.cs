@@ -21,15 +21,15 @@ namespace DPA_Musicsheets.Models
 
         public Note() { }
 
-        public int GetNoteDuration()
+        public double GetNoteDuration()
         {
-            int totalDuration = (int)this.duration;
+            double totalDuration = (double)this.duration;
 
             if (this.points != 0)
             {
                 for (int i = 1; i < this.points; ++i)
                 {
-                    totalDuration += totalDuration / (2 * i);
+                    totalDuration += totalDuration * (2 * i);
                 }
             }
 
@@ -44,6 +44,30 @@ namespace DPA_Musicsheets.Models
             this.duration = duration;
             this.hasTilde = hasTilde;
             this.points = points;
+        }
+
+        public void PrintString()
+        {
+            string notepitch = this.pitch + "";
+            if (this.moleOrCross == MoleOrCross.Cross)
+            {
+                notepitch += "is";
+            }
+
+            Console.Write(notepitch);
+
+            if (this.octave == Octave.contra1)
+            {
+                Console.Write(",");
+            }
+            if (this.octave == Octave.oneStriped)
+            {
+                Console.Write("'");
+            }
+            int duration = (int)this.duration;
+            Console.Write(duration);
+
+            Console.Write(new string('.', this.points) + " \n");
         }
     }
 }

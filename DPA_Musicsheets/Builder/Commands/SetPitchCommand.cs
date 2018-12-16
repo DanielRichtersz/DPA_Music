@@ -17,6 +17,10 @@ namespace DPA_Musicsheets.Builder.Commands
         {
             foreach (char c in s)
             {
+                if (c == 'e')
+                {
+                    Console.WriteLine("break");
+                }
                 if (char.IsLetter(c))
                 {
                     this.NoteBuilder.setPitch(c.ToString());

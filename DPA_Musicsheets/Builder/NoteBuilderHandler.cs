@@ -33,7 +33,9 @@ namespace DPA_Musicsheets.Builder
         {
             for (int i = 0; i < newNote.Length; i++)
             {
-                string subString = "";
+                string subString = newNote.Substring(i, 1);
+                int parseInt;
+                bool isNumber = int.TryParse(newNote.Substring(i, 1), out parseInt);
 
                 // Pitch
                 if (newNote[i] == 'e' || newNote[i] == 'i')
@@ -45,10 +47,7 @@ namespace DPA_Musicsheets.Builder
                         i++;
                     }
                 }
-
-                int parseInt;
-                bool isNumber = int.TryParse(newNote.Substring(i, 1), out parseInt);
-                if (isNumber && i != newNote.Length - 1)
+                else if (isNumber && i != newNote.Length - 1)
                 {
                     isNumber = int.TryParse(newNote.Substring(i, 2), out parseInt);
                     if (isNumber)
@@ -68,7 +67,8 @@ namespace DPA_Musicsheets.Builder
                 }
             }
             Note note = noteBuilder.build();
-            Console.WriteLine("Made note: " + note.ToString());
+            Console.Write("Made note: ");
+            note.PrintString();
             return note;
         }
     }

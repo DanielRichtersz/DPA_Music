@@ -23,6 +23,8 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
             lilypondStrategies.Add(@"\clef", new Clef());
             lilypondStrategies.Add(@"\repeat", new Repeat());
             lilypondStrategies.Add(@"\alternative", new Alternative());
+            lilypondStrategies.Add("}", new EndOfStaff());
+            lilypondStrategies.Add("", new ZeroStrategy());
             lilypondStrategies.Add("note", new AddNewNoteToTrack());
         }
 
@@ -30,14 +32,13 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
         {
             Track track = new Track();
 
-            for (int i = 0; i < stringParts.Length; ++i)
+            for (int i = 0; i < stringParts.Length - 1; ++i)
             {
                 string stringPart = stringParts[i];
                 // Call strategies to convert string to objects
                 if (lilypondStrategies.ContainsKey(stringParts[i]))
                 {
                     lilypondStrategies[stringParts[i]].Execute(ref track, ref i, stringParts[i + 1]);
-                    
                 }
                 else
                 {

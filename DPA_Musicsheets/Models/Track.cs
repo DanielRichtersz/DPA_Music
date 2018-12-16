@@ -50,17 +50,19 @@ namespace DPA_Musicsheets.Models
         {
             // Get last bar and calculate if the length is already at 4
             Bar b = GetLastBar();
-            int length = 0;
+            double length = 0;
 
             if (b != null)
             {
                 foreach (Note note in b.GetNotes())
                 {
-                    length += (1 / (int)note.GetNoteDuration());
+                    double noteDuration = (double)note.GetNoteDuration();
+                    length += (this.defaultBeatsInBar.Item2 / noteDuration);
                 }
+                Console.WriteLine("Length: " + length);
 
                 // If the total length is the max length from \time or if addding the new note will surpass this length, create a new Bar
-                if (length == this.defaultBeatsInBar.Item1 || length + (1 / n.GetNoteDuration()) > this.defaultBeatsInBar.Item1)
+                if (length + (this.defaultBeatsInBar.Item2 / (double) n.GetNoteDuration()) > this.defaultBeatsInBar.Item1)
                 {
                     this.addNewBar();
                     b = GetLastBar();
@@ -98,12 +100,16 @@ namespace DPA_Musicsheets.Models
         {
             Bar b = new Bar(defaultBeatsInBar);
             Staffs.Last().Bars.Add(b);
+            Console.WriteLine("Made bar: " + b.ToString());
         }
 
-        public void AddStaff(Staff staff)
+        public void AddStaff()
         {
+            Console.WriteLine("Adding staff...");
+            Staff staff = new Staff();
             this.Staffs.Add(staff);
             this.addNewBar();
+            Console.WriteLine("Added staff: " + staff);
         }
 
         public List<Staff> GetStaffs()
