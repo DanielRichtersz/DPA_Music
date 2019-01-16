@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    class Staff : IStaffElement
+    public class Staff : IStaffElement
     {
-        public List<IStaffElement> Bars;
+        public List<IStaffElement> Bars { get; set; }
 
         public Staff()
         {
-
+            Bars = new List<IStaffElement>();
         }
 
         /// <summary>

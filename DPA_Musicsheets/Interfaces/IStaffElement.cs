@@ -2,7 +2,7 @@
 
 namespace DPA_Musicsheets.Models
 {
-    internal interface IStaffElement
+    public interface IStaffElement
     {
 
     }

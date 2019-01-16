@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-	class Bar : IStaffElement
+	public class Bar : IStaffElement
 	{
 		private List<Note> Notes;
 		private Tuple<int, int> beatsInBar;
@@ -30,6 +30,19 @@ namespace DPA_Musicsheets.Models
                 //TODO: Error
             }
 		}
+
+        public void print()
+        {
+            string line = "";
+
+            foreach (var note in Notes)
+            {
+
+                line += note.pitch.ToString() + note.duration.ToString() + " ";
+
+            }
+            Console.WriteLine(line);
+        }
 
         private bool CheckNoteDurations()
         {

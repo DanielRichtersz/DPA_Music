@@ -14,6 +14,7 @@ namespace DPA_Musicsheets.ViewModels
     public class LilypondViewModel : ViewModelBase
     {
         private MusicLoader _musicLoader;
+        private TrackConverter trackConverter;
         private MainViewModel _mainViewModel { get; set; }
 
         private string _text;
@@ -84,7 +85,8 @@ namespace DPA_Musicsheets.ViewModels
                         _waitingForRender = false;
                         UndoCommand.RaiseCanExecuteChanged();
 
-                        _musicLoader.LoadLilypondIntoWpfStaffsAndMidi(LilypondText);
+                        //_musicLoader.LoadLilypondIntoWpfStaffsAndMidi(LilypondText);
+
                         _mainViewModel.CurrentState = "";
                     }
                 }, TaskScheduler.FromCurrentSynchronizationContext()); // Request from main thread.

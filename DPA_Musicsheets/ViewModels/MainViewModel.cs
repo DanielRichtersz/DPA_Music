@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DPA_Musicsheets.Models;
+using Microsoft.Practices.ServiceLocation;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -19,6 +21,7 @@ namespace DPA_Musicsheets.ViewModels
         private string _fileName;
         private string _currentState;
         private MusicLoader _musicLoader;
+        private TrackConverter trackConverter;
 
         public string FileName
         {
@@ -46,9 +49,10 @@ namespace DPA_Musicsheets.ViewModels
 
         public MainViewModel(MusicLoader musicLoader)
         {
-            // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer?
             _musicLoader = musicLoader;
+            this.trackConverter = new TrackConverter();
             FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
+
         }
 
         public ICommand OpenFileCommand => new RelayCommand(() =>
@@ -62,10 +66,17 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand LoadCommand => new RelayCommand(() =>
         {
-            _musicLoader.OpenFile(FileName);
+            Track track = trackConverter.GetTrack(FileName);
+            track.print();
+
+            ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText =
+                trackConverter.convertToLilypondText(track);
+            ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
+                
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys
+
         public ICommand OnLostFocusCommand => new RelayCommand(() =>
         {
             Console.WriteLine("Maingrid Lost focus");
@@ -76,9 +87,9 @@ namespace DPA_Musicsheets.ViewModels
             Console.WriteLine($"Key down: {e.Key}");
         });
 
-        public ICommand OnKeyUpCommand => new RelayCommand(() =>
+        public ICommand OnKeyUpCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            Console.WriteLine("Key Up");
+            Console.WriteLine($"Key Up {e.Key}");
         });
 
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>

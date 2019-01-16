@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    enum MoleOrCross
+    public enum MoleOrCross
     {
-        Mole,
         Cross,
-        None
+        None,
+        Mole
     }
 }

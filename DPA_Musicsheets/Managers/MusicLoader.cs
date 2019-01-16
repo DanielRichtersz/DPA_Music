@@ -21,6 +21,7 @@ namespace DPA_Musicsheets.Managers
 	/// This is the one and only god class in the application.
 	/// It knows all about all file types, knows every viewmodel and contains all logic.
 	/// TODO: Clean this class up.
+	/// TODO: Remove this shit
 	/// </summary>
 	public class MusicLoader
 	{
@@ -42,6 +43,11 @@ namespace DPA_Musicsheets.Managers
 		public MidiPlayerViewModel MidiPlayerViewModel { get; set; }
 		public StaffsViewModel StaffsViewModel { get; set; }
 
+	    public MusicLoader()
+	    {
+
+	    }
+
 		/// <summary>
 		/// Opens a file.
 		/// TODO: Remove the calling of the outer viewmodel layer. We want to be able reuse this in an ASP.NET Core application for example.
@@ -50,7 +56,7 @@ namespace DPA_Musicsheets.Managers
 		public void OpenFile(string fileName)
 		{
 
-			this.LilypondText = fileHandler.readFile(fileName);
+			//this.LilypondText = fileHandler.readFile(fileName);
 			this.LilypondViewModel.LilypondTextLoaded(this.LilypondText);
 
 			LoadLilypondIntoWpfStaffsAndMidi(LilypondText);
@@ -175,7 +181,8 @@ namespace DPA_Musicsheets.Managers
 
 						previousNote = currentToken.Value[0];
 
-						var note = new PSAMControlLibrary.Note(currentToken.Value[0].ToString().ToUpper(), alter, previousOctave, (MusicalSymbolDuration)noteLength, NoteStemDirection.Up, tie, new List<NoteBeamType>() { NoteBeamType.Single });
+						var note = new PSAMControlLibrary.Note(currentToken.Value[0].ToString().ToUpper(), alter, previousOctave, 
+						    (MusicalSymbolDuration)noteLength, NoteStemDirection.Up, tie, new List<NoteBeamType>() { NoteBeamType.Single });
 						note.NumberOfDots += currentToken.Value.Count(c => c.Equals('.'));
 
 						symbols.Add(note);
