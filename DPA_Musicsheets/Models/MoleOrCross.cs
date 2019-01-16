@@ -8,8 +8,8 @@ namespace DPA_Musicsheets.Models
 {
     public enum MoleOrCross
     {
-        Mole,
         Cross,
-        None
+        None,
+        Mole
     }
 }

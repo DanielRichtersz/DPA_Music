@@ -49,7 +49,10 @@ namespace DPA_Musicsheets.ViewModels
 
         public MainViewModel(MusicLoader musicLoader)
         {
+            _musicLoader = musicLoader;
+            this.trackConverter = new TrackConverter();
             FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
+
         }
 
         public ICommand OpenFileCommand => new RelayCommand(() =>
@@ -65,13 +68,15 @@ namespace DPA_Musicsheets.ViewModels
         {
             Track track = trackConverter.GetTrack(FileName);
             track.print();
-            //ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText =
-            //    trackConverter.convertToLilypondText(track);
-            //ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.convertToMusicalSymbols(track));
+
+            ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText =
+                trackConverter.convertToLilypondText(track);
+            ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
                 
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys
+
         public ICommand OnLostFocusCommand => new RelayCommand(() =>
         {
             Console.WriteLine("Maingrid Lost focus");
@@ -82,9 +87,9 @@ namespace DPA_Musicsheets.ViewModels
             Console.WriteLine($"Key down: {e.Key}");
         });
 
-        public ICommand OnKeyUpCommand => new RelayCommand(() =>
+        public ICommand OnKeyUpCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            Console.WriteLine("Key Up");
+            Console.WriteLine($"Key Up {e.Key}");
         });
 
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>

@@ -54,8 +54,8 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
                     track.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
 
                     noteBuilder.setDuration(duration).setPoints(dots);
-
-                    track.AddNote(noteBuilder.build());
+                    var note = noteBuilder.build();
+                    track.AddNote(note);
 
                     percentageOfBarReached += percentageOfBar;
                     if (percentageOfBarReached >= 1)
