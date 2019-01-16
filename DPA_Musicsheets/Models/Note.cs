@@ -15,11 +15,26 @@ namespace DPA_Musicsheets.Models
         public Pitch pitch {get; set;}
         public Octave octave {get;set;}
         public MoleOrCross moleOrCross { get; set; }
-        public Duration duration { get; set; }
+        public Duration duration { get;  set; }
         public int points { get; set; }
         public bool hasTilde { get; set; }
 
         public Note() { }
+
+        public double GetNoteDuration()
+        {
+            double totalDuration = (double)this.duration;
+
+            if (this.points != 0)
+            {
+                for (int i = 1; i < this.points; ++i)
+                {
+                    totalDuration += totalDuration * (2 * i);
+                }
+            }
+
+            return totalDuration;
+        }
 
         public Note(Pitch pitch, Octave octave, MoleOrCross moleOrCross, Duration duration, int points, bool hasTilde)
         {
@@ -29,6 +44,30 @@ namespace DPA_Musicsheets.Models
             this.duration = duration;
             this.hasTilde = hasTilde;
             this.points = points;
+        }
+
+        public void PrintString()
+        {
+            string notepitch = this.pitch + "";
+            if (this.moleOrCross == MoleOrCross.Cross)
+            {
+                notepitch += "is";
+            }
+
+            Console.Write(notepitch);
+
+            if (this.octave == Octave.contra1)
+            {
+                Console.Write(",");
+            }
+            if (this.octave == Octave.oneStriped)
+            {
+                Console.Write("'");
+            }
+            int duration = (int)this.duration;
+            Console.Write(duration);
+
+            Console.Write(new string('.', this.points) + " \n");
         }
     }
 }

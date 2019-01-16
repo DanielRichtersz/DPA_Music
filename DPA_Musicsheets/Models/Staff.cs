@@ -9,7 +9,7 @@ namespace DPA_Musicsheets.Models
     public class Staff : IStaffElement
     {
         public List<IStaffElement> Bars { get; set; }
-
+        public int BeatsPerMinute { get; set; }
         public Staff()
         {
             Bars = new List<IStaffElement>();
