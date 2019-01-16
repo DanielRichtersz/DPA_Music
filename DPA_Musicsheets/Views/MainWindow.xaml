@@ -43,4 +43,7 @@
         <Label Content="{Binding CurrentState, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"/>
         <local:StaffViewerCtrl Margin="5" Grid.Row="2" Grid.Column="1"/>
     </Grid>
+        <Window.InputBindings>
+        <KeyBinding Command="{Binding TestCommand}" CommandParameter="{Binding EditorText}" Key="N" Modifiers="Control"/>
+        </Window.InputBindings>
 </Window>

@@ -27,23 +27,24 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
             {
                 Sanford.Multimedia.Midi.Track track = sequence[i];
 
-                foreach(var mEvent in track.Iterator())
-                {
-
-                    if(mEvent.MidiMessage.MessageType == MessageType.Channel)
-                    {
-                        channelConverter.convert(mEvent, ref domainTrack);
-                    }
-                    else
-                    {
-                        metaConverter.convert(mEvent, ref domainTrack);
-                    }
-
-
-                }
-
+                ConvertTrack(track);
             }
             return domainTrack;
+        }
+
+        private void ConvertTrack(Sanford.Multimedia.Midi.Track track)
+        {
+            foreach (var mEvent in track.Iterator())
+            {
+                if (mEvent.MidiMessage.MessageType == MessageType.Channel)
+                {
+                    channelConverter.convert(mEvent, ref domainTrack);
+                }
+                else
+                {
+                    metaConverter.convert(mEvent, ref domainTrack);
+                }
+            }
         }
 
         private void processMetaType(MidiEvent midiEvent)

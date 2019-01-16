@@ -7,6 +7,7 @@ using DPA_Musicsheets.Builder;
 using DPA_Musicsheets.Managers;
 using DPA_Musicsheets.Models;
 using Sanford.Multimedia.Midi;
+using Track = DPA_Musicsheets.Models.Track;
 
 namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
 {
@@ -27,50 +28,60 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
             {
                 if (channelMessage.Data2 > 0) // Data2 = loudness
                 {
-                    Pitch pitch;
-                    Octave octave;
-                    MoleOrCross mole;
-
-                    helper.GetPitch(previousMidiKey, channelMessage.Data1, out pitch, out octave, out mole);
-
-                    // Append the new note.
-                    noteBuilder.setPitch(pitch).setOctave(octave).setMole(mole);
-
-
-                    previousMidiKey = channelMessage.Data1;
-                    startedNoteIsClosed = false;
+                    SetNoteSound(channelMessage);
                 }
                 else if (!startedNoteIsClosed)
                 {
-                    var beats = track.defaultBeatsInBar;
-                    
-                    int dots = 0;
-                    double percentageOfBar;
-
-                    Duration duration = helper.getDuration(track.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, track.division, 
-                        beats.Item1, beats.Item2, out percentageOfBar, out dots);
-
-                    // Finish the previous note with the length.
-                    track.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
-
-                    noteBuilder.setDuration(duration).setPoints(dots);
-                    var note = noteBuilder.build();
-                    track.AddNote(note);
-
-                    percentageOfBarReached += percentageOfBar;
-                    if (percentageOfBarReached >= 1)
-                    {
-                        track.addNewBar();
-                        percentageOfBarReached -= 1;
-                    }
-                    
-                    startedNoteIsClosed = true;
+                    FinishNote(midiEvent, track);
                 }
                 else
                 {
                     noteBuilder.setPitch(Pitch.R);
                 }
             }
+        }
+
+        private void FinishNote(MidiEvent midiEvent, Track track)
+        {
+            var beats = track.defaultBeatsInBar;
+
+            int dots = 0;
+            double percentageOfBar;
+
+            Duration duration = helper.getDuration(track.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, track.division,
+                beats.Item1, beats.Item2, out percentageOfBar, out dots);
+
+            // Finish the previous note with the length.
+            track.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
+
+            noteBuilder.setDuration(duration).setPoints(dots);
+            var note = noteBuilder.build();
+            track.AddNote(note);
+
+            percentageOfBarReached += percentageOfBar;
+            if (percentageOfBarReached >= 1)
+            {
+                track.addNewBar();
+                percentageOfBarReached -= 1;
+            }
+
+            startedNoteIsClosed = true;
+        }
+
+        private void SetNoteSound(ChannelMessage channelMessage)
+        {
+            Pitch pitch;
+            Octave octave;
+            MoleOrCross mole;
+
+            helper.GetPitch(previousMidiKey, channelMessage.Data1, out pitch, out octave, out mole);
+
+            // Append the new note.
+            noteBuilder.setPitch(pitch).setOctave(octave).setMole(mole);
+
+
+            previousMidiKey = channelMessage.Data1;
+            startedNoteIsClosed = false;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace DPA_Musicsheets.Managers
 
         public List<MusicalSymbol> ConvertToMusicalSymbols(Track track)
         {
-            Note previousNote = new Note(0,0,0,0,0,false);
+            //Note previousNote = new Note(0,0,0,0,0,false);
             List<MusicalSymbol> symbols = new List<MusicalSymbol>();
 
             symbols.Add(new Clef(ClefType.GClef, 2));
@@ -36,43 +36,54 @@ namespace DPA_Musicsheets.Managers
             {
                 foreach (var bar in staff.GetBars())
                 {
-                    symbols.Add(new Barline());
-
-                    foreach (var note in bar.GetNotes())
-                    {
-                        if (note.pitch == Pitch.R)
-                        {
-                            symbols.Add(new Rest((MusicalSymbolDuration)note.duration));
-                        }
-                        else
-                        {
-                            WpfStaffComponent component = new WpfStaffComponent();
-                            component.AddComponent(new PitchDecorator(){ Pitch = note.pitch});
-                            component.AddComponent(new NoteDurationDecorator(){Length = (int)note.duration});
-                            component.AddComponent(new AlterDecorator(){MoleOrCross = note.moleOrCross});
-                            component.AddComponent(new DotsDecorator(){Dots = note.points});
-                            component.AddComponent(new OctaveDecorator(){Octave = note.octave});
-
-                            if (note.hasTilde)
-                            {
-                                component.AddComponent(new TildeDecorator());
-                            }
-                            var values = component.ExecuteAll(ref symbols);
-                            
-                            PSAMControlLibrary.Note PSAMNote = new PSAMControlLibrary.Note(values.NoteStep,
-                                values.NoteAlter, values.Octave, values.Duration, values.StemDirection,
-                                values.TieType,
-                                values.BeamTypes);
-                            PSAMNote.NumberOfDots = values.NumberOfDots;
-
-                            symbols.Add(PSAMNote);
-
-                        }
-                    }
+                    ConvertBar(ref symbols, bar);
                 }
             }
 
             return symbols;
+        }
+
+        private void ConvertBar(ref List<MusicalSymbol> symbols, Bar bar)
+        {
+            symbols.Add(new Barline());
+
+            foreach (var note in bar.GetNotes())
+            {
+                if (note.pitch == Pitch.R)
+                {
+                    symbols.Add(new Rest((MusicalSymbolDuration) note.duration));
+                }
+                else
+                {
+                    var psamNote = PsamNote(note, ref symbols);
+
+                    symbols.Add(psamNote);
+                }
+            }
+        }
+
+        private PSAMControlLibrary.Note PsamNote(Note note, ref List<MusicalSymbol> symbols)
+        {
+            WpfStaffComponent component = new WpfStaffComponent();
+            component.AddComponent(new PitchDecorator() {Pitch = note.pitch});
+            component.AddComponent(new NoteDurationDecorator() {Length = (int) note.duration});
+            component.AddComponent(new AlterDecorator() {MoleOrCross = note.moleOrCross});
+            component.AddComponent(new DotsDecorator() {Dots = note.points});
+            component.AddComponent(new OctaveDecorator() {Octave = note.octave});
+
+            if (note.hasTilde)
+            {
+                component.AddComponent(new TildeDecorator());
+            }
+
+            NoteValues values = component.ExecuteAll(ref symbols);
+
+            PSAMControlLibrary.Note psamNote = new PSAMControlLibrary.Note(values.NoteStep,
+                values.NoteAlter, values.Octave, values.Duration, values.StemDirection,
+                values.TieType,
+                values.BeamTypes);
+            psamNote.NumberOfDots = values.NumberOfDots;
+            return psamNote;
         }
 
         public string convertToLilypondText(Track track)

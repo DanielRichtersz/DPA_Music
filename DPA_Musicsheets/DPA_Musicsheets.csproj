@@ -105,6 +105,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Builder\NoteBuilder.cs" />
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMetaTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\Strategies\MessageChannelConverter.cs" />

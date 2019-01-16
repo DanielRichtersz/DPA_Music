@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DPA_Musicsheets.Commands;
 using DPA_Musicsheets.Models;
 using Microsoft.Practices.ServiceLocation;
 
@@ -22,6 +23,19 @@ namespace DPA_Musicsheets.ViewModels
         private string _currentState;
         private MusicLoader _musicLoader;
         private TrackConverter trackConverter;
+
+        public string EditorText
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText;
+            }
+            set
+            {
+                RaisePropertyChanged("EditorText");
+                ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText = value;
+            }
+        }
 
         public string FileName
         {
@@ -55,6 +69,8 @@ namespace DPA_Musicsheets.ViewModels
 
         }
 
+        public ICommand TestCommand => new SimpleCommand();
+
         public ICommand OpenFileCommand => new RelayCommand(() =>
         {
             OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi or LilyPond files (*.mid *.ly)|*.mid;*.ly" };
@@ -69,8 +85,7 @@ namespace DPA_Musicsheets.ViewModels
             Track track = trackConverter.GetTrack(FileName);
             track.print();
 
-            ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText =
-                trackConverter.convertToLilypondText(track);
+            EditorText = trackConverter.convertToLilypondText(track);
             ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
                 
         });
@@ -89,7 +104,7 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand OnKeyUpCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            Console.WriteLine($"Key Up {e.Key}");
+            RaisePropertyChanged("EditorText");
         });
 
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>
