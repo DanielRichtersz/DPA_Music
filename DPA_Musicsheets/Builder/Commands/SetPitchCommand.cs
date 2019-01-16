@@ -10,20 +10,16 @@ namespace DPA_Musicsheets.Builder.Commands
     {
         public SetPitchCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
         {
-            this.NoteBuilder = noteBuilder;
+            NoteBuilder = noteBuilder;
         }
 
         public override bool Execute(string s)
         {
             foreach (char c in s)
             {
-                if (c == 'e')
-                {
-                    Console.WriteLine("break");
-                }
                 if (char.IsLetter(c))
                 {
-                    this.NoteBuilder.setPitch(c.ToString());
+                    NoteBuilder.setPitch(c.ToString());
                     return true;
                 }
             }

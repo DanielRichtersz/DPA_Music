@@ -10,7 +10,7 @@ namespace DPA_Musicsheets.Builder.Commands
     {
         public SetTildeCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
         {
-            this.NoteBuilder = noteBuilder;
+            NoteBuilder = noteBuilder;
         }
 
         public override bool Execute(string s)
@@ -19,7 +19,7 @@ namespace DPA_Musicsheets.Builder.Commands
             {
                 if (c == '~')
                 {
-                    this.NoteBuilder.setTilde();
+                    NoteBuilder.setTilde();
                     return true;
                 }
             }
