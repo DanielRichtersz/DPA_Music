@@ -76,6 +76,7 @@ namespace DPA_Musicsheets.ViewModels
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys
+
         public ICommand OnLostFocusCommand => new RelayCommand(() =>
         {
             Console.WriteLine("Maingrid Lost focus");
@@ -86,9 +87,9 @@ namespace DPA_Musicsheets.ViewModels
             Console.WriteLine($"Key down: {e.Key}");
         });
 
-        public ICommand OnKeyUpCommand => new RelayCommand(() =>
+        public ICommand OnKeyUpCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            Console.WriteLine("Key Up");
+            Console.WriteLine($"Key Up {e.Key}");
         });
 
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>
