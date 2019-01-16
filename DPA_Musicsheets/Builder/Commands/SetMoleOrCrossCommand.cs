@@ -17,17 +17,17 @@ namespace DPA_Musicsheets.Builder.Commands
         public override bool Execute(string s)
         {
 
-                if (s == "es")
-                {
-                    this.NoteBuilder.setMole(MoleOrCross.Mole);
-                    return true;
-                }
-                else if (s == "is")
-                {
-                    this.NoteBuilder.setMole(MoleOrCross.Cross);
-                    return true;
-                }
-            this.NoteBuilder.setMole(MoleOrCross.None);
+            if (s == "es")
+            {
+                NoteBuilder.setMole(MoleOrCross.Mole);
+                return true;
+            }
+            if (s == "is")
+            {
+                NoteBuilder.setMole(MoleOrCross.Cross);
+                return true;
+            }
+            NoteBuilder.setMole(MoleOrCross.None);
 
             return false;
         }
