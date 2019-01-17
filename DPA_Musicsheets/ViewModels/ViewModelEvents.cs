@@ -11,7 +11,14 @@ namespace DPA_Musicsheets.ViewModels
     {
         public void OpenNewFile()
         {
-            ServiceLocator.Current.GetInstance<MainViewModel>().OpenFileCommand.Execute(null);
+            var mainVM = ServiceLocator.Current.GetInstance<MainViewModel>();
+            var oldFile = mainVM.FileName;
+            
+            mainVM.OpenFileCommand.Execute(null);
+            if (mainVM.FileName != oldFile)
+            {
+                mainVM.LoadCommand.Execute(null);
+            }
         }
 
         public void SaveToLilypond()

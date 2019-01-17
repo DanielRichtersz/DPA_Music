@@ -45,7 +45,7 @@
         <local:StaffViewerCtrl Margin="5" Grid.Row="2" Grid.Column="1"/>
     </Grid>
     <Window.InputBindings>
-        <KeyBinding Command="{Binding FileCommand}" CommandParameter="{x:Static commands:FileAction.OpenFile}" Key="N" Modifiers="Control"/>
+        <KeyBinding Command="{Binding FileCommand}" CommandParameter="{x:Static commands:FileAction.OpenFile}" Key="O" Modifiers="Control"/>
         <KeyBinding Command="{Binding FileCommand}" CommandParameter="{x:Static commands:FileAction.SaveToLily}" Key="S" Modifiers="Control"/>
         <KeyBinding Command="{Binding FileCommand}" CommandParameter="{x:Static commands:FileAction.SaveToPdf}" Key="P" Modifiers="Control"/>
         <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.AddClef}" Key="C" Modifiers="Alt"/>
@@ -55,4 +55,9 @@
         <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.Add34}" Key="D3" Modifiers="Alt"/>
         <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.Add68}" Key="D6" Modifiers="Alt"/>
     </Window.InputBindings>
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <EventSetter Event="PreviewMouseUp" Handler="TextBox_PreviewMouseUp"/>
+        </Style>
+    </Window.Resources>
 </Window>

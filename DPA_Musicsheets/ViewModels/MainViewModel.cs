@@ -1,7 +1,6 @@
 ﻿using DPA_Musicsheets.Managers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.Win32;
 using PSAMWPFControlLibrary;
 using System;
 using System.Collections.Generic;
@@ -10,10 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using DPA_Musicsheets.Commands;
 using DPA_Musicsheets.Models;
 using Microsoft.Practices.ServiceLocation;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -69,10 +71,21 @@ namespace DPA_Musicsheets.ViewModels
 
         }
 
+        private TextBox focusedTextBox;
+
+        public TextBox FocusedTextBox
+        {
+            get { return focusedTextBox; }
+            set { focusedTextBox = value; }
+        }
         public void AddText(string text)
         {
             EditorText += text;
             ServiceLocator.Current.GetInstance<LilypondViewModel>().TextChangedCommand.Execute(null);
+            if (focusedTextBox != null)
+            {
+                focusedTextBox.CaretIndex = focusedTextBox.Text.Length;
+            }
         }
 
         public ICommand FileCommand => new FileCommand();
@@ -84,6 +97,7 @@ namespace DPA_Musicsheets.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 FileName = openFileDialog.FileName;
+                LoadCommand.Execute(null);
             }
         });
 

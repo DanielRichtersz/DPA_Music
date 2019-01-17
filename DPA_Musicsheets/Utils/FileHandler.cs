@@ -47,5 +47,12 @@ namespace DPA_Musicsheets.Utils
 
 		}
 
+	    public string SaveFileDialog(string extension = "")
+	    {
+
+
+	        return "";
+	    }
+
 	}
 }
