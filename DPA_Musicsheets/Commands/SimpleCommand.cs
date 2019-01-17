@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DPA_Musicsheets.ViewModels;
 
 namespace DPA_Musicsheets.Commands
 {
@@ -21,6 +22,8 @@ namespace DPA_Musicsheets.Commands
 
         public void Execute(object parameter)
         {
+            ViewModelEvents vme = new ViewModelEvents();
+            vme.OpenNewFile();
             Console.WriteLine("Into the barrel and drink what we find!");
             Console.WriteLine(parameter.ToString());
 

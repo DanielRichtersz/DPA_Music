@@ -5,6 +5,7 @@
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
+        xmlns:commands="clr-namespace:DPA_Musicsheets.Commands"
         Title="DPA Musicsheets" Height="700" Width="1200"
         DataContext="{Binding MainViewModel, Source={StaticResource Locator}}">
     <i:Interaction.Triggers>
@@ -43,7 +44,15 @@
         <Label Content="{Binding CurrentState, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"/>
         <local:StaffViewerCtrl Margin="5" Grid.Row="2" Grid.Column="1"/>
     </Grid>
-        <Window.InputBindings>
-        <KeyBinding Command="{Binding TestCommand}" CommandParameter="{Binding EditorText}" Key="N" Modifiers="Control"/>
-        </Window.InputBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding FileCommand}" CommandParameter="{x:Static commands:FileAction.OpenFile}" Key="N" Modifiers="Control"/>
+        <KeyBinding Command="{Binding FileCommand}" CommandParameter="{x:Static commands:FileAction.SaveToLily}" Key="S" Modifiers="Control"/>
+        <KeyBinding Command="{Binding FileCommand}" CommandParameter="{x:Static commands:FileAction.SaveToPdf}" Key="P" Modifiers="Control"/>
+        <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.AddClef}" Key="C" Modifiers="Alt"/>
+        <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.AddTempo}" Key="S" Modifiers="Alt"/>
+        <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.Add44}" Key="T" Modifiers="Alt"/>
+        <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.Add44}" Key="D4" Modifiers="Alt"/>
+        <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.Add34}" Key="D3" Modifiers="Alt"/>
+        <KeyBinding Command="{Binding EditCommand}" CommandParameter="{x:Static commands:EditorAction.Add68}" Key="D6" Modifiers="Alt"/>
+    </Window.InputBindings>
 </Window>

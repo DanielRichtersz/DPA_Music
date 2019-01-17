@@ -69,7 +69,14 @@ namespace DPA_Musicsheets.ViewModels
 
         }
 
-        public ICommand TestCommand => new SimpleCommand();
+        public void AddText(string text)
+        {
+            EditorText += text;
+            ServiceLocator.Current.GetInstance<LilypondViewModel>().TextChangedCommand.Execute(null);
+        }
+
+        public ICommand FileCommand => new FileCommand();
+        public ICommand EditCommand => new EditorCommand();
 
         public ICommand OpenFileCommand => new RelayCommand(() =>
         {

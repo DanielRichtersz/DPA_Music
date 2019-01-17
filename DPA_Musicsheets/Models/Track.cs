@@ -58,47 +58,53 @@ namespace DPA_Musicsheets.Models
 
         public void print()
         {
+            Console.Out.WriteLine(this);
+        }
 
-            foreach(var s in Staffs)
+        public override string ToString()
+        {
+            String output = "";
+            foreach (var s in Staffs)
             {
 
-                Console.WriteLine('{');
+                output += '{';
 
-                foreach(var b in s.Bars)
+                foreach (var b in s.Bars)
                 {
                     Bar bar = (Bar)b;
 
-                    foreach(var n in bar.GetNotes())
+                    foreach (var n in bar.GetNotes())
                     {
                         string notepitch = n.pitch + "";
-                        if(n.moleOrCross == MoleOrCross.Cross)
+                        if (n.moleOrCross == MoleOrCross.Cross)
                         {
                             notepitch += "is";
                         }
 
-                        Console.Write(notepitch);
+                        output += notepitch;
 
-                        if(n.octave == Octave.contra1)
+                        if (n.octave == Octave.contra1)
                         {
-                            Console.Write(",");
+                            output += ",";
                         }
-                        if(n.octave == Octave.oneStriped)
+                        if (n.octave == Octave.oneStriped)
                         {
-                            Console.Write("'");
+                            output += "'";
                         }
-                        int duration = (int) n.duration;
-                        Console.Write(duration);
+                        int duration = (int)n.duration;
+                        output += duration;
 
-                        Console.Write(new string('.', n.points) + " ");
+                        output += new string('.', n.points) + " ";
 
                     }
 
-                    Console.Write("|" + "\n");
+                    output += "|" + "\n";
                 }
 
-                Console.WriteLine("}");
+                output += "}";
             }
 
+            return output;
         }
 
         //Relative

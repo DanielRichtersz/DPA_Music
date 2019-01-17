@@ -284,6 +284,7 @@ namespace DPA_Musicsheets.Managers
 		/// TODO: Our code doesn't support repeats (rendering notes multiple times) in midi yet. Maybe with a COMPOSITE this will be easier?
 		/// </summary>
 		/// <returns></returns>
+		
 		private Sequence GetSequenceFromWPFStaffs()
 		{
 			List<string> notesOrderWithCrosses = new List<string>() { "c", "cis", "d", "dis", "e", "f", "fis", "g", "gis", "a", "ais", "b" };
