@@ -88,7 +88,7 @@ namespace DPA_Musicsheets.Managers
 
         public string convertToLilypondText(Track track)
         {
-            return "";
+            return track.ToString();
         }
     }
 

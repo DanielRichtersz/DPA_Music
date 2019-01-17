@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using DPA_Musicsheets.Factories;
 using DPA_Musicsheets.Managers.FileLoader;
 using DPA_Musicsheets.Managers;
 using DPA_Musicsheets.Models;
+using Microsoft.Win32;
 
 namespace DPA_Musicsheets.Utils
 {
@@ -47,12 +49,61 @@ namespace DPA_Musicsheets.Utils
 
 		}
 
-	    public string SaveFileDialog(string extension = "")
+	    public string SaveFileDialog(string extension = "*")
 	    {
+            SaveFileDialog fileDialog = new SaveFileDialog(){Filter = extension};
 
+	        if (fileDialog.ShowDialog() == true)
+	        {
+	            return fileDialog.FileName;
+	        }
 
-	        return "";
+	        return null;
 	    }
 
-	}
+	    public void SaveToPDF(string fileName, string text)
+	    {
+	        string withoutExtension = Path.GetFileNameWithoutExtension(fileName);
+	        string tmpFileName = $"{fileName}-tmp.ly";
+	        SaveToLilypond(tmpFileName, text);
+
+	        string lilypondLocation = @"C:\Program Files (x86)\LilyPond\usr\bin\lilypond.exe";
+	        string sourceFolder = Path.GetDirectoryName(tmpFileName);
+	        string sourceFileName = Path.GetFileNameWithoutExtension(tmpFileName);
+	        string targetFolder = Path.GetDirectoryName(fileName);
+	        string targetFileName = Path.GetFileNameWithoutExtension(fileName);
+
+	        var process = new Process
+	        {
+	            StartInfo =
+	            {
+	                WorkingDirectory = sourceFolder,
+	                WindowStyle = ProcessWindowStyle.Hidden,
+	                Arguments = String.Format("--pdf \"{0}\\{1}.ly\"", sourceFolder, sourceFileName),
+	                FileName = lilypondLocation
+	            }
+	        };
+
+	        process.Start();
+	        while (!process.HasExited)
+	        { /* Wait for exit */
+	        }
+	        if (sourceFolder != targetFolder || sourceFileName != targetFileName)
+	        {
+	            File.Move(sourceFolder + "\\" + sourceFileName + ".pdf", targetFolder + "\\" + targetFileName + ".pdf");
+	            File.Delete(tmpFileName);
+	        }
+	    }
+
+	    public void SaveToLilypond(string fileName, string text)
+	    {
+	        using (StreamWriter outputFile = new StreamWriter(fileName))
+	        {
+	            outputFile.Write(text);
+	            outputFile.Close();
+	        }
+	    }
+  
+
+    }
 }
