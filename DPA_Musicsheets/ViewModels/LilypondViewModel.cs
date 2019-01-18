@@ -17,6 +17,7 @@ namespace DPA_Musicsheets.ViewModels
         private MusicLoader _musicLoader;
         private TrackConverter trackConverter;
         private MainViewModel _mainViewModel { get; set; }
+        private ViewModelEvents viewModelEvents = new ViewModelEvents();
 
         private string _text;
         private string _previousText;
@@ -27,7 +28,6 @@ namespace DPA_Musicsheets.ViewModels
             get { return _carretIndex; }
             set { _carretIndex = value; Console.WriteLine("Index: {0}", value);}
         }
-        public TextBox Box { get; set; }
         /// <summary>
         /// This text will be in the textbox.
         /// It can be filled either by typing or loading a file so we only want to set previoustext when it's caused by typing.
@@ -46,7 +46,6 @@ namespace DPA_Musicsheets.ViewModels
                 }
                 _text = value;
                 RaisePropertyChanged(() => LilypondText);
-                //Console.WriteLine(Box.CaretIndex);
 
             }
         }
@@ -96,7 +95,7 @@ namespace DPA_Musicsheets.ViewModels
                         _waitingForRender = false;
                         UndoCommand.RaiseCanExecuteChanged();
 
-                        //_musicLoader.LoadLilypondIntoWpfStaffsAndMidi(LilypondText);
+                        viewModelEvents.renderStaffs();
 
                         _mainViewModel.CurrentState = "";
                     }
