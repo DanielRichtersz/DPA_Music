@@ -119,11 +119,16 @@ namespace DPA_Musicsheets.Models
 
         public void print()
         {
+            Console.Out.WriteLine(this);
+        }
 
+        public override string ToString()
+        {
+            String output = "";
             foreach (var s in Staffs)
             {
 
-                Console.WriteLine('{');
+                output += '{';
 
                 foreach (var b in s.Bars)
                 {
@@ -137,29 +142,30 @@ namespace DPA_Musicsheets.Models
                             notepitch += "is";
                         }
 
-                        Console.Write(notepitch);
+                        output += notepitch;
 
                         if (n.octave == Octave.contra1)
                         {
-                            Console.Write(",");
+                            output += ",";
                         }
                         if (n.octave == Octave.oneStriped)
                         {
-                            Console.Write("'");
+                            output += "'";
                         }
                         int duration = (int)n.duration;
-                        Console.Write(duration);
+                        output += duration;
 
-                        Console.Write(new string('.', n.points) + " ");
+                        output += new string('.', n.points) + " ";
 
                     }
 
-                    Console.Write("|" + "\n");
+                    output += "|" + "\n";
                 }
 
-                Console.WriteLine("}");
+                output += "}";
             }
 
+            return output;
         }
 
         //Relative

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DPA_Musicsheets.Commands;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -21,6 +22,12 @@ namespace DPA_Musicsheets.ViewModels
         private string _previousText;
         private string _nextText;
 
+        private int _carretIndex = 0;
+        public int Index {
+            get { return _carretIndex; }
+            set { _carretIndex = value; Console.WriteLine("Index: {0}", value);}
+        }
+        public TextBox Box { get; set; }
         /// <summary>
         /// This text will be in the textbox.
         /// It can be filled either by typing or loading a file so we only want to set previoustext when it's caused by typing.
@@ -39,6 +46,8 @@ namespace DPA_Musicsheets.ViewModels
                 }
                 _text = value;
                 RaisePropertyChanged(() => LilypondText);
+                //Console.WriteLine(Box.CaretIndex);
+
             }
         }
 
@@ -64,6 +73,8 @@ namespace DPA_Musicsheets.ViewModels
             LilypondText = _previousText = text;
             _textChangedByLoad = false;
         }
+
+        public ICommand ButtonInsert => new EditorCommand();
 
         /// <summary>
         /// This occurs when the text in the textbox has changed. This can either be by loading or typing.
