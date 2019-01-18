@@ -23,8 +23,8 @@ namespace DPA_Musicsheets.ViewModels
     {
         private string _fileName;
         private string _currentState;
-        private MusicLoader _musicLoader;
-        private TrackConverter trackConverter;
+        private MusicLoader _musicLoader = new MusicLoader();
+        private TrackConverter trackConverter = new TrackConverter();
 
         public string EditorText
         {

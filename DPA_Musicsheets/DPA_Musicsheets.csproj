@@ -104,6 +104,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Builder\Commands\BuilderCommand.cs" />
+    <Compile Include="Builder\Commands\SetDurationCommand.cs" />
+    <Compile Include="Builder\Commands\SetMoleOrCrossCommand.cs" />
+    <Compile Include="Builder\Commands\SetOctaveCommand.cs" />
+    <Compile Include="Builder\Commands\SetPitchCommand.cs" />
+    <Compile Include="Builder\Commands\SetPointsCommand.cs" />
+    <Compile Include="Builder\Commands\SetTildeCommand.cs" />
     <Compile Include="Builder\NoteBuilder.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\EditorAction.cs" />
@@ -121,6 +128,20 @@
     <Compile Include="Commands\FileCommand.cs" />
     <Compile Include="Commands\FileChain\IFileHotkeyChainComponent.cs" />
     <Compile Include="Commands\SimpleCommand.cs" />
+    <Compile Include="Builder\NoteBuilderHandler.cs" />
+    <Compile Include="Convertion\LilypondConvertion\LilipondConverter.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\AddNewBarToTrack.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\AddNewNoteToTrack.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\AddStaffToTrack.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\Alternative.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\Clef.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\EndOfStaff.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\ILilypondStrategy.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\Relative.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\Repeat.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\SetBeatsPerBar.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\SetBeatsPerMinute.cs" />
+    <Compile Include="Convertion\LilypondConvertion\Strategies\ZeroStrategy.cs" />
     <Compile Include="Convertion\MidiConvertion\IMessageTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\IMetaTypeConverter.cs" />
     <Compile Include="Convertion\MidiConvertion\Strategies\MessageChannelConverter.cs" />
