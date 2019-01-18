@@ -152,6 +152,7 @@
     <Compile Include="Interfaces\IStaffElement.cs" />
     <Compile Include="Managers\TrackConverter.cs" />
     <Compile Include="Managers\WpfStaffComponent.cs" />
+    <Compile Include="Models\BarContext.cs" />
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />
     <Compile Include="Models\Bar.cs" />

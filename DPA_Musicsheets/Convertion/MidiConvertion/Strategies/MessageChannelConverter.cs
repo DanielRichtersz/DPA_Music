@@ -42,7 +42,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
                 }
                 else if (!startedNoteIsClosed)
                 {
-                    var beats = track.defaultBeatsInBar;
+                    var beats = track.DefaultBarContext.BeatsInBar;
                     
                     int dots = 0;
                     double percentageOfBar;
@@ -55,12 +55,12 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
 
                     noteBuilder.setDuration(duration).setPoints(dots);
                     var note = noteBuilder.build();
-                    track.AddNote(note);
+                    track.CreateNewNote(note);
 
                     percentageOfBarReached += percentageOfBar;
                     if (percentageOfBarReached >= 1)
                     {
-                        track.addNewBar();
+                        track.CreateNewBar();
                         percentageOfBarReached -= 1;
                     }
                     

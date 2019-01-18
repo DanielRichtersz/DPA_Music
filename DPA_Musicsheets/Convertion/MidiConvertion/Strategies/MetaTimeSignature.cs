@@ -22,7 +22,8 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
             //lily
             //string s = $"\\time {_beatNote}/{_beatsPerBar}";
 
-            track.AddStaff(new Tuple<int, int>(_beatNote, _beatsPerBar));
+            //track.AddStaff(new Tuple<int, int>(_beatNote, _beatsPerBar));
+            track.SetLastBarBeatsPerBar(new Tuple<int, int>(_beatNote, _beatsPerBar));
         }
     }
 }

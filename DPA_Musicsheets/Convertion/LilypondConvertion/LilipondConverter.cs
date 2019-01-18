@@ -48,5 +48,12 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
 
             return track;
         }
+
+        public string CreateLilypondFromModel(Track track)
+        {
+            
+
+            return "";
+        }
     }
 }

@@ -26,8 +26,8 @@ namespace DPA_Musicsheets.Managers
             List<MusicalSymbol> symbols = new List<MusicalSymbol>();
 
             symbols.Add(new Clef(ClefType.GClef, 2));
-            symbols.Add(new TimeSignature(TimeSignatureType.Numbers, (UInt32)track.defaultBeatsInBar.Item1, 
-                (UInt32)track.defaultBeatsInBar.Item2));
+            symbols.Add(new TimeSignature(TimeSignatureType.Numbers, (UInt32)track.DefaultBarContext.BeatsInBar.Item1, 
+                (UInt32)track.DefaultBarContext.BeatsInBar.Item2));
             
             //tempo not supported
             //repeat not supported
