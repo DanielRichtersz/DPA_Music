@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DPA_Musicsheets.Commands;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -72,6 +73,8 @@ namespace DPA_Musicsheets.ViewModels
             LilypondText = _previousText = text;
             _textChangedByLoad = false;
         }
+
+        public ICommand ButtonInsert => new EditorCommand();
 
         /// <summary>
         /// This occurs when the text in the textbox has changed. This can either be by loading or typing.
