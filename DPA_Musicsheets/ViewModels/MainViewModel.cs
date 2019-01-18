@@ -50,7 +50,7 @@ namespace DPA_Musicsheets.ViewModels
         public MainViewModel(MusicLoader musicLoader)
         {
             _musicLoader = musicLoader;
-            this.trackConverter = new TrackConverter();
+            trackConverter = new TrackConverter();
             FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
 
         }

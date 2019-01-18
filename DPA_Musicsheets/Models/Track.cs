@@ -41,7 +41,6 @@ namespace DPA_Musicsheets.Models
         {
             Staff staff = new Staff(defaultRelativeOctave);
             Staffs.Add(staff);
-            lkjlkjlkj
         }
 
         public void CreateNewBar()
@@ -194,7 +193,6 @@ namespace DPA_Musicsheets.Models
             {
                 CreateNewBar();
             }
-            jlkjlkj
             return (Bar)Staffs.Last().Bars.Last();
         }
 
@@ -205,6 +203,8 @@ namespace DPA_Musicsheets.Models
 
         public void print()
         {
+            bool firstBarPrinted = false;
+
             //Staff is empty
             if (Staffs.Count == 0)
             {
@@ -212,48 +212,176 @@ namespace DPA_Musicsheets.Models
                 return;
             }
 
-            Console.WriteLine("\\relative " + Staffs.Last().relativeOctave);
+            Console.WriteLine("\\relative " + defaultRelativeOctave);
 
             foreach (var s in Staffs)
             {
-
-                Console.WriteLine('{');
-
-                foreach (var b in s.Bars)
+                if (s.Bars.Count != 0)
                 {
-                    Bar bar = (Bar)b;
-
-                    foreach (var n in bar.GetNotes())
+                    if (s.relativeOctave != defaultRelativeOctave)
                     {
-                        string notepitch = n.pitch + "";
-                        if (n.moleOrCross == MoleOrCross.Cross)
-                        {
-                            notepitch += "is";
-                        }
-
-                        Console.Write(notepitch);
-
-                        if (n.octave == Octave.contra1)
-                        {
-                            Console.Write(",");
-                        }
-                        if (n.octave == Octave.oneStriped)
-                        {
-                            Console.Write("'");
-                        }
-                        int duration = (int)n.duration;
-                        Console.Write(duration);
-
-                        Console.Write(new string('.', n.points) + " ");
-
+                        Console.WriteLine("\\relative " + s.relativeOctave);
                     }
 
-                    Console.Write("|" + "\n");
-                }
+                    Console.WriteLine('{');
 
-                Console.WriteLine("}");
+                    foreach (var b in s.Bars)
+                    {
+                        Bar bar = (Bar)b;
+
+                        if (bar.GetNotes().Count != 0)
+                        {
+
+                            if (!firstBarPrinted)
+                            {
+                                Console.WriteLine("\\clef " + bar.BarContext.ClefStyle);
+                                Console.WriteLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
+                                Console.WriteLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
+                                firstBarPrinted = true;
+                            }
+                            else
+                            {
+                                if (bar.BarContext.ClefStyle != DefaultBarContext.ClefStyle)
+                                {
+                                    Console.WriteLine("\\clef " + bar.BarContext.ClefStyle);
+                                }
+
+                                if (bar.BarContext.BeatsInBar.Item1 != DefaultBarContext.BeatsInBar.Item1
+                                    || bar.BarContext.BeatsInBar.Item2 != DefaultBarContext.BeatsInBar.Item2)
+                                {
+                                    Console.WriteLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
+                                }
+
+                                if (bar.BarContext.Tempo != DefaultBarContext.Tempo
+                                    || bar.BarContext.BeatsPerMinute != DefaultBarContext.BeatsPerMinute)
+                                {
+                                    Console.WriteLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
+                                }
+                            }
+
+                            foreach (var n in bar.GetNotes())
+                            {
+                                string notepitch = n.pitch + "";
+
+                                if (n.moleOrCross == MoleOrCross.Cross)
+                                {
+                                    notepitch += "is";
+                                }
+
+                                Console.Write(notepitch);
+
+                                if (n.octave == Octave.contra1)
+                                {
+                                    Console.Write(",");
+                                }
+                                if (n.octave == Octave.oneStriped)
+                                {
+                                    Console.Write("'");
+                                }
+                                int duration = (int)n.duration;
+                                Console.Write(duration);
+
+                                Console.Write(new string('.', n.points) + " ");
+                            }
+                            Console.Write("|" + "\n");
+                        }
+                    }
+                    Console.WriteLine("}");
+                }
+            }
+        }
+
+        public string toLilypond()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            bool firstBarPrinted = false;
+
+            //Staff is empty
+            if (Staffs.Count == 0)
+            {
+                Console.WriteLine("Track is empty");
+                return stringBuilder.ToString();
             }
 
+            stringBuilder.AppendLine("\\relative " + defaultRelativeOctave);
+
+            foreach (var s in Staffs)
+            {
+                if (s.Bars.Count != 0)
+                {
+                    if (s.relativeOctave != defaultRelativeOctave)
+                    {
+                        stringBuilder.AppendLine("\\relative " + s.relativeOctave);
+                    }
+
+                    stringBuilder.AppendLine("{");
+
+                    foreach (var b in s.Bars)
+                    {
+                        Bar bar = (Bar)b;
+
+                        if (bar.GetNotes().Count != 0)
+                        {
+
+                            if (!firstBarPrinted)
+                            {
+                                stringBuilder.AppendLine("\\clef " + bar.BarContext.ClefStyle);
+                                stringBuilder.AppendLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
+                                stringBuilder.AppendLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
+                                firstBarPrinted = true;
+                            }
+                            else
+                            {
+                                if (bar.BarContext.ClefStyle != DefaultBarContext.ClefStyle)
+                                {
+                                    stringBuilder.AppendLine("\\clef " + bar.BarContext.ClefStyle);
+                                }
+
+                                if (bar.BarContext.BeatsInBar.Item1 != DefaultBarContext.BeatsInBar.Item1
+                                    || bar.BarContext.BeatsInBar.Item2 != DefaultBarContext.BeatsInBar.Item2)
+                                {
+                                    stringBuilder.AppendLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
+                                }
+
+                                if (bar.BarContext.Tempo != DefaultBarContext.Tempo
+                                    || bar.BarContext.BeatsPerMinute != DefaultBarContext.BeatsPerMinute)
+                                {
+                                    stringBuilder.AppendLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
+                                }
+                            }
+
+                            foreach (var n in bar.GetNotes())
+                            {
+                                string notepitch = n.pitch + "";
+
+                                if (n.moleOrCross == MoleOrCross.Cross)
+                                {
+                                    notepitch += "is";
+                                }
+
+                                stringBuilder.Append(notepitch);
+
+                                if (n.octave == Octave.contra1)
+                                {
+                                    stringBuilder.Append(",");
+                                }
+                                if (n.octave == Octave.oneStriped)
+                                {
+                                    stringBuilder.Append("'");
+                                }
+                                int duration = (int)n.duration;
+                                stringBuilder.Append(duration);
+
+                                stringBuilder.Append(new string('.', n.points) + " ");
+                            }
+                            stringBuilder.Append("|" + "\n");
+                        }
+                    }
+                    stringBuilder.AppendLine("}");
+                }
+            }
+
+            return stringBuilder.ToString();
         }
 
         //Relative
