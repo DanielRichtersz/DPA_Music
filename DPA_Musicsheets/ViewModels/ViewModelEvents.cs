@@ -34,7 +34,7 @@ namespace DPA_Musicsheets.ViewModels
             var path = fileHandler.SaveFileDialog("PDF|*.pdf");
             if (path != null)
             {
-                fileHandler.SaveToPDF(path, mainVM.EditorText);
+                fileHandler.SaveFile(path, mainVM.EditorText, "pdf");
             }
         }
 
@@ -45,8 +45,8 @@ namespace DPA_Musicsheets.ViewModels
             var path = fileHandler.SaveFileDialog("Lilypond|*.ly");
                 if (path != null)
             {
-                fileHandler.SaveToLilypond(path, mainVM.EditorText);
-                ServiceLocator.Current.GetInstance<LilypondViewModel>().resetHistory();
+                fileHandler.SaveFile(path, mainVM.EditorText, "lilypond");
+                ServiceLocator.Current.GetInstance<LilypondViewModel>().ResetHistory();
             }
         }
 

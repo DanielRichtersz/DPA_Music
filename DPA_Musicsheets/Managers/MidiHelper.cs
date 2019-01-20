@@ -33,13 +33,13 @@ namespace DPA_Musicsheets.Managers
             int baseOctave = 0;
             while (distance < -6)
             {
-                baseOctave++;
+                baseOctave--;
                 distance += 8;
             }
 
             while (distance > 6)
             {
-                baseOctave--;
+                baseOctave++;
                 distance -= 8;
             }
 

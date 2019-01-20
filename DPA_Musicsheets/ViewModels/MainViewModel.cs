@@ -108,7 +108,9 @@ namespace DPA_Musicsheets.ViewModels
 
             EditorText = trackConverter.convertToLilypondText(track);
             ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
-                
+            ServiceLocator.Current.GetInstance<LilypondViewModel>().ResetHistory();
+
+
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys

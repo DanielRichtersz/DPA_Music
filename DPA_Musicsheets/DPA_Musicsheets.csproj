@@ -182,6 +182,9 @@
     <Compile Include="Models\Octave.cs" />
     <Compile Include="Models\Pitch.cs" />
     <Compile Include="Utils\FileHandler.cs" />
+    <Compile Include="Utils\SaveFiles\IFileWriter.cs" />
+    <Compile Include="Utils\SaveFiles\LilypondWriter.cs" />
+    <Compile Include="Utils\SaveFiles\PDFWriter.cs" />
     <Compile Include="ViewModels\MidiPlayerViewModel.cs" />
     <Compile Include="ViewModels\StaffsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelEvents.cs" />

@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DPA_Musicsheets.Commands;
 using DPA_Musicsheets.Memento;
+using DPA_Musicsheets.Utils;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -75,11 +76,14 @@ namespace DPA_Musicsheets.ViewModels
             _textChangedByLoad = true;
             LilypondText = _previousText = text;
             _textChangedByLoad = false;
+            ResetHistory();
         }
 
-        public void resetHistory()
+        public void ResetHistory()
         {
             historyManager = new HistoryManager();
+            UndoCommand.RaiseCanExecuteChanged();
+            RedoCommand.RaiseCanExecuteChanged();
         }
 
         public ICommand ButtonInsert => new EditorCommand();
@@ -148,27 +152,19 @@ namespace DPA_Musicsheets.ViewModels
         {
             // TODO: In the application a lot of classes know which filetypes are supported. Lots and lots of repeated code here...
             // Can this be done better?
-            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Midi|*.mid|Lilypond|*.ly|PDF|*.pdf" };
+            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Lilypond|*.ly|PDF|*.pdf" };
             if (saveFileDialog.ShowDialog() == true)
             {
                 string extension = Path.GetExtension(saveFileDialog.FileName);
-                if (extension.EndsWith(".mid"))
+                FileHandler handler = new FileHandler();
+                if (handler.SaveFile(saveFileDialog.FileName, _text, extension))
                 {
-                    _musicLoader.SaveToMidi(saveFileDialog.FileName);
-                }
-                else if (extension.EndsWith(".ly"))
-                {
-                    _musicLoader.SaveToLilypond(saveFileDialog.FileName);
-                }
-                else if (extension.EndsWith(".pdf"))
-                {
-                    _musicLoader.SaveToPDF(saveFileDialog.FileName);
+                    ResetHistory();
                 }
                 else
                 {
                     MessageBox.Show($"Extension {extension} is not supported.");
                 }
-                resetHistory();
             }
         });
 
