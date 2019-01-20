@@ -54,9 +54,10 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
             // Finish the previous note with the length.
             track.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
 
-                    noteBuilder.setDuration(duration).setPoints(dots);
-                    var note = noteBuilder.build();
-                    track.CreateNewNote(note);
+            noteBuilder.setDuration(duration);
+            noteBuilder.setPoints(dots);
+            var note = noteBuilder.build();
+            track.CreateNewNote(note);
 
             percentageOfBarReached += percentageOfBar;
             if (percentageOfBarReached >= 1)
@@ -78,8 +79,10 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
 
             // Append the new note.
             noteBuilder = new NoteBuilder();
-            noteBuilder.setPitch(pitch).setOctave(octave).setMole(mole);
-            if(pitch == Pitch.G && octave == Octave.contra1 || octave == Octave.oneStriped)
+            noteBuilder.setPitch(pitch);
+            noteBuilder.setOctave(octave);
+            noteBuilder.setMole(mole);
+            if (pitch == Pitch.G && octave == Octave.contra1 || octave == Octave.oneStriped)
             {
                 int i = 0;
             }

@@ -11,7 +11,7 @@ namespace DPA_Musicsheets.Builder.Commands
 {
     public class SetOctaveCommand : BuilderCommand
     {
-        readonly Dictionary<char, Func<bool>> chain = new Dictionary<char, Func<bool>>();
+        private readonly Dictionary<char, Func<bool>> chain = new Dictionary<char, Func<bool>>();
 
         public SetOctaveCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
         {

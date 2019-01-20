@@ -26,85 +26,72 @@ namespace DPA_Musicsheets.Builder
 
             return outNote;
         }
-        
-        public NoteBuilder setPitch(string pitch)
+
+        public void setPitch(string pitch)
         {
             Enum.TryParse<Pitch>(pitch.ToUpper(), out Pitch pEnum);
             note.pitch = pEnum;
-            return this;
         }
 
-        public NoteBuilder setPitch(Pitch pitch)
+        public void setPitch(Pitch pitch)
         {
             note.pitch = pitch;
-            return this;
         }
 
-        public NoteBuilder setOctave(string octave)
+        public void setOctave(string octave)
         {
             note.octave = octaves[octave];
-            return this;
         }
 
-        public NoteBuilder increaseOctave()
+        public void increaseOctave()
         {
             if (note.octave != Octave.fourStriped)
             {
                 note.octave++;
             }
-
-            return this;
         }
 
-        public NoteBuilder decreaseOctave()
+        public void decreaseOctave()
         {
             if (note.octave != Octave.contra4)
             {
                 note.octave--;
             }
-            return this;
         }
 
-        public NoteBuilder setOctave(Octave octave)
+        public void setOctave(Octave octave)
         {
             note.octave = octave;
-            return this;
         }
 
-        public NoteBuilder setMole(string mole)
+        public void setMole(string mole)
         {
             note.moleOrCross = moles[mole];
-            return this;
         }
 
-        public NoteBuilder setMole(MoleOrCross mole)
+        public void setMole(MoleOrCross mole)
         {
             note.moleOrCross = mole;
-            return this;
         }
 
-        public NoteBuilder setDuration(string duration)
+        public void setDuration(string duration)
         {
             note.duration = durations[duration];
-            return this;
         }
 
-        public NoteBuilder setDuration(Duration duration)
+        public void setDuration(Duration duration)
         {
             note.duration = duration;
-            return this;
         }
 
-        public NoteBuilder addPoint()
+        public void addPoint()
         {
             note.points++;
-            return this;
         }
 
-        public NoteBuilder setPoints(int points)
+        public void setPoints(int points)
         {
             note.points = points;
-            return this;
         }
 
         public void setTilde()
