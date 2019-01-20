@@ -73,49 +73,61 @@ namespace DPA_Musicsheets.Managers
                     if (noteLength < 2)
                         noteLength = 2;
 
-                    int subtractDuration;
-                    
-                    if (noteLength == 32)
-                        subtractDuration = 32;
-                    else if (noteLength >= 16)
-                        subtractDuration = 16;
-                    else if (noteLength >= 8)
-                        subtractDuration = 8;
-                    else if (noteLength >= 4)
-                        subtractDuration = 4;
-                    else
-                        subtractDuration = 2;
-
-                    if (noteLength >= 17)
-                        duration = Duration.TweeEnDertig;
-                    else if (noteLength >= 9)
-                        duration = Duration.Zestiende;
-                    else if (noteLength >= 5)
-                        duration = Duration.Achste;
-                    else if (noteLength >= 3)
-                        duration = Duration.Kwart;
-                    else
-                        duration = Duration.Halve;
+                    var subtractDuration = CalculateDuration(noteLength, out duration);
 
                     double currentTime = 0;
 
-                    while (currentTime < (noteLength - subtractDuration))
-                    {
-                        var addtime = 1 / ((subtractDuration / beatNote) * Math.Pow(2, dots));
-                        if (addtime <= 0) break;
-                        currentTime += addtime;
-                        if (currentTime <= (noteLength - subtractDuration))
-                        {
-                            dots++;
-                        }
-                        if (dots >= 4) break;
-                    }
+                    CalculateDots(beatNote, ref dots, currentTime, noteLength, subtractDuration);
 
                     break;
                 }
             }
 
             return duration;
+        }
+
+        private static void CalculateDots(int beatNote, ref int dots, double currentTime, int noteLength, int subtractDuration)
+        {
+            while (currentTime < (noteLength - subtractDuration))
+            {
+                var addtime = 1 / ((subtractDuration / beatNote) * Math.Pow(2, dots));
+                if (addtime <= 0) break;
+                currentTime += addtime;
+                if (currentTime <= (noteLength - subtractDuration))
+                {
+                    dots++;
+                }
+
+                if (dots >= 4) break;
+            }
+        }
+
+        private static int CalculateDuration(int noteLength, out Duration duration)
+        {
+            int subtractDuration;
+
+            if (noteLength == 32)
+                subtractDuration = 32;
+            else if (noteLength >= 16)
+                subtractDuration = 16;
+            else if (noteLength >= 8)
+                subtractDuration = 8;
+            else if (noteLength >= 4)
+                subtractDuration = 4;
+            else
+                subtractDuration = 2;
+
+            if (noteLength >= 17)
+                duration = Duration.TweeEnDertig;
+            else if (noteLength >= 9)
+                duration = Duration.Zestiende;
+            else if (noteLength >= 5)
+                duration = Duration.Achste;
+            else if (noteLength >= 3)
+                duration = Duration.Kwart;
+            else
+                duration = Duration.Halve;
+            return subtractDuration;
         }
     }
 }
