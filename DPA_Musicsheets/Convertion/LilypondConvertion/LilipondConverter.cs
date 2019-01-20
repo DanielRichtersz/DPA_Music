@@ -46,7 +46,46 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
                 }
             }
 
+            CleanTrack(ref track);
+
             return track;
+        }
+
+        /*
+         * Removes all empty bars and staffs
+         */
+        private void CleanTrack(ref Track track)
+        {
+            List<Staff> toBeRemoved = new List<Staff>();
+
+            foreach (Staff staff in track.Staffs)
+            {
+                if (staff.Bars.Count == 0)
+                {
+                    toBeRemoved.Add(staff);
+                }
+                else
+                {
+                    List<Bar> toBeRemovedBars = new List<Bar>();
+                    foreach (Bar bar in staff.Bars)
+                    {
+                        if (bar.GetNotes().Count == 0)
+                        {
+                            toBeRemovedBars.Add(bar);
+                        }
+                    }
+
+                    foreach (Bar removeBar in toBeRemovedBars)
+                    {
+                        staff.Bars.Remove(removeBar);
+                    }
+                }
+            }
+
+            foreach (Staff removeStaff in toBeRemoved)
+            {
+                track.Staffs.Remove(removeStaff);
+            }
         }
 
         public string CreateLilypondFromModel(Track track)
