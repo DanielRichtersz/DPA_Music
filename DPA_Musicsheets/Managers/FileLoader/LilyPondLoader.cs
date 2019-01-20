@@ -13,7 +13,7 @@ namespace DPA_Musicsheets.Managers.FileLoader
 	class LilyPondLoader : IFileLoader
 	{
         LilypondConverter lilypondConverter = new LilypondConverter();
-        public Track fileToString(string path)
+        public Track FileToString(string path)
         {
             StringBuilder sb = new StringBuilder();
 

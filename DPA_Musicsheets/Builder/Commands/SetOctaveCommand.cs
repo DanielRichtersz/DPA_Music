@@ -34,13 +34,13 @@ namespace DPA_Musicsheets.Builder.Commands
 
         private bool decreaseOctave()
         {
-            NoteBuilder.decreaseOctave();
+            NoteBuilder.DecreaseOctave();
             return true;
         }
 
         private bool increaseOctave()
         {
-            NoteBuilder.increaseOctave();
+            NoteBuilder.IncreaseOctave();
             return true;
         }
     }

@@ -23,6 +23,7 @@ namespace DPA_Musicsheets.ViewModels
     {
         private string _fileName;
         private string _currentState;
+        MusicLoader _musicLoader = new MusicLoader();
         private TrackConverter trackConverter = new TrackConverter();
 
         public string EditorText
@@ -61,6 +62,14 @@ namespace DPA_Musicsheets.ViewModels
             set { _currentState = value; RaisePropertyChanged(() => CurrentState); }
         }
 
+        public MainViewModel(MusicLoader musicLoader)
+        {
+            _musicLoader = musicLoader;
+            trackConverter = new TrackConverter();
+            FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
+
+        }
+
         private TextBox focusedTextBox;
 
         public TextBox FocusedTextBox
@@ -94,28 +103,30 @@ namespace DPA_Musicsheets.ViewModels
         public ICommand LoadCommand => new RelayCommand(() =>
         {
             Track track = trackConverter.GetTrack(FileName);
-            track.print();
+            track.Print();
 
-            EditorText = trackConverter.convertToLilypondText(track);
+            EditorText = trackConverter.ConvertToLilypondText(track);
             ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
-                
+            ServiceLocator.Current.GetInstance<LilypondViewModel>().ResetHistory();
+
+
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys
 
         public ICommand OnLostFocusCommand => new RelayCommand(() =>
         {
-            Console.WriteLine("Maingrid Lost focus");
+            //Console.WriteLine("Maingrid Lost focus");
         });
 
         public ICommand OnKeyDownCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            Console.WriteLine($"Key down: {e.Key}");
+            //Console.WriteLine($"Key down: {e.Key}");
         });
 
         public ICommand OnKeyUpCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            RaisePropertyChanged("EditorText");
+            //RaisePropertyChanged("EditorText");
         });
 
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>

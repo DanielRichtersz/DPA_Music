@@ -11,14 +11,14 @@ namespace DPA_Musicsheets.Factories
 	{
 		Dictionary<string, IFileLoader> fileloaders = new Dictionary<string, IFileLoader>();
 
-		public void loadFactory(string key, IFileLoader loader)
+		public void LoadFactory(string key, IFileLoader loader)
 		{
 			fileloaders.Add(key, loader);
 		}
 
-		public IFileLoader getLoader(String type)
-		{
-			if (fileloaders.ContainsKey(type))
+		public IFileLoader GetLoader(String type)
+        {
+            if (fileloaders.ContainsKey(type))
 			{
 
 				IFileLoader loader = fileloaders[type];
@@ -26,11 +26,8 @@ namespace DPA_Musicsheets.Factories
 				return (IFileLoader)Activator.CreateInstance(loader.GetType());
 
 			}
-			else
-			{
-				return null;
-			}
-		}
+            return null;
+        }
 
 	}
 }

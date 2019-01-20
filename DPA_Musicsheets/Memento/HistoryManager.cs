@@ -13,6 +13,11 @@ namespace DPA_Musicsheets.Memento
             History newHistory = new History(text);
             undoHistory.Push(newHistory);
         }
+        public void AddRedoText(string text)
+        {
+            History newHistory = new History(text);
+            redoHistory.Push(newHistory);
+        }
 
         public bool UndoAvailable()
         {
@@ -21,9 +26,7 @@ namespace DPA_Musicsheets.Memento
 
         public string GetLastUndoText()
         {
-
             var history = undoHistory.Pop();
-            redoHistory.Push(history);
 
             return history.Text;
         }
@@ -35,14 +38,12 @@ namespace DPA_Musicsheets.Memento
 
         public string GetLastRedoText()
         {
-
             var history = redoHistory.Pop();
-            undoHistory.Push(history);
 
             return history.Text;
         }
 
-        public void clearRedo()
+        public void ClearRedo()
         {
             redoHistory.Clear();
         }

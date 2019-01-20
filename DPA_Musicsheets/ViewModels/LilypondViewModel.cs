@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DPA_Musicsheets.Commands;
 using DPA_Musicsheets.Memento;
+using DPA_Musicsheets.Utils;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -19,7 +20,7 @@ namespace DPA_Musicsheets.ViewModels
         private TrackConverter trackConverter;
         private MainViewModel _mainViewModel { get; set; }
         private ViewModelEvents viewModelEvents = new ViewModelEvents();
-        private HistoryManager memento = new HistoryManager();
+        private HistoryManager historyManager = new HistoryManager();
 
         private string _text;
         private string _previousText;
@@ -30,7 +31,7 @@ namespace DPA_Musicsheets.ViewModels
             get { return _carretIndex; }
             set { _carretIndex = value; Console.WriteLine("Index: {0}", value);}
         }
-        public HistoryManager Memento { get => memento; set => memento = value; }
+        public HistoryManager HistoryManager { get => historyManager; set => historyManager = value; }
         /// <summary>
         /// This text will be in the textbox.
         /// It can be filled either by typing or loading a file so we only want to set previoustext when it's caused by typing.
@@ -45,7 +46,7 @@ namespace DPA_Musicsheets.ViewModels
             {
                 if (!_waitingForRender && !_textChangedByLoad)
                 {
-                    memento.AddUndoText(LilypondText);
+                    historyManager.AddUndoText(LilypondText);
                 }
                 _text = value;
                 RaisePropertyChanged(() => LilypondText);
@@ -54,6 +55,7 @@ namespace DPA_Musicsheets.ViewModels
         }
 
         private bool _textChangedByLoad = false;
+        private bool _textChangedByUndo = false;
         private DateTime _lastChange;
         private static int MILLISECONDS_BEFORE_CHANGE_HANDLED = 1500;
         private bool _waitingForRender = false;
@@ -74,6 +76,14 @@ namespace DPA_Musicsheets.ViewModels
             _textChangedByLoad = true;
             LilypondText = _previousText = text;
             _textChangedByLoad = false;
+            ResetHistory();
+        }
+
+        public void ResetHistory()
+        {
+            historyManager = new HistoryManager();
+            UndoCommand.RaiseCanExecuteChanged();
+            RedoCommand.RaiseCanExecuteChanged();
         }
 
         public ICommand ButtonInsert => new EditorCommand();
@@ -100,6 +110,15 @@ namespace DPA_Musicsheets.ViewModels
 
                         viewModelEvents.RenderStaffs();
 
+                        if (!_textChangedByUndo)
+                        {
+                            historyManager.ClearRedo();
+                        }
+                        else
+                        {
+                            _textChangedByUndo = false;
+                        }
+
                         _mainViewModel.CurrentState = "";
                     }
                 }, TaskScheduler.FromCurrentSynchronizationContext()); // Request from main thread.
@@ -109,38 +128,38 @@ namespace DPA_Musicsheets.ViewModels
         #region Commands for buttons like Undo, Redo and SaveAs
         public RelayCommand UndoCommand => new RelayCommand(() =>
         {
-            LilypondText = memento.GetLastUndoText();
+            historyManager.AddRedoText(_text);
+            _text = historyManager.GetLastUndoText();
+            RaisePropertyChanged(() => LilypondText);
             UndoCommand.RaiseCanExecuteChanged();
             RedoCommand.RaiseCanExecuteChanged();
+            _textChangedByUndo = true;
 
-        }, () => memento.UndoAvailable());
+        }, () => historyManager.UndoAvailable());
 
         public RelayCommand RedoCommand => new RelayCommand(() =>
         {
-            LilypondText = memento.GetLastRedoText();
+            historyManager.AddUndoText(_text);
+            _text = historyManager.GetLastRedoText();
+            RaisePropertyChanged(() => LilypondText);
             UndoCommand.RaiseCanExecuteChanged();
             RedoCommand.RaiseCanExecuteChanged();
-        }, () => memento.RedoAvailable());
+            _textChangedByUndo = true;
+
+        }, () => historyManager.RedoAvailable());
 
         public ICommand SaveAsCommand => new RelayCommand(() =>
         {
             // TODO: In the application a lot of classes know which filetypes are supported. Lots and lots of repeated code here...
             // Can this be done better?
-            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Midi|*.mid|Lilypond|*.ly|PDF|*.pdf" };
+            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Lilypond|*.ly|PDF|*.pdf" };
             if (saveFileDialog.ShowDialog() == true)
             {
                 string extension = Path.GetExtension(saveFileDialog.FileName);
-                if (extension.EndsWith(".mid"))
+                FileHandler handler = new FileHandler();
+                if (handler.SaveFile(saveFileDialog.FileName, _text, extension))
                 {
-                    _musicLoader.SaveToMidi(saveFileDialog.FileName);
-                }
-                else if (extension.EndsWith(".ly"))
-                {
-                    _musicLoader.SaveToLilypond(saveFileDialog.FileName);
-                }
-                else if (extension.EndsWith(".pdf"))
-                {
-                    _musicLoader.SaveToPDF(saveFileDialog.FileName);
+                    ResetHistory();
                 }
                 else
                 {

@@ -170,7 +170,7 @@
     <Compile Include="Managers\TrackConverter.cs" />
     <Compile Include="Managers\WpfStaffComponent.cs" />
     <Compile Include="Memento\History.cs" />
-    <Compile Include="Memento\Memento.cs" />
+    <Compile Include="Memento\HistoryManager.cs" />
     <Compile Include="Models\BarContext.cs" />
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />
@@ -183,6 +183,9 @@
     <Compile Include="Models\Octave.cs" />
     <Compile Include="Models\Pitch.cs" />
     <Compile Include="Utils\FileHandler.cs" />
+    <Compile Include="Utils\SaveFiles\IFileWriter.cs" />
+    <Compile Include="Utils\SaveFiles\LilypondWriter.cs" />
+    <Compile Include="Utils\SaveFiles\PDFWriter.cs" />
     <Compile Include="ViewModels\MidiPlayerViewModel.cs" />
     <Compile Include="ViewModels\StaffsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelEvents.cs" />

@@ -34,10 +34,8 @@ namespace DPA_Musicsheets.ViewModels
             var path = fileHandler.SaveFileDialog("PDF|*.pdf");
             if (path != null)
             {
-                fileHandler.SaveToPDF(path, mainVM.EditorText);
+                fileHandler.SaveFile(path, mainVM.EditorText, ".pdf");
             }
-
-            System.Console.WriteLine("Saving to lilypond");
         }
 
         public void SaveToLilypond()
@@ -47,10 +45,9 @@ namespace DPA_Musicsheets.ViewModels
             var path = fileHandler.SaveFileDialog("Lilypond|*.ly");
                 if (path != null)
             {
-                fileHandler.SaveToLilypond(path, mainVM.EditorText);
+                fileHandler.SaveFile(path, mainVM.EditorText, ".ly");
+                ServiceLocator.Current.GetInstance<LilypondViewModel>().ResetHistory();
             }
-
-            System.Console.WriteLine("Saving to PDF");
         }
 
         public void AddTextToEditor(string text)
@@ -67,6 +64,13 @@ namespace DPA_Musicsheets.ViewModels
             Track domainTrack = converter.CreateTrackFromStringParts(stringArray);
 
             ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(new TrackConverter().ConvertToMusicalSymbols(domainTrack));
+        }
+
+        public bool ShouldSave()
+        {
+
+            return ServiceLocator.Current.GetInstance<LilypondViewModel>().HistoryManager.UndoAvailable();
+
         }
     }
 }

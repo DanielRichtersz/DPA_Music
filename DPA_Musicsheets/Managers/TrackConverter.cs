@@ -17,7 +17,7 @@ namespace DPA_Musicsheets.Managers
 
         public Track GetTrack(string path)
         {
-            return fileHandler.readFile(path);
+            return fileHandler.ReadFile(path);
         }
 
         public List<MusicalSymbol> ConvertToMusicalSymbols(Track track)
@@ -86,7 +86,7 @@ namespace DPA_Musicsheets.Managers
             return psamNote;
         }
 
-        public string convertToLilypondText(Track track)
+        public string ConvertToLilypondText(Track track)
         {
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -105,9 +105,9 @@ namespace DPA_Musicsheets.Managers
             {
                 if (s.Bars.Count != 0)
                 {
-                    if (s.relativeOctave != track.defaultRelativeOctave)
+                    if (s.RelativeOctave != track.defaultRelativeOctave)
                     {
-                        stringBuilder.AppendLine("\\relative " + s.relativeOctave);
+                        stringBuilder.AppendLine("\\relative " + s.RelativeOctave);
                     }
 
                     stringBuilder.AppendLine("{");
@@ -148,15 +148,27 @@ namespace DPA_Musicsheets.Managers
 
                             foreach (var n in bar.GetNotes())
                             {
-                                string notepitch = n.pitch + "";
-
+                                stringBuilder.Append(n.pitch);
                                 if (n.moleOrCross == MoleOrCross.Cross)
                                 {
-                                    notepitch += "is";
+                                    stringBuilder.Append("is");
                                 }
-
-                                stringBuilder.Append(notepitch);
-
+                                if (n.moleOrCross == MoleOrCross.Mole)
+                                {
+                                    stringBuilder.Append("es");
+                                }
+                                if (n.octave == Octave.contra4)
+                                {
+                                    stringBuilder.Append(",,,,");
+                                }
+                                if (n.octave == Octave.contra3)
+                                {
+                                    stringBuilder.Append(",,,");
+                                }
+                                if (n.octave == Octave.contra2)
+                                {
+                                    stringBuilder.Append(",,");
+                                }
                                 if (n.octave == Octave.contra1)
                                 {
                                     stringBuilder.Append(",");
@@ -165,10 +177,28 @@ namespace DPA_Musicsheets.Managers
                                 {
                                     stringBuilder.Append("'");
                                 }
+
+                                if (n.octave == Octave.twoStriped)
+                                {
+                                    stringBuilder.Append("''");
+                                }
+                                if (n.octave == Octave.threeStriped)
+                                {
+                                    stringBuilder.Append("'''");
+                                }
+                                if (n.octave == Octave.fourStriped)
+                                {
+                                    stringBuilder.Append("''''");
+                                }
                                 int duration = (int)n.duration;
-                                stringBuilder.Append(duration);
+                                stringBuilder.Append(duration.ToString());
 
                                 stringBuilder.Append(new string('.', n.points) + " ");
+
+                                if (n.hasTilde)
+                                {
+                                    stringBuilder.Append("~");
+                                }
                             }
                             stringBuilder.Append("|" + "\n");
                         }

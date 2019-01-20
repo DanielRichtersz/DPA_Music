@@ -6,7 +6,7 @@ namespace DPA_Musicsheets.Builder
     public class NoteBuilder
     {
         private Note note = new Note(Pitch.R, Octave.small, MoleOrCross.None, Duration.Hele, 0, false);
-        public Note build()
+        public Note Build()
         {
             Note outNote = note;
             note = new Note();
@@ -14,12 +14,12 @@ namespace DPA_Musicsheets.Builder
             return outNote;
         }
 
-        public void setPitch(Pitch pitch)
+        public void SetPitch(Pitch pitch)
         {
             note.pitch = pitch;
         }
 
-        public void increaseOctave()
+        public void IncreaseOctave()
         {
             if (note.octave != Octave.fourStriped)
             {
@@ -27,7 +27,7 @@ namespace DPA_Musicsheets.Builder
             }
         }
 
-        public void decreaseOctave()
+        public void DecreaseOctave()
         {
             if (note.octave != Octave.contra4)
             {
@@ -35,32 +35,32 @@ namespace DPA_Musicsheets.Builder
             }
         }
 
-        public void setOctave(Octave octave)
+        public void SetOctave(Octave octave)
         {
             note.octave = octave;
         }
 
-        public void setMole(MoleOrCross mole)
+        public void SetMole(MoleOrCross mole)
         {
             note.moleOrCross = mole;
         }
 
-        public void setDuration(Duration duration)
+        public void SetDuration(Duration duration)
         {
             note.duration = duration;
         }
 
-        public void addPoint()
+        public void AddPoint()
         {
             note.points++;
         }
 
-        public void setPoints(int points)
+        public void SetPoints(int points)
         {
             note.points = points;
         }
 
-        public void setTilde()
+        public void SetTilde()
         {
             note.hasTilde = true;
         }

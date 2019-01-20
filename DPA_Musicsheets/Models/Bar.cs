@@ -23,7 +23,7 @@ namespace DPA_Musicsheets.Models
             return this.Notes;
         }
 
-		public void addNote(Note n)
+		public void AddNote(Note n)
 		{
 			Notes.Add(n);
             if (!this.CheckNoteDurations())
@@ -32,7 +32,7 @@ namespace DPA_Musicsheets.Models
             }
 		}
 
-        public void print()
+        public void Print()
         {
             string line = "";
 

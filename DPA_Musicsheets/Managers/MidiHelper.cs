@@ -33,20 +33,20 @@ namespace DPA_Musicsheets.Managers
             int baseOctave = 0;
             while (distance < -6)
             {
-                baseOctave++;
+                baseOctave--;
                 distance += 8;
             }
 
             while (distance > 6)
             {
-                baseOctave--;
+                baseOctave++;
                 distance -= 8;
             }
 
             octave = (Octave)baseOctave;
         }
 
-        public Duration getDuration(int absoluteTicks, int nextNoteAbsoluteTicks, int division,
+        public Duration GetDuration(int absoluteTicks, int nextNoteAbsoluteTicks, int division,
             int beatNote, int beatsPerBar, out double percentageOfBar, out int dots)
         {
             Duration duration = 0;
