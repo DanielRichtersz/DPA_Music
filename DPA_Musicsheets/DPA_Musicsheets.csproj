@@ -168,6 +168,8 @@
     <Compile Include="Interfaces\IStaffElement.cs" />
     <Compile Include="Managers\TrackConverter.cs" />
     <Compile Include="Managers\WpfStaffComponent.cs" />
+    <Compile Include="Memento\History.cs" />
+    <Compile Include="Memento\Memento.cs" />
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />
     <Compile Include="Models\Bar.cs" />
