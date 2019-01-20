@@ -21,7 +21,8 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
         public Track ConvertMidiToStaff(Sequence sequence)
         {
             domainTrack.division = sequence.Division;
-            //get all tracks and loop through their events to create the staffs, bars and notes
+
+            //Get all tracks and loop through their events to create the staffs, bars and notes
             for(int i = 0; i < sequence.Count(); i++)
             {
                 Sanford.Multimedia.Midi.Track track = sequence[i];

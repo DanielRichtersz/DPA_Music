@@ -113,7 +113,6 @@
     <Compile Include="Builder\Commands\SetPointsCommand.cs" />
     <Compile Include="Builder\Commands\SetTildeCommand.cs" />
     <Compile Include="Builder\NoteBuilder.cs" />
-    <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\EditorAction.cs" />
     <Compile Include="Commands\EditorChain\IEditorHotkeyLink.cs" />
     <Compile Include="Commands\EditorChain\InsertClefLink.cs" />
@@ -164,7 +163,6 @@
     <Compile Include="Managers\FileLoader\LilyPondLoader.cs" />
     <Compile Include="Managers\FileLoader\MidiLoader.cs" />
     <Compile Include="Managers\MidiHelper.cs" />
-    <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Interfaces\IStaffElement.cs" />
     <Compile Include="Managers\TrackConverter.cs" />
     <Compile Include="Managers\WpfStaffComponent.cs" />

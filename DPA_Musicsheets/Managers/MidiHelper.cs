@@ -12,6 +12,7 @@ namespace DPA_Musicsheets.Managers
         private Dictionary<int, Pitch> pitches = new Dictionary<int, Pitch>() {
             {0,Pitch.C}, {1,Pitch.C}, {2,Pitch.D}, {3,Pitch.D}, {4,Pitch.E}, {5,Pitch.F},
             {6,Pitch.F}, {7,Pitch.G}, {8,Pitch.G}, {9,Pitch.A}, {10,Pitch.A}, {11,Pitch.B} };
+
         private Dictionary<int, MoleOrCross> moles = new Dictionary<int, MoleOrCross>()
         {
             { 0, MoleOrCross.None }, { 1, MoleOrCross.Cross }, {2, MoleOrCross.None }, {3, MoleOrCross.Cross}, {4, MoleOrCross.None },

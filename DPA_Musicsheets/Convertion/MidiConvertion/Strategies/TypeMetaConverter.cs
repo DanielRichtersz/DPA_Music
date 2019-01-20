@@ -13,8 +13,10 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
     public class TypeMetaConverter : IMessageTypeConverter
     {
         private Dictionary<MetaType, IMetaTypeConverter> converters = new Dictionary<MetaType, IMetaTypeConverter>() {
-            {MetaType.TimeSignature, new MetaTimeSignature() }, {MetaType.Tempo, new TempoMetaConverter() },
-            {MetaType.EndOfTrack, new MetaTrackEndConverter() } };
+            { MetaType.TimeSignature, new MetaTimeSignature() },
+            { MetaType.Tempo, new TempoMetaConverter() },
+            { MetaType.EndOfTrack, new MetaTrackEndConverter() }
+        };
 
         public void Convert(MidiEvent midiEvent, ref Models.Track track)
         {
@@ -23,12 +25,9 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
 
             if (converters.ContainsKey(metaType))
             {
-
                 var converter = converters[metaType];
-
                 converter.Convert(midiEvent, ref track);
             }
-
         }
     }
 }

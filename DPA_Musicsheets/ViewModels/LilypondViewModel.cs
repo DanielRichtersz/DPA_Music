@@ -61,19 +61,9 @@ namespace DPA_Musicsheets.ViewModels
 
         public LilypondViewModel(MainViewModel mainViewModel)
         {
-            // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer and viewmodels don't know each other?
-            // And viewmodels don't 
             _mainViewModel = mainViewModel;
             
             _text = "Your lilypond text will appear here.";
-        }
-
-        public void LilypondTextLoaded(string text)
-        {
-            _textChangedByLoad = true;
-            LilypondText = _previousText = text;
-            _textChangedByLoad = false;
-            ResetHistory();
         }
 
         public void ResetHistory()
@@ -98,29 +88,31 @@ namespace DPA_Musicsheets.ViewModels
 
                 _mainViewModel.CurrentState = "Rendering...";
 
-                Task.Delay(MILLISECONDS_BEFORE_CHANGE_HANDLED).ContinueWith((task) =>
-                {
-                    if ((DateTime.Now - _lastChange).TotalMilliseconds >= MILLISECONDS_BEFORE_CHANGE_HANDLED)
-                    {
-                        _waitingForRender = false;
-                        UndoCommand.RaiseCanExecuteChanged();
-
-                        viewModelEvents.RenderStaffs();
-
-                        if (!_textChangedByUndo)
-                        {
-                            historyManager.ClearRedo();
-                        }
-                        else
-                        {
-                            _textChangedByUndo = false;
-                        }
-
-                        _mainViewModel.CurrentState = "";
-                    }
-                }, TaskScheduler.FromCurrentSynchronizationContext()); // Request from main thread.
+                Task.Delay(MILLISECONDS_BEFORE_CHANGE_HANDLED).ContinueWith((task) => { StartRender(); }, TaskScheduler.FromCurrentSynchronizationContext()); // Request from main thread.
             }
         });
+
+        private void StartRender()
+        {
+            if ((DateTime.Now - _lastChange).TotalMilliseconds >= MILLISECONDS_BEFORE_CHANGE_HANDLED)
+            {
+                _waitingForRender = false;
+                UndoCommand.RaiseCanExecuteChanged();
+
+                viewModelEvents.RenderStaffs();
+
+                if (!_textChangedByUndo)
+                {
+                    historyManager.ClearRedo();
+                }
+                else
+                {
+                    _textChangedByUndo = false;
+                }
+
+                _mainViewModel.CurrentState = "";
+            }
+        }
 
         #region Commands for buttons like Undo, Redo and SaveAs
         public RelayCommand UndoCommand => new RelayCommand(() =>
@@ -147,8 +139,6 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand SaveAsCommand => new RelayCommand(() =>
         {
-            // TODO: In the application a lot of classes know which filetypes are supported. Lots and lots of repeated code here...
-            // Can this be done better?
             SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Lilypond|*.ly|PDF|*.pdf" };
             if (saveFileDialog.ShowDialog() == true)
             {
