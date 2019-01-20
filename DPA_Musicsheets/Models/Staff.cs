@@ -8,10 +8,11 @@ namespace DPA_Musicsheets.Models
 {
     public class Staff : IStaffElement
     {
+        public string relativeOctave { get; set; }
         public List<IStaffElement> Bars { get; set; }
-        public int BeatsPerMinute { get; set; }
-        public Staff()
+        public Staff(string defaultRelativeOctave)
         {
+            relativeOctave = defaultRelativeOctave;
             Bars = new List<IStaffElement>();
         }
 

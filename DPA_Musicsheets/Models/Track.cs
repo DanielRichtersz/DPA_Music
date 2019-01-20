@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
@@ -10,43 +11,51 @@ namespace DPA_Musicsheets.Models
     {
         public int previousNoteAbsoluteTicks { get; set; }
         public int division { get; set; }
-        public Tuple<int, int> defaultBeatsInBar { get; set; }
+        public BarContext DefaultBarContext { get; }
 
-        private List<Staff> Staffs = new List<Staff>();
-        private int tempBpm = 120;
-        private int tempo = 4;
+        public List<Staff> Staffs { get; }
+        public string defaultRelativeOctave { get; private set; }
+        public bool defaultRelativeOctaveHasBeenInitiated { get; private set; }
+        public bool defaultTempoHasBeenInitiated { get; private set; }
+        public bool defaultBpmHasBeenInitiated { get; private set; }
+        public bool defaultBpbHasBeenInitiated { get; private set; }
+        public bool defaultClefStyleHasBeenInitiated { get; private set; }
 
         public Track()
         {
-            this.defaultBeatsInBar = new Tuple<int, int>(4, 4);
+            DefaultBarContext = new BarContext();
+            defaultRelativeOctave = "c'";
+            Staffs = new List<Staff>();
+            Staffs.Add(new Staff(defaultRelativeOctave));
+            Staffs.Last().relativeOctave = defaultRelativeOctave;
+
+            defaultRelativeOctaveHasBeenInitiated = false;
+            defaultTempoHasBeenInitiated = false;
+            defaultBpmHasBeenInitiated = false;
+            defaultBpbHasBeenInitiated = false;
+            defaultClefStyleHasBeenInitiated = false;
         }
 
-        public void AddStaff(Tuple<int, int> beatsInBar)
-        {
-            Staff staff = new Staff();
-            staff.Bars.Add(new Bar(beatsInBar));
-            this.Staffs.Add(staff);
-            defaultBeatsInBar = beatsInBar;
-        }
-
+        #region CreateNew
         public void CreateNewStaff()
         {
-            Staff staff = new Staff();
-
-            if (tempBpm != 0)
-            {
-                staff.BeatsPerMinute = this.tempBpm;
-            }
-            staff.Bars.Add(new Bar(defaultBeatsInBar));
+            Staff staff = new Staff(defaultRelativeOctave);
             Staffs.Add(staff);
         }
 
-        internal void SetTempo(int nTempo)
+        public void CreateNewBar()
         {
-            this.tempo = nTempo;
+            if (Staffs.Count == 0)
+            {
+                CreateNewStaff();
+            }
+
+            Bar b = new Bar(DefaultBarContext);
+            Staffs.Last().Bars.Add(b);
+            Console.WriteLine("Made bar: " + b.ToString());
         }
 
-        public void AddNote(Note n)
+        public void CreateNewNote(Note n)
         {
             // Get last bar and calculate if the length is already at 4
             Bar b = GetLastBar();
@@ -56,60 +65,134 @@ namespace DPA_Musicsheets.Models
             {
                 foreach (Note note in b.GetNotes())
                 {
-                    double noteDuration = (double)note.GetNoteDuration();
-                    length += (this.defaultBeatsInBar.Item2 / noteDuration);
+                    double noteDuration = note.GetNoteDuration();
+                    length += (b.BarContext.BeatsInBar.Item2 / noteDuration);
                 }
                 Console.WriteLine("Length: " + length);
 
-                // If the total length is the max length from \time or if addding the new note will surpass this length, create a new Bar
-                if (length + (this.defaultBeatsInBar.Item2 / (double) n.GetNoteDuration()) > this.defaultBeatsInBar.Item1)
+                // If the total length is the max length from \time or
+                // if adding the new note will surpass this length
+                // -> create a new Bar
+                if (length + (b.BarContext.BeatsInBar.Item2 / n.GetNoteDuration()) > b.BarContext.BeatsInBar.Item1)
                 {
-                    this.addNewBar();
+                    CreateNewBar();
                     b = GetLastBar();
                 }
 
                 b.addNote(n);
             }
         }
+        #endregion CreateNew
+
+        #region SetDefault
+        private void SetDefaultRelativeOctave(string relativeOctave)
+        {
+            if (!defaultRelativeOctaveHasBeenInitiated)
+            {
+                defaultRelativeOctave = relativeOctave;
+                defaultRelativeOctaveHasBeenInitiated = true;
+            }
+        }
+        private void SetDefaultTempo(int nTempo)
+        {
+            if (!defaultTempoHasBeenInitiated)
+            {
+                DefaultBarContext.Tempo = nTempo;
+                defaultTempoHasBeenInitiated = true;
+            }
+        }
+
+        private void SetDefaultBeatsPerMinute(int bpm)
+        {
+            if (!defaultBpmHasBeenInitiated)
+            {
+                DefaultBarContext.BeatsPerMinute = bpm;
+                defaultBpmHasBeenInitiated = true;
+            }
+        }
+
+        private void SetDefaultBeatsPerBar(Tuple<int, int> bpb)
+        {
+            if (!defaultBpbHasBeenInitiated)
+            {
+                DefaultBarContext.BeatsInBar = bpb;
+                defaultBpbHasBeenInitiated = true;
+            }
+        }
+
+        private void SetDefaultClefStyle(string clefStyle)
+        {
+            if (!defaultClefStyleHasBeenInitiated)
+            {
+                DefaultBarContext.ClefStyle = clefStyle;
+                defaultClefStyleHasBeenInitiated = true;
+            }
+        }
+        #endregion SetDefault
+
+        #region SetLast
+
+        public void SetLastStaffRelativeOctave(string relativeOctave)
+        {
+            SetDefaultRelativeOctave(relativeOctave);
+            Staff s = Staffs.Last();
+            s.relativeOctave = relativeOctave;
+        }
+
+        public void SetLastBarBeatsPerBar(Tuple<int, int> tuple)
+        {
+            SetDefaultBeatsPerBar(tuple);
+            Bar b = GetLastBar();
+            if (b != null)
+            {
+                b.BarContext.BeatsInBar = tuple;
+            }
+        }
+
+        public void SetLastBarBeatsPerMinute(int bpm)
+        {
+            SetDefaultBeatsPerMinute(bpm);
+            Bar b = GetLastBar();
+            if (b != null)
+            {
+                b.BarContext.BeatsPerMinute = bpm;
+            }
+        }
+
+        public void SetLastBarTempo(int tempo)
+        {
+            SetDefaultTempo(tempo);
+            Bar b = GetLastBar();
+            if (b != null)
+            {
+                b.BarContext.Tempo = tempo;
+            }
+        }
+
+        public void SetLastBarClefStyle(string clefStyle)
+        {
+            SetDefaultClefStyle(clefStyle);
+            Bar b = GetLastBar();
+            if (b != null)
+            {
+                b.BarContext.ClefStyle = clefStyle;
+            }
+        }
+        #endregion SetLast
+
 
         private Bar GetLastBar()
         {
+            if (Staffs.Count == 0)
+            {
+                CreateNewStaff();
+                CreateNewBar();
+            }
+            else if (Staffs.Last().Bars.Count == 0)
+            {
+                CreateNewBar();
+            }
             return (Bar)Staffs.Last().Bars.Last();
-        }
-
-        public void SetBeatsPerBar(Tuple<int, int> tuple)
-        {
-            Bar b = GetLastBar();
-            b.SetBeatsInBar(tuple);
-        }
-
-        public void SetBeatsPerMinute(int bpm)
-        {
-            if (Staffs.Count > 0)
-            {
-                Staff s = Staffs.Last();
-                s.BeatsPerMinute = bpm;
-            }
-            else
-            {
-                this.tempBpm = bpm;
-            }
-        }
-
-        public void addNewBar()
-        {
-            Bar b = new Bar(defaultBeatsInBar);
-            Staffs.Last().Bars.Add(b);
-            Console.WriteLine("Made bar: " + b.ToString());
-        }
-
-        public void AddStaff()
-        {
-            Console.WriteLine("Adding staff...");
-            Staff staff = new Staff();
-            this.Staffs.Add(staff);
-            this.addNewBar();
-            Console.WriteLine("Added staff: " + staff);
         }
 
         public List<Staff> GetStaffs()
@@ -119,53 +202,89 @@ namespace DPA_Musicsheets.Models
 
         public void print()
         {
-            Console.Out.WriteLine(this);
-        }
-
-        public override string ToString()
-        {
-            String output = "";
-            foreach (var s in Staffs)
+            bool firstBarPrinted = false;
+            //Staff is empty
+            if (Staffs.Count == 0)
             {
-
-                output += '{';
-
-                foreach (var b in s.Bars)
-                {
-                    Bar bar = (Bar)b;
-
-                    foreach (var n in bar.GetNotes())
-                    {
-                        string notepitch = n.pitch + "";
-                        if (n.moleOrCross == MoleOrCross.Cross)
-                        {
-                            notepitch += "is";
-                        }
-
-                        output += notepitch;
-
-                        if (n.octave == Octave.contra1)
-                        {
-                            output += ",";
-                        }
-                        if (n.octave == Octave.oneStriped)
-                        {
-                            output += "'";
-                        }
-                        int duration = (int)n.duration;
-                        output += duration;
-
-                        output += new string('.', n.points) + " ";
-
-                    }
-
-                    output += "|" + "\n";
-                }
-
-                output += "}";
+                Console.WriteLine("Track is empty");
             }
 
-            return output;
+            Console.WriteLine("\\relative " + defaultRelativeOctave);
+            foreach (var s in Staffs)
+            {
+                if (s.Bars.Count != 0)
+                {
+                    if (s.relativeOctave != defaultRelativeOctave)
+                    {
+                        Console.WriteLine("\\relative " + s.relativeOctave);
+                    }
+
+                    Console.WriteLine('{');
+
+                    foreach (var b in s.Bars)
+                    {
+                        Bar bar = (Bar)b;
+
+                        if (bar.GetNotes().Count != 0)
+                        {
+
+                            if (!firstBarPrinted)
+                            {
+                                Console.WriteLine("\\clef " + bar.BarContext.ClefStyle);
+                                Console.WriteLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
+                                Console.WriteLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
+                                firstBarPrinted = true;
+                            }
+                            else
+                            {
+                                if (bar.BarContext.ClefStyle != DefaultBarContext.ClefStyle)
+                                {
+                                    Console.WriteLine("\\clef " + bar.BarContext.ClefStyle);
+                                }
+
+                                if (bar.BarContext.BeatsInBar.Item1 != DefaultBarContext.BeatsInBar.Item1
+                                    || bar.BarContext.BeatsInBar.Item2 != DefaultBarContext.BeatsInBar.Item2)
+                                {
+                                    Console.WriteLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
+                                }
+
+                                if (bar.BarContext.Tempo != DefaultBarContext.Tempo
+                                    || bar.BarContext.BeatsPerMinute != DefaultBarContext.BeatsPerMinute)
+                                {
+                                    Console.WriteLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
+                                }
+                            }
+
+                            foreach (var n in bar.GetNotes())
+                            {
+                                string notepitch = n.pitch + "";
+
+                                if (n.moleOrCross == MoleOrCross.Cross)
+                                {
+                                    notepitch += "is";
+                                }
+
+                                Console.Write(notepitch);
+
+                                if (n.octave == Octave.contra1)
+                                {
+                                    Console.Write(",");
+                                }
+                                if (n.octave == Octave.oneStriped)
+                                {
+                                    Console.Write("'");
+                                }
+                                int duration = (int)n.duration;
+                                Console.Write(duration);
+
+                                Console.Write(new string('.', n.points) + " ");
+                            }
+                            Console.Write("|" + "\n");
+                        }
+                    }
+                    Console.WriteLine("}");
+                }
+            }
         }
 
         //Relative

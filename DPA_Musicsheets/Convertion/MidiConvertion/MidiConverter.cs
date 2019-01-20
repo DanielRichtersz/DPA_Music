@@ -16,7 +16,6 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
         private MessageChannelConverter channelConverter = new MessageChannelConverter();
         private TypeMetaConverter metaConverter = new TypeMetaConverter();
 
-        private Staff mainStaff = new Staff();
         private Models.Track domainTrack = new Models.Track();
 
         public Track convertMidiToStaff(Sequence sequence)

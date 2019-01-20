@@ -21,7 +21,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
             if (timePartOneConversion && timePartTwoConversion)
             {
                 time = new Tuple<int, int>(timePartOne, timePartTwo);
-                track.SetBeatsPerBar(time);
+                track.SetLastBarBeatsPerBar(time);
             }
 
             ++i;

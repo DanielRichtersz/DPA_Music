@@ -8,18 +8,14 @@ namespace DPA_Musicsheets.Models
 {
 	public class Bar : IStaffElement
 	{
-		private List<Note> Notes;
-		private Tuple<int, int> beatsInBar;
+        public BarContext BarContext { get; set; }
 
-		public Bar(Tuple<int, int> beatsInBar)
+        private List<Note> Notes;
+
+        public Bar(BarContext defaultBarContext)
 		{
 			Notes = new List<Note>();
-			this.beatsInBar = beatsInBar;
-		}
-
-        public void SetBeatsInBar(Tuple<int, int> beatsInBar)
-        {
-            this.beatsInBar = beatsInBar;
+            BarContext = defaultBarContext;
         }
 
         public List<Note> GetNotes()

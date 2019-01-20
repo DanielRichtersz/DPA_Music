@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DPA_Musicsheets.Models;
+﻿using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
 {
@@ -11,7 +6,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
     {
         public void Execute(ref Track track, ref int i, string stringPart)
         {
-            track.AddStaff();
+            track.CreateNewStaff();
         }
     }
 }

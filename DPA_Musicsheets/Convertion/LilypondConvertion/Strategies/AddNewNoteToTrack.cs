@@ -10,7 +10,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
         public void Execute(ref Track track, ref int i, string stringPart)
         {
             Note newNote = noteBuilderHandler.ExecuteChain(stringPart);
-            track.AddNote(newNote);
+            track.CreateNewNote(newNote);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
     {
         public void Execute(ref Track track, ref int i, string stringPart)
         {
+            track.SetLastBarClefStyle(stringPart);
             ++i;
         }
     }
