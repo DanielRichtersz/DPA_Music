@@ -36,14 +36,14 @@ namespace DPA_Musicsheets.Managers
             {
                 foreach (var bar in staff.GetBars())
                 {
-                    ConvertBar(ref symbols, bar);
+                    ConvertBar(ref symbols, track, bar);
                 }
             }
 
             return symbols;
         }
 
-        private void ConvertBar(ref List<MusicalSymbol> symbols, Bar bar)
+        private void ConvertBar(ref List<MusicalSymbol> symbols, Track track, Bar bar)
         {
             symbols.Add(new Barline());
 
@@ -78,10 +78,16 @@ namespace DPA_Musicsheets.Managers
 
             NoteValues values = component.ExecuteAll(ref symbols);
 
-            PSAMControlLibrary.Note psamNote = new PSAMControlLibrary.Note(values.NoteStep,
-                values.NoteAlter, values.Octave, values.Duration, values.StemDirection,
+            PSAMControlLibrary.Note psamNote = new PSAMControlLibrary.Note(
+                values.NoteStep,
+                values.NoteAlter, 
+                values.Octave, 
+                values.Duration, 
+                values.StemDirection,
                 values.TieType,
-                values.BeamTypes);
+                values.BeamTypes
+                );
+
             psamNote.NumberOfDots = values.NumberOfDots;
             return psamNote;
         }

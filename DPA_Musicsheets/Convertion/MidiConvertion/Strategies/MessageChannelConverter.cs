@@ -45,11 +45,8 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
         {
             var beats = track.DefaultBarContext.BeatsInBar;
 
-            int dots = 0;
-            double percentageOfBar;
-
             Duration duration = helper.GetDuration(track.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, track.division,
-                beats.Item1, beats.Item2, out percentageOfBar, out dots);
+                beats.Item1, beats.Item2, out double percentageOfBar, out int dots);
 
             // Finish the previous note with the length.
             track.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
@@ -82,10 +79,6 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
             noteBuilder.SetPitch(pitch);
             noteBuilder.SetOctave(octave);
             noteBuilder.SetMole(mole);
-            if (pitch == Pitch.G && octave == Octave.contra1 || octave == Octave.oneStriped)
-            {
-                int i = 0;
-            }
 
             previousMidiKey = channelMessage.Data1;
             startedNoteIsClosed = false;

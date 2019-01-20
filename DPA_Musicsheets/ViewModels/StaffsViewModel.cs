@@ -37,6 +37,7 @@ namespace DPA_Musicsheets.ViewModels
         public void SetStaffs(IList<MusicalSymbol> symbols)
         {
             Staffs.Clear();
+
             foreach (var symbol in symbols)
             {
                 Staffs.Add(symbol);

@@ -21,9 +21,36 @@ namespace DPA_Musicsheets.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        public ICommand FileCommand => new FileCommand();
+        public ICommand EditCommand => new EditorCommand();
+
         private string _fileName;
         private string _currentState;
         private TrackConverter trackConverter = new TrackConverter();
+
+        private TextBox focusedTextBox;
+
+        public MainViewModel()
+        {
+            trackConverter = new TrackConverter();
+            FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
+        }
+
+        /// <summary>
+        /// The current state can be used to display some text.
+        /// "Rendering..." is a text that will be displayed for example.
+        /// </summary>
+        public string CurrentState
+        {
+            get { return _currentState; }
+            set { _currentState = value; RaisePropertyChanged(() => CurrentState); }
+        }
+
+        public TextBox FocusedTextBox
+        {
+            get { return focusedTextBox; }
+            set { focusedTextBox = value; }
+        }
 
         public string EditorText
         {
@@ -35,6 +62,16 @@ namespace DPA_Musicsheets.ViewModels
             {
                 RaisePropertyChanged("EditorText");
                 ServiceLocator.Current.GetInstance<LilypondViewModel>().LilypondText = value;
+            }
+        }
+
+        public void AddText(string text)
+        {
+            EditorText += text;
+            ServiceLocator.Current.GetInstance<LilypondViewModel>().TextChangedCommand.Execute(null);
+            if (focusedTextBox != null)
+            {
+                focusedTextBox.CaretIndex = focusedTextBox.Text.Length;
             }
         }
 
@@ -50,43 +87,6 @@ namespace DPA_Musicsheets.ViewModels
                 RaisePropertyChanged(() => FileName);
             }
         }
-
-        /// <summary>
-        /// The current state can be used to display some text.
-        /// "Rendering..." is a text that will be displayed for example.
-        /// </summary>
-        public string CurrentState
-        {
-            get { return _currentState; }
-            set { _currentState = value; RaisePropertyChanged(() => CurrentState); }
-        }
-
-        public MainViewModel()
-        {
-            trackConverter = new TrackConverter();
-            FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
-
-        }
-
-        private TextBox focusedTextBox;
-
-        public TextBox FocusedTextBox
-        {
-            get { return focusedTextBox; }
-            set { focusedTextBox = value; }
-        }
-        public void AddText(string text)
-        {
-            EditorText += text;
-            ServiceLocator.Current.GetInstance<LilypondViewModel>().TextChangedCommand.Execute(null);
-            if (focusedTextBox != null)
-            {
-                focusedTextBox.CaretIndex = focusedTextBox.Text.Length;
-            }
-        }
-
-        public ICommand FileCommand => new FileCommand();
-        public ICommand EditCommand => new EditorCommand();
 
         public ICommand OpenFileCommand => new RelayCommand(() =>
         {
@@ -106,25 +106,23 @@ namespace DPA_Musicsheets.ViewModels
             EditorText = trackConverter.ConvertToLilypondText(track);
             ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
             ServiceLocator.Current.GetInstance<LilypondViewModel>().ResetHistory();
-
-
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys
 
         public ICommand OnLostFocusCommand => new RelayCommand(() =>
         {
-            //Console.WriteLine("Maingrid Lost focus");
+
         });
 
         public ICommand OnKeyDownCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            //Console.WriteLine($"Key down: {e.Key}");
+
         });
 
         public ICommand OnKeyUpCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            //RaisePropertyChanged("EditorText");
+
         });
 
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>

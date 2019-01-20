@@ -24,15 +24,12 @@ namespace DPA_Musicsheets.Utils
 
 		public FileHandler()
 		{
-
 			fileLoaderFactory.LoadFactory(".mid", new MidiLoader());
 			fileLoaderFactory.LoadFactory(".ly", new LilyPondLoader());
-
 		}
 
 		public Models.Track ReadFile(String path)
 		{
-
 			if (!IsMusicFile(path))
 			{
 				throw new NotSupportedException($"File extension {Path.GetExtension(path)} is not supported.");
@@ -45,11 +42,9 @@ namespace DPA_Musicsheets.Utils
 
 		public bool IsMusicFile(String filename)
 		{
-
 			string extension = Path.GetExtension(filename);
 
 			return (extension.Equals(".mid") || extension.Equals(".ly"));
-
 		}
 
 	    public string SaveFileDialog(string extension = "*")
@@ -75,13 +70,13 @@ namespace DPA_Musicsheets.Utils
                 writer.WriteFile(fileName, text);
                 return true;
             }
+
             return false;
         }
         
         public void SaveToMidi(string fileName, List<MusicalSymbol> WPFStaffs, Models.Track track)
         {
             Sequence sequence = GetSequenceFromWPFStaffs(WPFStaffs, track);
-
             sequence.Save(fileName);
         }
 

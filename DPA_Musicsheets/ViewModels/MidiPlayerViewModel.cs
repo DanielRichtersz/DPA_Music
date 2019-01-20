@@ -37,7 +37,6 @@ namespace DPA_Musicsheets.ViewModels
             // DeviceID 0 is your computer's audio channel.
             _outputDevice = new OutputDevice(0);
             _sequencer = new Sequencer();
-
             _sequencer.ChannelMessagePlayed += ChannelMessagePlayed;
 
             // Wanneer de sequence klaar is moeten we alles closen en stoppen.
@@ -110,7 +109,6 @@ namespace DPA_Musicsheets.ViewModels
             base.Cleanup();
             try
             {
-
                 _sequencer.Stop();
                 _sequencer.Dispose();
                 _outputDevice.Dispose();
