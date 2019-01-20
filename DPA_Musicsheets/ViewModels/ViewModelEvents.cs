@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using DPA_Musicsheets.Convertion.LilypondConvertion;
+using DPA_Musicsheets.Managers;
+using DPA_Musicsheets.Managers.FileLoader;
+using DPA_Musicsheets.Models;
 using DPA_Musicsheets.Utils;
 using Microsoft.Practices.ServiceLocation;
 
@@ -51,6 +56,17 @@ namespace DPA_Musicsheets.ViewModels
         public void AddTextToEditor(string text)
         {
             ServiceLocator.Current.GetInstance<MainViewModel>().AddText(text);
+        }
+
+        public void RenderStaffs()
+        {
+            LilypondConverter converter = new LilypondConverter();
+
+            string[] stringArray = Regex.Replace(mainVM.EditorText, @"\s+", " ").Split(' ');
+
+            Track domainTrack = converter.CreateTrackFromStringParts(stringArray);
+
+            ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(new TrackConverter().ConvertToMusicalSymbols(domainTrack));
         }
     }
 }

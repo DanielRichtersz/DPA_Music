@@ -77,8 +77,12 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
             helper.GetPitch(previousMidiKey, channelMessage.Data1, out pitch, out octave, out mole);
 
             // Append the new note.
+            noteBuilder = new NoteBuilder();
             noteBuilder.setPitch(pitch).setOctave(octave).setMole(mole);
-
+            if(pitch == Pitch.G && octave == Octave.contra1 || octave == Octave.oneStriped)
+            {
+                int i = 0;
+            }
 
             previousMidiKey = channelMessage.Data1;
             startedNoteIsClosed = false;

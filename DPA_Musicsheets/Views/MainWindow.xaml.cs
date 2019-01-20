@@ -34,9 +34,7 @@ namespace DPA_Musicsheets
         public MainWindow()
         {
             InitializeComponent();
-            RoutedCommand newCmd = new RoutedCommand();
-            newCmd.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
-            CommandBindings.Add(new CommandBinding(newCmd, btnNew_Click));
+            Closing += MainWindowDialog_Closing;
         }
 
         private void TextBox_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -44,14 +42,17 @@ namespace DPA_Musicsheets
             TextBox tb = (TextBox)sender;
             ServiceLocator.Current.GetInstance<MainViewModel>().FocusedTextBox = tb;
         }
-        private void btnNew_Click(object sender, ExecutedRoutedEventArgs e)
+        public void MainWindowDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Console.WriteLine("Hello World");
-        }
-
-        void btnNew_Click()
-        {
-            
+            MessageBoxResult result = MessageBox.Show("Wilt u de aanpassingen nog opslaan?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
