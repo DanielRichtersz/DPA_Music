@@ -58,7 +58,7 @@ namespace DPA_Musicsheets.ViewModels
             ServiceLocator.Current.GetInstance<MainViewModel>().AddText(text);
         }
 
-        public void renderStaffs()
+        public void RenderStaffs()
         {
             LilypondConverter converter = new LilypondConverter();
 

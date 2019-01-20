@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DPA_Musicsheets.Commands;
+using DPA_Musicsheets.Memento;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -18,6 +19,7 @@ namespace DPA_Musicsheets.ViewModels
         private TrackConverter trackConverter;
         private MainViewModel _mainViewModel { get; set; }
         private ViewModelEvents viewModelEvents = new ViewModelEvents();
+        private HistoryManager memento = new HistoryManager();
 
         private string _text;
         private string _previousText;
@@ -28,6 +30,7 @@ namespace DPA_Musicsheets.ViewModels
             get { return _carretIndex; }
             set { _carretIndex = value; Console.WriteLine("Index: {0}", value);}
         }
+        public HistoryManager Memento { get => memento; set => memento = value; }
         /// <summary>
         /// This text will be in the textbox.
         /// It can be filled either by typing or loading a file so we only want to set previoustext when it's caused by typing.
@@ -42,7 +45,7 @@ namespace DPA_Musicsheets.ViewModels
             {
                 if (!_waitingForRender && !_textChangedByLoad)
                 {
-                    _previousText = _text;
+                    memento.AddUndoText(LilypondText);
                 }
                 _text = value;
                 RaisePropertyChanged(() => LilypondText);
@@ -95,7 +98,7 @@ namespace DPA_Musicsheets.ViewModels
                         _waitingForRender = false;
                         UndoCommand.RaiseCanExecuteChanged();
 
-                        viewModelEvents.renderStaffs();
+                        viewModelEvents.RenderStaffs();
 
                         _mainViewModel.CurrentState = "";
                     }
@@ -106,18 +109,18 @@ namespace DPA_Musicsheets.ViewModels
         #region Commands for buttons like Undo, Redo and SaveAs
         public RelayCommand UndoCommand => new RelayCommand(() =>
         {
-            _nextText = LilypondText;
-            LilypondText = _previousText;
-            _previousText = null;
-        }, () => _previousText != null && _previousText != LilypondText);
+            LilypondText = memento.GetLastUndoText();
+            UndoCommand.RaiseCanExecuteChanged();
+            RedoCommand.RaiseCanExecuteChanged();
+
+        }, () => memento.UndoAvailable());
 
         public RelayCommand RedoCommand => new RelayCommand(() =>
         {
-            _previousText = LilypondText;
-            LilypondText = _nextText;
-            _nextText = null;
+            LilypondText = memento.GetLastRedoText();
+            UndoCommand.RaiseCanExecuteChanged();
             RedoCommand.RaiseCanExecuteChanged();
-        }, () => _nextText != null && _nextText != LilypondText);
+        }, () => memento.RedoAvailable());
 
         public ICommand SaveAsCommand => new RelayCommand(() =>
         {
@@ -145,6 +148,7 @@ namespace DPA_Musicsheets.ViewModels
                 }
             }
         });
+
         #endregion Commands for buttons like Undo, Redo and SaveAs
     }
 }
