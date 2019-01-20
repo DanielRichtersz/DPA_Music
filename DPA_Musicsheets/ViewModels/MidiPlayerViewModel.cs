@@ -111,10 +111,17 @@ namespace DPA_Musicsheets.ViewModels
         public override void Cleanup()
         {
             base.Cleanup();
+            try
+            {
 
-            _sequencer.Stop();
-            _sequencer.Dispose();
-            _outputDevice.Dispose();
+                _sequencer.Stop();
+                _sequencer.Dispose();
+                _outputDevice.Dispose();
+            } 
+            catch(Exception e)
+            {
+                Console.WriteLine("Exception thrown during cleanup");
+            }
         }
     }
 }

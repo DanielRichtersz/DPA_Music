@@ -115,17 +115,17 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand OnLostFocusCommand => new RelayCommand(() =>
         {
-            Console.WriteLine("Maingrid Lost focus");
+            //Console.WriteLine("Maingrid Lost focus");
         });
 
         public ICommand OnKeyDownCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            Console.WriteLine($"Key down: {e.Key}");
+            //Console.WriteLine($"Key down: {e.Key}");
         });
 
         public ICommand OnKeyUpCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            RaisePropertyChanged("EditorText");
+            //RaisePropertyChanged("EditorText");
         });
 
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>

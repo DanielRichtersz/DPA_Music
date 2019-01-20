@@ -169,7 +169,7 @@
     <Compile Include="Managers\TrackConverter.cs" />
     <Compile Include="Managers\WpfStaffComponent.cs" />
     <Compile Include="Memento\History.cs" />
-    <Compile Include="Memento\Memento.cs" />
+    <Compile Include="Memento\HistoryManager.cs" />
     <Compile Include="Models\BarContext.cs" />
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />

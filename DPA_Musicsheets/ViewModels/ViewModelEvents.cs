@@ -36,8 +36,6 @@ namespace DPA_Musicsheets.ViewModels
             {
                 fileHandler.SaveToPDF(path, mainVM.EditorText);
             }
-
-            System.Console.WriteLine("Saving to lilypond");
         }
 
         public void SaveToLilypond()
@@ -48,9 +46,8 @@ namespace DPA_Musicsheets.ViewModels
                 if (path != null)
             {
                 fileHandler.SaveToLilypond(path, mainVM.EditorText);
+                ServiceLocator.Current.GetInstance<LilypondViewModel>().resetHistory();
             }
-
-            System.Console.WriteLine("Saving to PDF");
         }
 
         public void AddTextToEditor(string text)
@@ -67,6 +64,13 @@ namespace DPA_Musicsheets.ViewModels
             Track domainTrack = converter.CreateTrackFromStringParts(stringArray);
 
             ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(new TrackConverter().ConvertToMusicalSymbols(domainTrack));
+        }
+
+        public bool ShouldSave()
+        {
+
+            return ServiceLocator.Current.GetInstance<LilypondViewModel>().HistoryManager.UndoAvailable();
+
         }
     }
 }

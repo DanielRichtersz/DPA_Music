@@ -44,14 +44,24 @@ namespace DPA_Musicsheets
         }
         public void MainWindowDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Wilt u de aanpassingen nog opslaan?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.No)
+            ViewModelEvents events = new ViewModelEvents();
+
+            if (events.ShouldSave())
             {
-                e.Cancel = false;
+                MessageBoxResult result = MessageBox.Show("Wilt u de aanpassingen nog opslaan?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.No)
+                {
+                    e.Cancel = false;
+                }
+                else
+                {
+                    events.SaveToLilypond();
+                    e.Cancel = true;
+                }
             }
             else
             {
-                e.Cancel = true;
+                e.Cancel = false;
             }
         }
     }
