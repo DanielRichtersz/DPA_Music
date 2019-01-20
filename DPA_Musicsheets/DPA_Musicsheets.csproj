@@ -112,6 +112,22 @@
     <Compile Include="Builder\Commands\SetPointsCommand.cs" />
     <Compile Include="Builder\Commands\SetTildeCommand.cs" />
     <Compile Include="Builder\NoteBuilder.cs" />
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\EditorAction.cs" />
+    <Compile Include="Commands\EditorChain\IEditorHotkeyLink.cs" />
+    <Compile Include="Commands\EditorChain\InsertClefLink.cs" />
+    <Compile Include="Commands\EditorChain\InsertTempoLink.cs" />
+    <Compile Include="Commands\EditorChain\InsertTime34Link.cs" />
+    <Compile Include="Commands\EditorChain\InsertTime44Link.cs" />
+    <Compile Include="Commands\EditorChain\InsertTime68Link.cs" />
+    <Compile Include="Commands\EditorCommand.cs" />
+    <Compile Include="Commands\FileAction.cs" />
+    <Compile Include="Commands\FileChain\FileOpenLink.cs" />
+    <Compile Include="Commands\FileChain\SaveToLilyLink.cs" />
+    <Compile Include="Commands\FileChain\SaveToPDFLink.cs" />
+    <Compile Include="Commands\FileCommand.cs" />
+    <Compile Include="Commands\FileChain\IFileHotkeyChainComponent.cs" />
+    <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Builder\NoteBuilderHandler.cs" />
     <Compile Include="Convertion\LilypondConvertion\LilipondConverter.cs" />
     <Compile Include="Convertion\LilypondConvertion\Strategies\AddNewBarToTrack.cs" />
@@ -166,6 +182,7 @@
     <Compile Include="Utils\FileHandler.cs" />
     <Compile Include="ViewModels\MidiPlayerViewModel.cs" />
     <Compile Include="ViewModels\StaffsViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelEvents.cs" />
     <Compile Include="Views\MidiPlayerCtrl.xaml.cs">
       <DependentUpon>MidiPlayerCtrl.xaml</DependentUpon>
     </Compile>

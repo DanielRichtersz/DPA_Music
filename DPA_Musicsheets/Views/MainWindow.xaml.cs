@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 using DPA_Musicsheets;
 using PSAMWPFControlLibrary;
 using DPA_Musicsheets.ViewModels;
+using Microsoft.Practices.ServiceLocation;
 using Key = System.Windows.Input.Key;
 
 namespace DPA_Musicsheets
@@ -38,6 +39,11 @@ namespace DPA_Musicsheets
             CommandBindings.Add(new CommandBinding(newCmd, btnNew_Click));
         }
 
+        private void TextBox_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            ServiceLocator.Current.GetInstance<MainViewModel>().FocusedTextBox = tb;
+        }
         private void btnNew_Click(object sender, ExecutedRoutedEventArgs e)
         {
             Console.WriteLine("Hello World");

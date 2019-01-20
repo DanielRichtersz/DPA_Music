@@ -17,13 +17,14 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Managers
 {
-	/// <summary>
-	/// This is the one and only god class in the application.
-	/// It knows all about all file types, knows every viewmodel and contains all logic.
-	/// TODO: Clean this class up.
-	/// TODO: Remove this shit
-	/// </summary>
-	public class MusicLoader
+    /// <summary>
+    /// This is the one and only god class in the application.
+    /// It knows all about all file types, knows every viewmodel and contains all logic.
+    /// TODO: Clean this class up.
+    /// TODO: Remove this shit
+    /// </summary>
+    [Obsolete("This MusicLoader is obsolete, use FileHandler for reading files.")]
+    public class MusicLoader
 	{
 		#region Properties
 		public string LilypondText { get; set; }
@@ -283,6 +284,7 @@ namespace DPA_Musicsheets.Managers
 		/// TODO: Our code doesn't support repeats (rendering notes multiple times) in midi yet. Maybe with a COMPOSITE this will be easier?
 		/// </summary>
 		/// <returns></returns>
+		
 		private Sequence GetSequenceFromWPFStaffs()
 		{
 			List<string> notesOrderWithCrosses = new List<string>() { "c", "cis", "d", "dis", "e", "f", "fis", "g", "gis", "a", "ais", "b" };

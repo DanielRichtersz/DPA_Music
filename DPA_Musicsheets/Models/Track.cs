@@ -203,16 +203,6 @@ namespace DPA_Musicsheets.Models
 
         public void print()
         {
-            bool firstBarPrinted = false;
-
-            //Staff is empty
-            if (Staffs.Count == 0)
-            {
-                Console.WriteLine("Track is empty");
-                return;
-            }
-
-            Console.WriteLine("\\relative " + defaultRelativeOctave);
 
             foreach (var s in Staffs)
             {
