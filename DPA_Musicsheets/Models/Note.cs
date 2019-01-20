@@ -54,8 +54,25 @@ namespace DPA_Musicsheets.Models
                 notepitch += "is";
             }
 
+            if (this.moleOrCross == MoleOrCross.Mole)
+            {
+                notepitch += "es";
+            }
+
             Console.Write(notepitch);
 
+            if (this.octave == Octave.contra4)
+            {
+                Console.Write(",,,,");
+            }
+            if (this.octave == Octave.contra3)
+            {
+                Console.Write(",,,");
+            }
+            if (this.octave == Octave.contra2)
+            {
+                Console.Write(",,");
+            }
             if (this.octave == Octave.contra1)
             {
                 Console.Write(",");
@@ -64,10 +81,27 @@ namespace DPA_Musicsheets.Models
             {
                 Console.Write("'");
             }
+
+            if (this.octave == Octave.twoStriped)
+            {
+                Console.Write("''");
+            }
+            if (this.octave == Octave.threeStriped)
+            {
+                Console.Write("'''");
+            }
+            if (this.octave == Octave.fourStriped)
+            {
+                Console.Write("''''");
+            }
             int duration = (int)this.duration;
             Console.Write(duration);
+            if (hasTilde)
+            {
+                Console.Write("~");
+            }
 
-            Console.Write(new string('.', this.points) + " \n");
+            Console.Write(new string('.', this.points) + " ");
         }
     }
 }

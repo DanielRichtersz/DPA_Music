@@ -14,12 +14,6 @@ namespace DPA_Musicsheets.Builder
             return outNote;
         }
 
-        public void setPitch(string pitch)
-        {
-            Enum.TryParse<Pitch>(pitch.ToUpper(), out Pitch pEnum);
-            note.pitch = pEnum;
-        }
-
         public void setPitch(Pitch pitch)
         {
             note.pitch = pitch;

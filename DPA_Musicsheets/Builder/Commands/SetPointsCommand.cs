@@ -19,7 +19,7 @@ namespace DPA_Musicsheets.Builder.Commands
             foreach (char c in s) {
                 if (c == '.')
                 {
-                    this.NoteBuilder.addPoint();
+                    NoteBuilder.addPoint();
                     return true;
                 }
             }

@@ -71,7 +71,20 @@ namespace DPA_Musicsheets.Builder.Commands
 
             return Duration.None;
         }
+
+        public Pitch GetPitch(string pitch)
+        {
+            bool succeeded = Enum.TryParse<Pitch>(pitch.ToUpper(), out Pitch returnPitch);
+            if (succeeded)
+            {
+                return returnPitch;
+            }
+
+            return Pitch.R;
+        }
     }
+
+
 
 
 }

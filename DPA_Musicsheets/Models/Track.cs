@@ -257,27 +257,7 @@ namespace DPA_Musicsheets.Models
 
                             foreach (var n in bar.GetNotes())
                             {
-                                string notepitch = n.pitch + "";
-
-                                if (n.moleOrCross == MoleOrCross.Cross)
-                                {
-                                    notepitch += "is";
-                                }
-
-                                Console.Write(notepitch);
-
-                                if (n.octave == Octave.contra1)
-                                {
-                                    Console.Write(",");
-                                }
-                                if (n.octave == Octave.oneStriped)
-                                {
-                                    Console.Write("'");
-                                }
-                                int duration = (int)n.duration;
-                                Console.Write(duration);
-
-                                Console.Write(new string('.', n.points) + " ");
+                                n.PrintString();
                             }
                             Console.Write("|" + "\n");
                         }
