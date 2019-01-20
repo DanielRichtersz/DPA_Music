@@ -7,7 +7,7 @@ using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
 {
-    class ZeroStrategy : ILilypondStrategy
+    public class ZeroStrategy : ILilypondStrategy
     {
         public void Execute(ref Track track, ref int i, string stringPart)
         {

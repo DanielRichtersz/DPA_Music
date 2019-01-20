@@ -188,7 +188,8 @@ namespace DPA_Musicsheets.Managers
 
             if (n.hasTilde)
             {
-                stringBuilder.Append("~");
+                //crash prevention
+                //stringBuilder.Append("~");
             }
         }
 

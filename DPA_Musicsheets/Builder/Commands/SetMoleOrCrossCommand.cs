@@ -17,7 +17,7 @@ namespace DPA_Musicsheets.Builder.Commands
 
         public override bool Execute(string s)
         {
-
+            //TODO
             if (s == "es")
             {
                 NoteBuilder.SetMole(MoleOrCross.Mole);

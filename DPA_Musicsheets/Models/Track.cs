@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DPA_Musicsheets.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -201,69 +202,8 @@ namespace DPA_Musicsheets.Models
 
         public void Print()
         {
-            bool firstBarPrinted = false;
-            //Staff is empty
-            if (Staffs.Count == 0)
-            {
-                Console.WriteLine("Track is empty");
-            }
-
-            Console.WriteLine("\\relative " + defaultRelativeOctave);
-            foreach (var s in Staffs)
-            {
-                if (s.Bars.Count != 0)
-                {
-                    if (s.RelativeOctave != defaultRelativeOctave)
-                    {
-                        Console.WriteLine("\\relative " + s.RelativeOctave);
-                    }
-
-                    Console.WriteLine('{');
-
-                    foreach (var b in s.Bars)
-                    {
-                        Bar bar = (Bar)b;
-
-                        if (bar.GetNotes().Count != 0)
-                        {
-
-                            if (!firstBarPrinted)
-                            {
-                                Console.WriteLine("\\clef " + bar.BarContext.ClefStyle);
-                                Console.WriteLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
-                                Console.WriteLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
-                                firstBarPrinted = true;
-                            }
-                            else
-                            {
-                                if (bar.BarContext.ClefStyle != DefaultBarContext.ClefStyle)
-                                {
-                                    Console.WriteLine("\\clef " + bar.BarContext.ClefStyle);
-                                }
-
-                                if (bar.BarContext.BeatsInBar.Item1 != DefaultBarContext.BeatsInBar.Item1
-                                    || bar.BarContext.BeatsInBar.Item2 != DefaultBarContext.BeatsInBar.Item2)
-                                {
-                                    Console.WriteLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
-                                }
-
-                                if (bar.BarContext.Tempo != DefaultBarContext.Tempo
-                                    || bar.BarContext.BeatsPerMinute != DefaultBarContext.BeatsPerMinute)
-                                {
-                                    Console.WriteLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
-                                }
-                            }
-
-                            foreach (var n in bar.GetNotes())
-                            {
-                                n.PrintString();
-                            }
-                            Console.Write("|" + "\n");
-                        }
-                    }
-                    Console.WriteLine("}");
-                }
-            }
+            TrackConverter tc = new TrackConverter();
+            Console.Write(tc.ConvertToLilypondText(this));
         }
     }
 }

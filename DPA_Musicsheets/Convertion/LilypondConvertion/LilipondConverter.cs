@@ -11,7 +11,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
 {
     public class LilypondConverter
     {
-        Dictionary<string, ILilypondStrategy> lilypondStrategies = new Dictionary<string, ILilypondStrategy>();
+        private Dictionary<string, ILilypondStrategy> lilypondStrategies = new Dictionary<string, ILilypondStrategy>();
 
         public LilypondConverter()
         {
