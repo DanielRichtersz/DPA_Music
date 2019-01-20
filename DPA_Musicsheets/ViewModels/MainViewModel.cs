@@ -104,7 +104,6 @@ namespace DPA_Musicsheets.ViewModels
             track.Print();
 
             EditorText = trackConverter.ConvertToLilypondText(track);
-            ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
             ServiceLocator.Current.GetInstance<LilypondViewModel>().ResetHistory();
 
 
