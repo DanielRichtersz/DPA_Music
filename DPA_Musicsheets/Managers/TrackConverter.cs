@@ -91,8 +91,7 @@ namespace DPA_Musicsheets.Managers
 
             StringBuilder stringBuilder = new StringBuilder();
             bool firstBarPrinted = false;
-
-            //Staff is empty
+            
             if (track.Staffs.Count == 0)
             {
                 Console.WriteLine("Track is empty");
@@ -115,99 +114,113 @@ namespace DPA_Musicsheets.Managers
                     foreach (var b in s.Bars)
                     {
                         Bar bar = (Bar)b;
-
-                        if (bar.GetNotes().Count != 0)
-                        {
-
-                            if (!firstBarPrinted)
-                            {
-                                stringBuilder.AppendLine("\\clef " + bar.BarContext.ClefStyle);
-                                stringBuilder.AppendLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
-                                stringBuilder.AppendLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
-                                firstBarPrinted = true;
-                            }
-                            else
-                            {
-                                if (bar.BarContext.ClefStyle != track.DefaultBarContext.ClefStyle)
-                                {
-                                    stringBuilder.AppendLine("\\clef " + bar.BarContext.ClefStyle);
-                                }
-
-                                if (bar.BarContext.BeatsInBar.Item1 != track.DefaultBarContext.BeatsInBar.Item1
-                                    || bar.BarContext.BeatsInBar.Item2 != track.DefaultBarContext.BeatsInBar.Item2)
-                                {
-                                    stringBuilder.AppendLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
-                                }
-
-                                if (bar.BarContext.Tempo != track.DefaultBarContext.Tempo
-                                    || bar.BarContext.BeatsPerMinute != track.DefaultBarContext.BeatsPerMinute)
-                                {
-                                    stringBuilder.AppendLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
-                                }
-                            }
-
-                            foreach (var n in bar.GetNotes())
-                            {
-                                stringBuilder.Append(n.pitch);
-                                if (n.moleOrCross == MoleOrCross.Cross)
-                                {
-                                    stringBuilder.Append("is");
-                                }
-                                if (n.moleOrCross == MoleOrCross.Mole)
-                                {
-                                    stringBuilder.Append("es");
-                                }
-                                if (n.octave == Octave.contra4)
-                                {
-                                    stringBuilder.Append(",,,,");
-                                }
-                                if (n.octave == Octave.contra3)
-                                {
-                                    stringBuilder.Append(",,,");
-                                }
-                                if (n.octave == Octave.contra2)
-                                {
-                                    stringBuilder.Append(",,");
-                                }
-                                if (n.octave == Octave.contra1)
-                                {
-                                    stringBuilder.Append(",");
-                                }
-                                if (n.octave == Octave.oneStriped)
-                                {
-                                    stringBuilder.Append("'");
-                                }
-
-                                if (n.octave == Octave.twoStriped)
-                                {
-                                    stringBuilder.Append("''");
-                                }
-                                if (n.octave == Octave.threeStriped)
-                                {
-                                    stringBuilder.Append("'''");
-                                }
-                                if (n.octave == Octave.fourStriped)
-                                {
-                                    stringBuilder.Append("''''");
-                                }
-                                int duration = (int)n.duration;
-                                stringBuilder.Append(duration.ToString());
-
-                                stringBuilder.Append(new string('.', n.points) + " ");
-
-                                if (n.hasTilde)
-                                {
-                                    stringBuilder.Append("~");
-                                }
-                            }
-                            stringBuilder.Append("|" + "\n");
-                        }
+                        firstBarPrinted = AppendBar(track, stringBuilder, firstBarPrinted, bar);
                     }
                     stringBuilder.AppendLine("}");
                 }
             }
 
             return stringBuilder.ToString();
+        }
+
+        private static bool AppendBar(Track track, StringBuilder stringBuilder, bool firstBarPrinted, Bar bar)
+        {
+            if (bar.GetNotes().Count != 0)
+            {
+
+                if (!firstBarPrinted)
+                {
+                    firstBarPrinted = SetFirstBarStyles(stringBuilder, bar);
+                }
+                else
+                {
+                    SetChangedStyles(track, stringBuilder, bar);
+                }
+
+                foreach (var n in bar.GetNotes())
+                {
+                    AddNote(stringBuilder, n);
+                }
+                stringBuilder.Append("|" + "\n");
+            }
+
+            return firstBarPrinted;
+        }
+
+        private static bool SetFirstBarStyles(StringBuilder stringBuilder, Bar bar)
+        {
+            bool firstBarPrinted;
+            stringBuilder.AppendLine("\\clef " + bar.BarContext.ClefStyle);
+            stringBuilder.AppendLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
+            stringBuilder.AppendLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
+            firstBarPrinted = true;
+            return firstBarPrinted;
+        }
+
+        private static void SetChangedStyles(Track track, StringBuilder stringBuilder, Bar bar)
+        {
+            if (bar.BarContext.ClefStyle != track.DefaultBarContext.ClefStyle)
+            {
+                stringBuilder.AppendLine("\\clef " + bar.BarContext.ClefStyle);
+            }
+
+            if (bar.BarContext.BeatsInBar.Item1 != track.DefaultBarContext.BeatsInBar.Item1
+                || bar.BarContext.BeatsInBar.Item2 != track.DefaultBarContext.BeatsInBar.Item2)
+            {
+                stringBuilder.AppendLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
+            }
+
+            if (bar.BarContext.Tempo != track.DefaultBarContext.Tempo
+                || bar.BarContext.BeatsPerMinute != track.DefaultBarContext.BeatsPerMinute)
+            {
+                stringBuilder.AppendLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
+            }
+        }
+
+        private static void AddNote(StringBuilder stringBuilder, Note n)
+        {
+            stringBuilder.Append(n.pitch);
+            SetMoleOrCross(stringBuilder, n);
+            SetOctave(stringBuilder, n);
+            SetDuration(stringBuilder, n);
+
+            stringBuilder.Append(new string('.', n.points) + " ");
+
+            if (n.hasTilde)
+            {
+                stringBuilder.Append("~");
+            }
+        }
+
+        private static void SetDuration(StringBuilder stringBuilder, Note n)
+        {
+            int duration = (int)n.duration;
+            stringBuilder.Append(duration.ToString());
+        }
+
+        private static void SetOctave(StringBuilder stringBuilder, Note n)
+        {
+            int numberContras = (int)n.octave;
+            if (numberContras > 0)
+            {
+                stringBuilder.Append(new string('\'', numberContras));
+            }
+            else
+            {
+                stringBuilder.Append(new string(',', numberContras * -1));
+            }
+        }
+
+        private static void SetMoleOrCross(StringBuilder stringBuilder, Note n)
+        {
+            if (n.moleOrCross == MoleOrCross.Cross)
+            {
+                stringBuilder.Append("is");
+            }
+            if (n.moleOrCross == MoleOrCross.Mole)
+            {
+                stringBuilder.Append("es");
+            }
         }
     }
 }
