@@ -16,7 +16,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
             {MetaType.TimeSignature, new MetaTimeSignature() }, {MetaType.Tempo, new TempoMetaConverter() },
             {MetaType.EndOfTrack, new MetaTrackEndConverter() } };
 
-        public void convert(MidiEvent midiEvent, ref Models.Track track)
+        public void Convert(MidiEvent midiEvent, ref Models.Track track)
         {
             MetaMessage metaMessage = midiEvent.MidiMessage as MetaMessage;
             MetaType metaType = metaMessage.MetaType;
@@ -26,7 +26,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
 
                 var converter = converters[metaType];
 
-                converter.convert(midiEvent, ref track);
+                converter.Convert(midiEvent, ref track);
             }
 
         }

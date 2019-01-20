@@ -42,7 +42,7 @@ namespace DPA_Musicsheets.Memento
             return history.Text;
         }
 
-        public void clearRedo()
+        public void ClearRedo()
         {
             redoHistory.Clear();
         }

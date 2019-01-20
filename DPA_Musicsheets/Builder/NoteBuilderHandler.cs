@@ -47,7 +47,7 @@ namespace DPA_Musicsheets.Builder
                 }
             }
 
-            Note note = noteBuilder.build();
+            Note note = noteBuilder.Build();
             Console.Write("Made note: ");
             note.PrintString();
             return note;

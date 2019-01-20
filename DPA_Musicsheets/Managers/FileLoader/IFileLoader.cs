@@ -11,6 +11,6 @@ namespace DPA_Musicsheets.Managers
 	interface IFileLoader
 	{
 
-		Track fileToString(string path);
+		Track FileToString(string path);
 	}
 }

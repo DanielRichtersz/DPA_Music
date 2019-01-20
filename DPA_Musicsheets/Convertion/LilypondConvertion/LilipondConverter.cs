@@ -35,7 +35,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
             for (int i = 0; i < stringParts.Length - 1; ++i)
             {
                 string stringPart = stringParts[i];
-                // Call strategies to convert string to objects
+                // Call strategies to Convert string to objects
                 if (lilypondStrategies.ContainsKey(stringParts[i]))
                 {
                     lilypondStrategies[stringParts[i]].Execute(ref track, ref i, stringParts[i + 1]);
@@ -86,13 +86,6 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
             {
                 track.Staffs.Remove(removeStaff);
             }
-        }
-
-        public string CreateLilypondFromModel(Track track)
-        {
-            
-
-            return "";
         }
     }
 }

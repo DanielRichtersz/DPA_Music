@@ -20,15 +20,15 @@ namespace DPA_Musicsheets.Builder.Commands
 
             if (s == "es")
             {
-                NoteBuilder.setMole(MoleOrCross.Mole);
+                NoteBuilder.SetMole(MoleOrCross.Mole);
                 return true;
             }
             if (s == "is")
             {
-                NoteBuilder.setMole(MoleOrCross.Cross);
+                NoteBuilder.SetMole(MoleOrCross.Cross);
                 return true;
             }
-            NoteBuilder.setMole(MoleOrCross.None);
+            NoteBuilder.SetMole(MoleOrCross.None);
 
             return false;
         }

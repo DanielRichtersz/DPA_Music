@@ -23,11 +23,11 @@ namespace DPA_Musicsheets.Models
 
         public double GetNoteDuration()
         {
-            double totalDuration = (double)this.duration;
+            double totalDuration = (double)duration;
 
-            if (this.points != 0)
+            if (points != 0)
             {
-                for (int i = 1; i < this.points; ++i)
+                for (int i = 1; i < points; ++i)
                 {
                     totalDuration += totalDuration * (2 * i);
                 }
@@ -48,49 +48,49 @@ namespace DPA_Musicsheets.Models
 
         public void PrintString()
         {
-            string notepitch = this.pitch + "";
-            if (this.moleOrCross == MoleOrCross.Cross)
+            string notepitch = pitch + "";
+            if (moleOrCross == MoleOrCross.Cross)
             {
                 notepitch += "is";
             }
 
-            if (this.moleOrCross == MoleOrCross.Mole)
+            if (moleOrCross == MoleOrCross.Mole)
             {
                 notepitch += "es";
             }
 
             Console.Write(notepitch);
 
-            if (this.octave == Octave.contra4)
+            if (octave == Octave.contra4)
             {
                 Console.Write(",,,,");
             }
-            if (this.octave == Octave.contra3)
+            if (octave == Octave.contra3)
             {
                 Console.Write(",,,");
             }
-            if (this.octave == Octave.contra2)
+            if (octave == Octave.contra2)
             {
                 Console.Write(",,");
             }
-            if (this.octave == Octave.contra1)
+            if (octave == Octave.contra1)
             {
                 Console.Write(",");
             }
-            if (this.octave == Octave.oneStriped)
+            if (octave == Octave.oneStriped)
             {
                 Console.Write("'");
             }
 
-            if (this.octave == Octave.twoStriped)
+            if (octave == Octave.twoStriped)
             {
                 Console.Write("''");
             }
-            if (this.octave == Octave.threeStriped)
+            if (octave == Octave.threeStriped)
             {
                 Console.Write("'''");
             }
-            if (this.octave == Octave.fourStriped)
+            if (octave == Octave.fourStriped)
             {
                 Console.Write("''''");
             }
@@ -101,7 +101,7 @@ namespace DPA_Musicsheets.Models
                 Console.Write("~");
             }
 
-            Console.Write(new string('.', this.points) + " ");
+            Console.Write(new string('.', points) + " ");
         }
     }
 }

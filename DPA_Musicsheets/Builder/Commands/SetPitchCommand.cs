@@ -20,7 +20,7 @@ namespace DPA_Musicsheets.Builder.Commands
             {
                 if (char.IsLetter(c))
                 {
-                    NoteBuilder.setPitch(NoteBuilderResources.GetPitch(c.ToString()));
+                    NoteBuilder.SetPitch(NoteBuilderResources.GetPitch(c.ToString()));
                     return true;
                 }
             }

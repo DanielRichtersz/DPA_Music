@@ -11,7 +11,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
     // Extracts the beatNote/beatsPerBar from the Event
     class MetaTimeSignature : IMetaTypeConverter
     {
-        public void convert(MidiEvent midiEvent, ref Models.Track track)
+        public void Convert(MidiEvent midiEvent, ref Models.Track track)
         {
             var metaMessage = midiEvent.MidiMessage as MetaMessage;
 
@@ -19,10 +19,6 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
             int _beatNote = timeSignatureBytes[0];
             int _beatsPerBar = (int)(1 / Math.Pow(timeSignatureBytes[1], -2));
 
-            //lily
-            //string s = $"\\time {_beatNote}/{_beatsPerBar}";
-
-            //track.AddStaff(new Tuple<int, int>(_beatNote, _beatsPerBar));
             track.SetLastBarBeatsPerBar(new Tuple<int, int>(_beatNote, _beatsPerBar));
         }
     }

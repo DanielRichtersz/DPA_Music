@@ -20,7 +20,7 @@ namespace DPA_Musicsheets.Builder.Commands
             {
                 if (c == '~')
                 {
-                    NoteBuilder.setTilde();
+                    NoteBuilder.SetTilde();
                     return true;
                 }
             }

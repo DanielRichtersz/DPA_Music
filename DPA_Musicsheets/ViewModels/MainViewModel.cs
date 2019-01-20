@@ -94,9 +94,9 @@ namespace DPA_Musicsheets.ViewModels
         public ICommand LoadCommand => new RelayCommand(() =>
         {
             Track track = trackConverter.GetTrack(FileName);
-            track.print();
+            track.Print();
 
-            EditorText = trackConverter.convertToLilypondText(track);
+            EditorText = trackConverter.ConvertToLilypondText(track);
             ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
                 
         });

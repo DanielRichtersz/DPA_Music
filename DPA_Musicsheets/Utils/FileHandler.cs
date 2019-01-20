@@ -22,28 +22,28 @@ namespace DPA_Musicsheets.Utils
 		public FileHandler()
 		{
 
-			fileLoaderFactory.loadFactory(".mid", new MidiLoader());
-			fileLoaderFactory.loadFactory(".ly", new LilyPondLoader());
+			fileLoaderFactory.LoadFactory(".mid", new MidiLoader());
+			fileLoaderFactory.LoadFactory(".ly", new LilyPondLoader());
 
 		}
 
-		public Track readFile(String path)
+		public Track ReadFile(String path)
 		{
 
-			if (!isMusicFile(path))
+			if (!IsMusicFile(path))
 			{
 				throw new NotSupportedException($"File extension {Path.GetExtension(path)} is not supported.");
 			}
 
-			IFileLoader loader = fileLoaderFactory.getLoader(Path.GetExtension(path));
+			IFileLoader loader = fileLoaderFactory.GetLoader(Path.GetExtension(path));
 
-			return loader.fileToString(path);
+			return loader.FileToString(path);
 		}
 
-		public Boolean isMusicFile(String filename)
+		public bool IsMusicFile(String filename)
 		{
 
-			String extension = Path.GetExtension(filename);
+			string extension = Path.GetExtension(filename);
 
 			return (extension.Equals(".mid") || extension.Equals(".ly"));
 

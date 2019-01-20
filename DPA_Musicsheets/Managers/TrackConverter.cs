@@ -17,7 +17,7 @@ namespace DPA_Musicsheets.Managers
 
         public Track GetTrack(string path)
         {
-            return fileHandler.readFile(path);
+            return fileHandler.ReadFile(path);
         }
 
         public List<MusicalSymbol> ConvertToMusicalSymbols(Track track)
@@ -86,7 +86,7 @@ namespace DPA_Musicsheets.Managers
             return psamNote;
         }
 
-        public string convertToLilypondText(Track track)
+        public string ConvertToLilypondText(Track track)
         {
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -105,9 +105,9 @@ namespace DPA_Musicsheets.Managers
             {
                 if (s.Bars.Count != 0)
                 {
-                    if (s.relativeOctave != track.defaultRelativeOctave)
+                    if (s.RelativeOctave != track.defaultRelativeOctave)
                     {
-                        stringBuilder.AppendLine("\\relative " + s.relativeOctave);
+                        stringBuilder.AppendLine("\\relative " + s.RelativeOctave);
                     }
 
                     stringBuilder.AppendLine("{");

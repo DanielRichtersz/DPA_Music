@@ -19,7 +19,7 @@ namespace DPA_Musicsheets.Builder.Commands
             int parseInt;
             bool parseSuccess = int.TryParse(s, out parseInt);
             if (!parseSuccess) return false;
-            NoteBuilder.setDuration(NoteBuilderResources.GetDuration(s));
+            NoteBuilder.SetDuration(NoteBuilderResources.GetDuration(s));
             return true;
         }
     }
