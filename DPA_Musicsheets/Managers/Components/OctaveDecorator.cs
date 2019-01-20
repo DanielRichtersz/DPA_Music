@@ -21,15 +21,6 @@ namespace DPA_Musicsheets.Managers.Components
 
             int distanceWithPreviousNote = notesorder.IndexOf(note.NoteStep.ElementAt(0)) - notesorder.IndexOf(lastNote);
             lastNote = note.NoteStep.ElementAt(0);
-
-            if (distanceWithPreviousNote > 3) // Shorter path possible the other way around
-            {
-                //note.Octave += 1; // The number of notes in an octave
-            }
-            else if (distanceWithPreviousNote < -3)
-            {
-                //note.Octave -= 1; // The number of notes in an octave
-            }
         }
     }
 }

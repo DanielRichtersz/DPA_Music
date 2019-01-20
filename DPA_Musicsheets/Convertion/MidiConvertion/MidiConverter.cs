@@ -18,7 +18,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
 
         private Models.Track domainTrack = new Models.Track();
 
-        public Track convertMidiToStaff(Sequence sequence)
+        public Track ConvertMidiToStaff(Sequence sequence)
         {
             domainTrack.division = sequence.Division;
             //get all tracks and loop through their events to create the staffs, bars and notes
@@ -37,19 +37,13 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
             {
                 if (mEvent.MidiMessage.MessageType == MessageType.Channel)
                 {
-                    channelConverter.convert(mEvent, ref domainTrack);
+                    channelConverter.Convert(mEvent, ref domainTrack);
                 }
                 else
                 {
-                    metaConverter.convert(mEvent, ref domainTrack);
+                    metaConverter.Convert(mEvent, ref domainTrack);
                 }
             }
         }
-
-        private void processMetaType(MidiEvent midiEvent)
-        {
-
-        }
-
     }
 }

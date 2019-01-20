@@ -23,7 +23,7 @@ namespace DPA_Musicsheets.ViewModels
     {
         private string _fileName;
         private string _currentState;
-        private MusicLoader _musicLoader = new MusicLoader();
+        MusicLoader _musicLoader = new MusicLoader();
         private TrackConverter trackConverter = new TrackConverter();
 
         public string EditorText
@@ -61,7 +61,6 @@ namespace DPA_Musicsheets.ViewModels
             get { return _currentState; }
             set { _currentState = value; RaisePropertyChanged(() => CurrentState); }
         }
-
 
         public MainViewModel(MusicLoader musicLoader)
         {
@@ -104,9 +103,9 @@ namespace DPA_Musicsheets.ViewModels
         public ICommand LoadCommand => new RelayCommand(() =>
         {
             Track track = trackConverter.GetTrack(FileName);
-            track.print();
+            track.Print();
 
-            EditorText = trackConverter.convertToLilypondText(track);
+            EditorText = trackConverter.ConvertToLilypondText(track);
             ServiceLocator.Current.GetInstance<StaffsViewModel>().SetStaffs(trackConverter.ConvertToMusicalSymbols(track));
             ServiceLocator.Current.GetInstance<LilypondViewModel>().ResetHistory();
 

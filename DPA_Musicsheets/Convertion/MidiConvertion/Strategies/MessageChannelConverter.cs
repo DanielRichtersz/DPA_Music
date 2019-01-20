@@ -21,7 +21,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
         private MidiHelper helper = new MidiHelper();
 
         // Converts the event to note
-        public void convert(MidiEvent midiEvent, ref Models.Track track)
+        public void Convert(MidiEvent midiEvent, ref Models.Track track)
         {
             var channelMessage = midiEvent.MidiMessage as ChannelMessage;
             if (channelMessage.Command == ChannelCommand.NoteOn)
@@ -36,7 +36,7 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
                 }
                 else
                 {
-                    noteBuilder.setPitch(Pitch.R);
+                    noteBuilder.SetPitch(Pitch.R);
                 }
             }
         }
@@ -48,15 +48,16 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
             int dots = 0;
             double percentageOfBar;
 
-            Duration duration = helper.getDuration(track.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, track.division,
+            Duration duration = helper.GetDuration(track.previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, track.division,
                 beats.Item1, beats.Item2, out percentageOfBar, out dots);
 
             // Finish the previous note with the length.
             track.previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
 
-                    noteBuilder.setDuration(duration).setPoints(dots);
-                    var note = noteBuilder.build();
-                    track.CreateNewNote(note);
+            noteBuilder.SetDuration(duration);
+            noteBuilder.SetPoints(dots);
+            var note = noteBuilder.Build();
+            track.CreateNewNote(note);
 
             percentageOfBarReached += percentageOfBar;
             if (percentageOfBarReached >= 1)
@@ -78,8 +79,10 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion.Strategies
 
             // Append the new note.
             noteBuilder = new NoteBuilder();
-            noteBuilder.setPitch(pitch).setOctave(octave).setMole(mole);
-            if(pitch == Pitch.G && octave == Octave.contra1 || octave == Octave.oneStriped)
+            noteBuilder.SetPitch(pitch);
+            noteBuilder.SetOctave(octave);
+            noteBuilder.SetMole(mole);
+            if (pitch == Pitch.G && octave == Octave.contra1 || octave == Octave.oneStriped)
             {
                 int i = 0;
             }

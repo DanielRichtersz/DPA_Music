@@ -21,7 +21,6 @@ namespace DPA_Musicsheets.Managers
     /// This is the one and only god class in the application.
     /// It knows all about all file types, knows every viewmodel and contains all logic.
     /// TODO: Clean this class up.
-    /// TODO: Remove this shit
     /// </summary>
     [Obsolete("This MusicLoader is obsolete, use FileHandler for reading files.")]
     public class MusicLoader
@@ -29,7 +28,7 @@ namespace DPA_Musicsheets.Managers
 		#region Properties
 		public string LilypondText { get; set; }
 		public List<MusicalSymbol> WPFStaffs { get; set; } = new List<MusicalSymbol>();
-		private static List<Char> notesorder = new List<Char> { 'c', 'd', 'e', 'f', 'g', 'a', 'b' };
+		private static List<Char> _notesOrder = new List<Char> { 'c', 'd', 'e', 'f', 'g', 'a', 'b' };
 
 		public Sequence MidiSequence { get; set; }
 		#endregion Properties
@@ -157,7 +156,7 @@ namespace DPA_Musicsheets.Managers
 						alter += Regex.Matches(currentToken.Value, "is").Count;
 						alter -= Regex.Matches(currentToken.Value, "es|as").Count;
 						// Octaves
-						int distanceWithPreviousNote = notesorder.IndexOf(currentToken.Value[0]) - notesorder.IndexOf(previousNote);
+						int distanceWithPreviousNote = _notesOrder.IndexOf(currentToken.Value[0]) - _notesOrder.IndexOf(previousNote);
 						if (distanceWithPreviousNote > 3) // Shorter path possible the other way around
 						{
 							distanceWithPreviousNote -= 7; // The number of notes in an octave
@@ -167,11 +166,11 @@ namespace DPA_Musicsheets.Managers
 							distanceWithPreviousNote += 7; // The number of notes in an octave
 						}
 
-						if (distanceWithPreviousNote + notesorder.IndexOf(previousNote) >= 7)
+						if (distanceWithPreviousNote + _notesOrder.IndexOf(previousNote) >= 7)
 						{
 							previousOctave++;
 						}
-						else if (distanceWithPreviousNote + notesorder.IndexOf(previousNote) < 0)
+						else if (distanceWithPreviousNote + _notesOrder.IndexOf(previousNote) < 0)
 						{
 							previousOctave--;
 						}

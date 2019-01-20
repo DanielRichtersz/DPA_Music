@@ -27,7 +27,7 @@ namespace DPA_Musicsheets.Models
             defaultRelativeOctave = "c'";
             Staffs = new List<Staff>();
             Staffs.Add(new Staff(defaultRelativeOctave));
-            Staffs.Last().relativeOctave = defaultRelativeOctave;
+            Staffs.Last().RelativeOctave = defaultRelativeOctave;
 
             defaultRelativeOctaveHasBeenInitiated = false;
             defaultTempoHasBeenInitiated = false;
@@ -79,7 +79,7 @@ namespace DPA_Musicsheets.Models
                     b = GetLastBar();
                 }
 
-                b.addNote(n);
+                b.AddNote(n);
             }
         }
         #endregion CreateNew
@@ -136,7 +136,7 @@ namespace DPA_Musicsheets.Models
         {
             SetDefaultRelativeOctave(relativeOctave);
             Staff s = Staffs.Last();
-            s.relativeOctave = relativeOctave;
+            s.RelativeOctave = relativeOctave;
         }
 
         public void SetLastBarBeatsPerBar(Tuple<int, int> tuple)
@@ -180,7 +180,6 @@ namespace DPA_Musicsheets.Models
         }
         #endregion SetLast
 
-
         private Bar GetLastBar()
         {
             if (Staffs.Count == 0)
@@ -200,7 +199,7 @@ namespace DPA_Musicsheets.Models
             return Staffs;
         }
 
-        public void print()
+        public void Print()
         {
             bool firstBarPrinted = false;
             //Staff is empty
@@ -214,9 +213,9 @@ namespace DPA_Musicsheets.Models
             {
                 if (s.Bars.Count != 0)
                 {
-                    if (s.relativeOctave != defaultRelativeOctave)
+                    if (s.RelativeOctave != defaultRelativeOctave)
                     {
-                        Console.WriteLine("\\relative " + s.relativeOctave);
+                        Console.WriteLine("\\relative " + s.RelativeOctave);
                     }
 
                     Console.WriteLine('{');
@@ -257,27 +256,7 @@ namespace DPA_Musicsheets.Models
 
                             foreach (var n in bar.GetNotes())
                             {
-                                string notepitch = n.pitch + "";
-
-                                if (n.moleOrCross == MoleOrCross.Cross)
-                                {
-                                    notepitch += "is";
-                                }
-
-                                Console.Write(notepitch);
-
-                                if (n.octave == Octave.contra1)
-                                {
-                                    Console.Write(",");
-                                }
-                                if (n.octave == Octave.oneStriped)
-                                {
-                                    Console.Write("'");
-                                }
-                                int duration = (int)n.duration;
-                                Console.Write(duration);
-
-                                Console.Write(new string('.', n.points) + " ");
+                                n.PrintString();
                             }
                             Console.Write("|" + "\n");
                         }
@@ -286,21 +265,5 @@ namespace DPA_Musicsheets.Models
                 }
             }
         }
-
-        //Relative
-        //clef  (sleutel met daarachter treble, alt, tenor, of bass
-        //{} om hele track?
-        //tempo (4/bpm)
-        //time (beatnote/beatsperbar)
-        //repeat voor herhalingen
-        //alternative bij herhalingen
-        //Notes in juiste volgorde opslaan?
-
-        //Maatsoort per track?
-
-        //Herhalingen implementatie?
-
-        //Events
-
     }
 }

@@ -8,21 +8,19 @@ namespace DPA_Musicsheets.Builder.Commands
 {
     public class SetDurationCommand : BuilderCommand
     {
-        public SetDurationCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
+        public SetDurationCommand(ref NoteBuilder noteBuilder, ref NoteBuilderResources noteBuilderResources) : base(ref noteBuilder, ref noteBuilderResources)
         {
-            this.NoteBuilder = noteBuilder;
+            NoteBuilder = noteBuilder;
+            NoteBuilderResources = noteBuilderResources;
         }
 
         public override bool Execute(string s)
         {
             int parseInt;
-            bool parseSucces = int.TryParse(s, out parseInt);
-            if (parseSucces)
-            {
-                NoteBuilder.setDuration(s);
-                return true;
-            }
-            return false;
+            bool parseSuccess = int.TryParse(s, out parseInt);
+            if (!parseSuccess) return false;
+            NoteBuilder.SetDuration(NoteBuilderResources.GetDuration(s));
+            return true;
         }
     }
 }

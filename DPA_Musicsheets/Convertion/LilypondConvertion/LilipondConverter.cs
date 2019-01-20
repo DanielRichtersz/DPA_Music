@@ -35,7 +35,7 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
             for (int i = 0; i < stringParts.Length - 1; ++i)
             {
                 string stringPart = stringParts[i];
-                // Call strategies to convert string to objects
+                // Call strategies to Convert string to objects
                 if (lilypondStrategies.ContainsKey(stringParts[i]))
                 {
                     lilypondStrategies[stringParts[i]].Execute(ref track, ref i, stringParts[i + 1]);
@@ -46,14 +46,46 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion
                 }
             }
 
+            CleanTrack(ref track);
+
             return track;
         }
 
-        public string CreateLilypondFromModel(Track track)
+        /*
+         * Removes all empty bars and staffs
+         */
+        private void CleanTrack(ref Track track)
         {
-            
+            List<Staff> toBeRemoved = new List<Staff>();
 
-            return "";
+            foreach (Staff staff in track.Staffs)
+            {
+                if (staff.Bars.Count == 0)
+                {
+                    toBeRemoved.Add(staff);
+                }
+                else
+                {
+                    List<Bar> toBeRemovedBars = new List<Bar>();
+                    foreach (Bar bar in staff.Bars)
+                    {
+                        if (bar.GetNotes().Count == 0)
+                        {
+                            toBeRemovedBars.Add(bar);
+                        }
+                    }
+
+                    foreach (Bar removeBar in toBeRemovedBars)
+                    {
+                        staff.Bars.Remove(removeBar);
+                    }
+                }
+            }
+
+            foreach (Staff removeStaff in toBeRemoved)
+            {
+                track.Staffs.Remove(removeStaff);
+            }
         }
     }
 }

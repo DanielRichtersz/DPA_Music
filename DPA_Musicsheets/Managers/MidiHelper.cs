@@ -46,7 +46,7 @@ namespace DPA_Musicsheets.Managers
             octave = (Octave)baseOctave;
         }
 
-        public Duration getDuration(int absoluteTicks, int nextNoteAbsoluteTicks, int division,
+        public Duration GetDuration(int absoluteTicks, int nextNoteAbsoluteTicks, int division,
             int beatNote, int beatsPerBar, out double percentageOfBar, out int dots)
         {
             Duration duration = 0;

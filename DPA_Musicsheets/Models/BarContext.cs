@@ -13,8 +13,6 @@ namespace DPA_Musicsheets.Models
         public int Tempo { get; set; }
         public string ClefStyle { get; set; }
 
-
-
         public BarContext()
         {
             BeatsInBar = new Tuple<int, int>(4, 4);

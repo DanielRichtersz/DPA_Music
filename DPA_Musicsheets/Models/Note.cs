@@ -23,11 +23,11 @@ namespace DPA_Musicsheets.Models
 
         public double GetNoteDuration()
         {
-            double totalDuration = (double)this.duration;
+            double totalDuration = (double)duration;
 
-            if (this.points != 0)
+            if (points != 0)
             {
-                for (int i = 1; i < this.points; ++i)
+                for (int i = 1; i < points; ++i)
                 {
                     totalDuration += totalDuration * (2 * i);
                 }
@@ -46,28 +46,80 @@ namespace DPA_Musicsheets.Models
             this.points = points;
         }
 
-        public void PrintString()
+        public string PrintString()
         {
-            string notepitch = this.pitch + "";
-            if (this.moleOrCross == MoleOrCross.Cross)
+            string notepitch = pitch + "";
+            if (moleOrCross == MoleOrCross.Cross)
             {
                 notepitch += "is";
             }
 
+            if (moleOrCross == MoleOrCross.Mole)
+            {
+                notepitch += "es";
+            }
+
             Console.Write(notepitch);
 
-            if (this.octave == Octave.contra1)
+            if (octave == Octave.contra4)
             {
+                notepitch += ",,,,";
+                Console.Write(",,,,");
+            }
+            if (octave == Octave.contra3)
+            {
+                notepitch += ",,,";
+                Console.Write(",,,");
+            }
+            if (octave == Octave.contra2)
+            {
+                notepitch += ",,";
+                Console.Write(",,");
+            }
+            if (octave == Octave.contra1)
+            {
+                notepitch += ",";
                 Console.Write(",");
             }
-            if (this.octave == Octave.oneStriped)
+            if (octave == Octave.oneStriped)
             {
+                notepitch += "'";
                 Console.Write("'");
             }
+
+            if (octave == Octave.twoStriped)
+            {
+                notepitch += "''";
+                Console.Write("''");
+            }
+            if (octave == Octave.threeStriped)
+            {
+                notepitch += "'''";
+                Console.Write("'''");
+            }
+            if (octave == Octave.fourStriped)
+            {
+                notepitch += "''''";
+                Console.Write("''''");
+            }
             int duration = (int)this.duration;
+            notepitch += duration.ToString();
             Console.Write(duration);
 
-            Console.Write(new string('.', this.points) + " \n");
+            for (int i = 0; i < points; i++)
+            {
+                notepitch += ".";
+            }
+
+            Console.Write(new string('.', points) + " ");
+
+            if (hasTilde)
+            {
+                notepitch += "~";
+                Console.Write("~");
+            }
+            notepitch += " ";
+            return notepitch;
         }
     }
 }

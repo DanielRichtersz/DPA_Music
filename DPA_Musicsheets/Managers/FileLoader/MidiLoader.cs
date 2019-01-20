@@ -11,16 +11,14 @@ namespace DPA_Musicsheets.Managers.FileLoader
 {
 	class MidiLoader : IFileLoader
 	{
-        
-
-		public Models.Track fileToString(string path)
+		public Models.Track FileToString(string path)
 		{
 		    Sequence midiSequence = new Sequence();
 			midiSequence.Load(path);
 
             MidiConverter mc = new MidiConverter();
             
-		    return mc.convertMidiToStaff(midiSequence);
+		    return mc.ConvertMidiToStaff(midiSequence);
         }
 	}
 }

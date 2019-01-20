@@ -10,6 +10,6 @@ namespace DPA_Musicsheets.Convertion.MidiConvertion
 {
     interface IMetaTypeConverter
     {
-        void convert(MidiEvent midiEvent, ref Models.Track track);
+        void Convert(MidiEvent midiEvent, ref Models.Track track);
     }
 }

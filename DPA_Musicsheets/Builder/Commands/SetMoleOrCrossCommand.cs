@@ -9,9 +9,10 @@ namespace DPA_Musicsheets.Builder.Commands
 {
     public class SetMoleOrCrossCommand : BuilderCommand
     {
-        public SetMoleOrCrossCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
+        public SetMoleOrCrossCommand(ref NoteBuilder noteBuilder, ref NoteBuilderResources noteBuilderResources) : base(ref noteBuilder, ref noteBuilderResources)
         {
-            this.NoteBuilder = noteBuilder;
+            NoteBuilder = noteBuilder;
+            NoteBuilderResources = noteBuilderResources;
         }
 
         public override bool Execute(string s)
@@ -19,15 +20,15 @@ namespace DPA_Musicsheets.Builder.Commands
 
             if (s == "es")
             {
-                NoteBuilder.setMole(MoleOrCross.Mole);
+                NoteBuilder.SetMole(MoleOrCross.Mole);
                 return true;
             }
             if (s == "is")
             {
-                NoteBuilder.setMole(MoleOrCross.Cross);
+                NoteBuilder.SetMole(MoleOrCross.Cross);
                 return true;
             }
-            NoteBuilder.setMole(MoleOrCross.None);
+            NoteBuilder.SetMole(MoleOrCross.None);
 
             return false;
         }
