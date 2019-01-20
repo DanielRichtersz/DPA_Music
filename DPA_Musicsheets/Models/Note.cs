@@ -46,7 +46,7 @@ namespace DPA_Musicsheets.Models
             this.points = points;
         }
 
-        public void PrintString()
+        public string PrintString()
         {
             string notepitch = pitch + "";
             if (moleOrCross == MoleOrCross.Cross)
@@ -63,45 +63,59 @@ namespace DPA_Musicsheets.Models
 
             if (octave == Octave.contra4)
             {
+                notepitch += ",,,,";
                 Console.Write(",,,,");
             }
             if (octave == Octave.contra3)
             {
+                notepitch += ",,,";
                 Console.Write(",,,");
             }
             if (octave == Octave.contra2)
             {
+                notepitch += ",,";
                 Console.Write(",,");
             }
             if (octave == Octave.contra1)
             {
+                notepitch += ",";
                 Console.Write(",");
             }
             if (octave == Octave.oneStriped)
             {
+                notepitch += "'";
                 Console.Write("'");
             }
 
             if (octave == Octave.twoStriped)
             {
+                notepitch += "''";
                 Console.Write("''");
             }
             if (octave == Octave.threeStriped)
             {
+                notepitch += "'''";
                 Console.Write("'''");
             }
             if (octave == Octave.fourStriped)
             {
+                notepitch += "''''";
                 Console.Write("''''");
             }
             int duration = (int)this.duration;
+            notepitch += duration.ToString();
             Console.Write(duration);
+
+            notepitch += new string('.', points) + " ";
+            Console.Write(new string('.', points) + " ");
+
             if (hasTilde)
             {
+                notepitch += "~";
                 Console.Write("~");
             }
 
-            Console.Write(new string('.', points) + " ");
+            return notepitch;
         }
     }
 }

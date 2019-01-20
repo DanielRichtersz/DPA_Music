@@ -148,27 +148,70 @@ namespace DPA_Musicsheets.Managers
 
                             foreach (var n in bar.GetNotes())
                             {
-                                string notepitch = n.pitch + "";
-
+                                stringBuilder.Append(n.pitch);
                                 if (n.moleOrCross == MoleOrCross.Cross)
                                 {
-                                    notepitch += "is";
+                                    stringBuilder.Append("is");
                                 }
 
-                                stringBuilder.Append(notepitch);
+                                if (n.moleOrCross == MoleOrCross.Mole)
+                                {
+                                    stringBuilder.Append("es");
+                                }
 
+                                if (n.octave == Octave.contra4)
+                                {
+                                    stringBuilder.Append(",,,,");
+                                    Console.Write(",,,,");
+                                }
+                                if (n.octave == Octave.contra3)
+                                {
+                                    stringBuilder.Append(",,,");
+                                    Console.Write(",,,");
+                                }
+                                if (n.octave == Octave.contra2)
+                                {
+                                    stringBuilder.Append(",,");
+                                    Console.Write(",,");
+                                }
                                 if (n.octave == Octave.contra1)
                                 {
                                     stringBuilder.Append(",");
+                                    Console.Write(",");
                                 }
                                 if (n.octave == Octave.oneStriped)
                                 {
                                     stringBuilder.Append("'");
+                                    Console.Write("'");
+                                }
+
+                                if (n.octave == Octave.twoStriped)
+                                {
+                                    stringBuilder.Append("''");
+                                    Console.Write("''");
+                                }
+                                if (n.octave == Octave.threeStriped)
+                                {
+                                    stringBuilder.Append("'''");
+                                    Console.Write("'''");
+                                }
+                                if (n.octave == Octave.fourStriped)
+                                {
+                                    stringBuilder.Append("''''");
+                                    Console.Write("''''");
                                 }
                                 int duration = (int)n.duration;
-                                stringBuilder.Append(duration);
+                                stringBuilder.Append(duration.ToString());
+                                Console.Write(duration);
 
                                 stringBuilder.Append(new string('.', n.points) + " ");
+                                Console.Write(new string('.', n.points) + " ");
+
+                                if (n.hasTilde)
+                                {
+                                    stringBuilder.Append("~");
+                                    Console.Write("~");
+                                }
                             }
                             stringBuilder.Append("|" + "\n");
                         }
