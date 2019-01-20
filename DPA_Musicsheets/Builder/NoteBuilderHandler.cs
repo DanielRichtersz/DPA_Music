@@ -9,18 +9,20 @@ namespace DPA_Musicsheets.Builder
     {
         private List<BuilderCommand> chain;
         private NoteBuilder noteBuilder;
+        private NoteBuilderResources noteBuilderResources;
 
         public NoteBuilderHandler()
         {
             chain = new List<BuilderCommand>();
             noteBuilder = new NoteBuilder();
+            noteBuilderResources = new NoteBuilderResources();
 
-            SetDurationCommand setDurationCommand = new SetDurationCommand(ref noteBuilder);
-            SetMoleOrCrossCommand setMoleOrCrossCommand = new SetMoleOrCrossCommand(ref noteBuilder);
-            SetOctaveCommand setOctaveCommand = new SetOctaveCommand(ref noteBuilder);
-            SetPitchCommand setPitchCommand = new SetPitchCommand(ref noteBuilder);
-            SetPointsCommand setPointsCommand = new SetPointsCommand(ref noteBuilder);
-            SetTildeCommand setTildeCommand = new SetTildeCommand(ref noteBuilder);
+            SetDurationCommand setDurationCommand = new SetDurationCommand(ref noteBuilder, ref noteBuilderResources);
+            SetMoleOrCrossCommand setMoleOrCrossCommand = new SetMoleOrCrossCommand(ref noteBuilder, ref noteBuilderResources);
+            SetOctaveCommand setOctaveCommand = new SetOctaveCommand(ref noteBuilder, ref noteBuilderResources);
+            SetPitchCommand setPitchCommand = new SetPitchCommand(ref noteBuilder, ref noteBuilderResources);
+            SetPointsCommand setPointsCommand = new SetPointsCommand(ref noteBuilder, ref noteBuilderResources);
+            SetTildeCommand setTildeCommand = new SetTildeCommand(ref noteBuilder, ref noteBuilderResources);
             chain.Add(setDurationCommand);
             chain.Add(setMoleOrCrossCommand);
             chain.Add(setOctaveCommand);
@@ -56,7 +58,8 @@ namespace DPA_Musicsheets.Builder
         /// </summary>
         /// <param name="newNote">The entire node string</param>
         /// <param name="i">Reference to the iterator looping through the newNote string</param>
-        /// <returns>The substring which will be the character at the iterators index or the character at the iterators index and the next character</returns>
+        /// <returns>The substring which will be the character at the iterators index or the character at the iterators index and the next character
+        /// (for example when a duration number or pitch is included)</returns>
         private static string SubString(string newNote, ref int i)
         {
             string subString = newNote.Substring(i, 1);

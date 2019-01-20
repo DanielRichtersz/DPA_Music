@@ -23,7 +23,6 @@ namespace DPA_Musicsheets.ViewModels
     {
         private string _fileName;
         private string _currentState;
-        private MusicLoader _musicLoader = new MusicLoader();
         private TrackConverter trackConverter = new TrackConverter();
 
         public string EditorText
@@ -60,15 +59,6 @@ namespace DPA_Musicsheets.ViewModels
         {
             get { return _currentState; }
             set { _currentState = value; RaisePropertyChanged(() => CurrentState); }
-        }
-
-
-        public MainViewModel(MusicLoader musicLoader)
-        {
-            _musicLoader = musicLoader;
-            trackConverter = new TrackConverter();
-            FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
-
         }
 
         private TextBox focusedTextBox;

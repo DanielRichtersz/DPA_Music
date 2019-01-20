@@ -1,23 +1,10 @@
 ﻿using DPA_Musicsheets.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Builder
 {
     public class NoteBuilder
     {
-        private Dictionary<string, Octave> octaves = new Dictionary<string, Octave>() {
-            { ",", Octave.contra1 }, { "'", Octave.oneStriped}, { "", Octave.small}, { ",,", Octave.contra2 }, { "''", Octave.twoStriped}
-            , { ",,,", Octave.contra3 }, { "'''", Octave.threeStriped}, { ",,,,", Octave.contra4 }, { "''''", Octave.fourStriped}};
-        private Dictionary<string, MoleOrCross> moles = new Dictionary<string, MoleOrCross>() {
-            { "es", MoleOrCross.Mole}, { "is", MoleOrCross.Cross}, { "", MoleOrCross.None} };
-        private Dictionary<string, Duration> durations = new Dictionary<string, Duration>() {
-            {"1", Duration.Hele },{"2", Duration.Halve },{"4", Duration.Kwart},{"8", Duration.Achste},{"16", Duration.Zestiende }
-            ,{"32", Duration.TweeEnDertig} };
-
         private Note note = new Note(Pitch.R, Octave.small, MoleOrCross.None, Duration.Hele, 0, false);
         public Note build()
         {
@@ -36,11 +23,6 @@ namespace DPA_Musicsheets.Builder
         public void setPitch(Pitch pitch)
         {
             note.pitch = pitch;
-        }
-
-        public void setOctave(string octave)
-        {
-            note.octave = octaves[octave];
         }
 
         public void increaseOctave()
@@ -64,19 +46,9 @@ namespace DPA_Musicsheets.Builder
             note.octave = octave;
         }
 
-        public void setMole(string mole)
-        {
-            note.moleOrCross = moles[mole];
-        }
-
         public void setMole(MoleOrCross mole)
         {
             note.moleOrCross = mole;
-        }
-
-        public void setDuration(string duration)
-        {
-            note.duration = durations[duration];
         }
 
         public void setDuration(Duration duration)

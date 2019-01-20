@@ -8,9 +8,10 @@ namespace DPA_Musicsheets.Builder.Commands
 {
     public class SetTildeCommand : BuilderCommand
     {
-        public SetTildeCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
+        public SetTildeCommand(ref NoteBuilder noteBuilder, ref NoteBuilderResources noteBuilderResources) : base(ref noteBuilder, ref noteBuilderResources)
         {
             NoteBuilder = noteBuilder;
+            NoteBuilderResources = noteBuilderResources;
         }
 
         public override bool Execute(string s)

@@ -105,6 +105,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Builder\Commands\BuilderCommand.cs" />
+    <Compile Include="Builder\NoteBuilderResources.cs" />
     <Compile Include="Builder\Commands\SetDurationCommand.cs" />
     <Compile Include="Builder\Commands\SetMoleOrCrossCommand.cs" />
     <Compile Include="Builder\Commands\SetOctaveCommand.cs" />

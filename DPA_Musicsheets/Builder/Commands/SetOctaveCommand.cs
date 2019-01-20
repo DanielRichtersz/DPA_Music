@@ -13,9 +13,10 @@ namespace DPA_Musicsheets.Builder.Commands
     {
         private readonly Dictionary<char, Func<bool>> chain = new Dictionary<char, Func<bool>>();
 
-        public SetOctaveCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
+        public SetOctaveCommand(ref NoteBuilder noteBuilder, ref NoteBuilderResources noteBuilderResources) : base(ref noteBuilder, ref noteBuilderResources)
         {
             NoteBuilder = noteBuilder;
+            NoteBuilderResources = noteBuilderResources;
             chain.Add('\'', increaseOctave);
             chain.Add(',', decreaseOctave);
         }

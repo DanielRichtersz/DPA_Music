@@ -8,9 +8,10 @@ namespace DPA_Musicsheets.Builder.Commands
 {
     public class SetPointsCommand : BuilderCommand
     {
-        public SetPointsCommand(ref NoteBuilder noteBuilder) : base(ref noteBuilder)
+        public SetPointsCommand(ref NoteBuilder noteBuilder, ref NoteBuilderResources noteBuilderResources) : base(ref noteBuilder, ref noteBuilderResources)
         {
             NoteBuilder = noteBuilder;
+            NoteBuilderResources = noteBuilderResources;
         }
 
         public override bool Execute(string s)
