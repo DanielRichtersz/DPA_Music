@@ -106,7 +106,11 @@ namespace DPA_Musicsheets.Models
             notepitch += duration.ToString();
             Console.Write(duration);
 
-            notepitch += new string('.', points) + " ";
+            for (int i = 0; i < points; i++)
+            {
+                notepitch += ".";
+            }
+
             Console.Write(new string('.', points) + " ");
 
             if (hasTilde)
@@ -114,7 +118,7 @@ namespace DPA_Musicsheets.Models
                 notepitch += "~";
                 Console.Write("~");
             }
-
+            notepitch += " ";
             return notepitch;
         }
     }
