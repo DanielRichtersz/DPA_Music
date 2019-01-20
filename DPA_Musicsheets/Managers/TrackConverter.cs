@@ -47,6 +47,23 @@ namespace DPA_Musicsheets.Managers
         {
             symbols.Add(new Barline());
 
+            if (bar.BarContext.ClefStyle != track.DefaultBarContext.ClefStyle)
+            {
+                symbols.Add(new Clef(ClefType.GClef, 2));
+            }
+
+            if (bar.BarContext.BeatsInBar.Item1 != track.DefaultBarContext.BeatsInBar.Item1
+                || bar.BarContext.BeatsInBar.Item2 != track.DefaultBarContext.BeatsInBar.Item2)
+            {
+                symbols.Add(new TimeSignature(TimeSignatureType.Numbers, (UInt32)bar.BarContext.BeatsInBar.Item1, (UInt32)bar.BarContext.BeatsInBar.Item2));
+            }
+
+            if (bar.BarContext.Tempo != track.DefaultBarContext.Tempo
+                || bar.BarContext.BeatsPerMinute != track.DefaultBarContext.BeatsPerMinute)
+            {
+
+            }
+
             foreach (var note in bar.GetNotes())
             {
                 if (note.pitch == Pitch.R)
