@@ -12,10 +12,10 @@ namespace DPA_Musicsheets.Models
     {
         public int previousNoteAbsoluteTicks { get; set; }
         public int division { get; set; }
-        public BarContext DefaultBarContext { get; }
+        public BarContext DefaultBarContext { get; set; }
 
         public List<Staff> Staffs { get; }
-        public string defaultRelativeOctave { get; private set; }
+        public string defaultRelativeOctave { get ; private set; }
         public bool defaultRelativeOctaveHasBeenInitiated { get; private set; }
         public bool defaultTempoHasBeenInitiated { get; private set; }
         public bool defaultBpmHasBeenInitiated { get; private set; }
@@ -50,8 +50,13 @@ namespace DPA_Musicsheets.Models
             {
                 CreateNewStaff();
             }
+            BarContext newBarContext = new BarContext();
+            newBarContext.Tempo = DefaultBarContext.Tempo;
+            newBarContext.BeatsInBar = DefaultBarContext.BeatsInBar;
+            newBarContext.BeatsPerMinute = DefaultBarContext.BeatsPerMinute;
+            newBarContext.ClefStyle = DefaultBarContext.ClefStyle;
 
-            Bar b = new Bar(DefaultBarContext);
+            Bar b = new Bar(newBarContext);
             Staffs.Last().Bars.Add(b);
             Console.WriteLine("Made bar: " + b.ToString());
         }
@@ -143,6 +148,7 @@ namespace DPA_Musicsheets.Models
         public void SetLastBarBeatsPerBar(Tuple<int, int> tuple)
         {
             SetDefaultBeatsPerBar(tuple);
+
             Bar b = GetLastBar();
             if (b != null)
             {

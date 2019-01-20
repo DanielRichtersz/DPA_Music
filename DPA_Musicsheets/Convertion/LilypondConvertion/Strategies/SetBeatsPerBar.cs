@@ -15,13 +15,19 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
 
             int timePartOne;
             int timePartTwo;
-            bool timePartOneConversion = int.TryParse(stringPart.Substring(0, stringPart.IndexOf("/")), out timePartOne);
-            bool timePartTwoConversion = int.TryParse(stringPart.Substring(stringPart.IndexOf("/") + 1), out timePartTwo);
 
-            if (timePartOneConversion && timePartTwoConversion)
+            bool containsSlash = stringPart.Contains("/");
+
+            if (containsSlash)
             {
-                time = new Tuple<int, int>(timePartOne, timePartTwo);
-                track.SetLastBarBeatsPerBar(time);
+                bool timePartOneConversion = int.TryParse(stringPart.Substring(0, stringPart.IndexOf("/")), out timePartOne);
+                bool timePartTwoConversion = int.TryParse(stringPart.Substring(stringPart.IndexOf("/") + 1), out timePartTwo);
+
+                if (timePartOneConversion && timePartTwoConversion)
+                {
+                    time = new Tuple<int, int>(timePartOne, timePartTwo);
+                    track.SetLastBarBeatsPerBar(time);
+                }
             }
 
             ++i;

@@ -94,7 +94,6 @@ namespace DPA_Musicsheets.Managers
 
         public string ConvertToLilypondText(Track track)
         {
-
             StringBuilder stringBuilder = new StringBuilder();
             bool firstBarPrinted = false;
             

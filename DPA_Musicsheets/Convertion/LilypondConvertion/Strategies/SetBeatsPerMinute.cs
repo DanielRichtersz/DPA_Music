@@ -13,13 +13,19 @@ namespace DPA_Musicsheets.Convertion.LilypondConvertion.Strategies
         {
             int nTempo;
             int nBpm;
-            bool nTempoConversion = int.TryParse(stringPart.Substring(0, stringPart.IndexOf("=")), out nTempo);
-            bool nBpmConversion = int.TryParse(stringPart.Substring(stringPart.IndexOf("=") + 1), out nBpm);
 
-            if (nTempoConversion && nBpmConversion)
+            bool containsIsSymbol = stringPart.Contains("=");
+
+            if (containsIsSymbol)
             {
-                track.SetLastBarBeatsPerMinute(nBpm);
-                track.SetLastBarTempo(nTempo);
+                bool nTempoConversion = int.TryParse(stringPart.Substring(0, stringPart.IndexOf("=")), out nTempo);
+                bool nBpmConversion = int.TryParse(stringPart.Substring(stringPart.IndexOf("=") + 1), out nBpm);
+
+                if (nTempoConversion && nBpmConversion)
+                {
+                    track.SetLastBarBeatsPerMinute(nBpm);
+                    track.SetLastBarTempo(nTempo);
+                }
             }
 
             ++i;
