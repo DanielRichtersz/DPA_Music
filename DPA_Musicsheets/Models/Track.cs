@@ -13,13 +13,13 @@ namespace DPA_Musicsheets.Models
         public int division { get; set; }
         public BarContext DefaultBarContext { get; }
 
-        private List<Staff> Staffs;
-        private string defaultRelativeOctave;
-        private bool defaultRelativeOctaveHasBeenInitiated;
-        private bool defaultTempoHasBeenInitiated;
-        private bool defaultBpmHasBeenInitiated;
-        private bool defaultBpbHasBeenInitiated;
-        private bool defaultClefStyleHasBeenInitiated;
+        public List<Staff> Staffs { get; }
+        public string defaultRelativeOctave { get; private set; }
+        public bool defaultRelativeOctaveHasBeenInitiated { get; private set; }
+        public bool defaultTempoHasBeenInitiated { get; private set; }
+        public bool defaultBpmHasBeenInitiated { get; private set; }
+        public bool defaultBpbHasBeenInitiated { get; private set; }
+        public bool defaultClefStyleHasBeenInitiated { get; private set; }
 
         public Track()
         {
@@ -183,7 +183,6 @@ namespace DPA_Musicsheets.Models
 
         private Bar GetLastBar()
         {
-            Bar returnBar;
             if (Staffs.Count == 0)
             {
                 CreateNewStaff();
@@ -203,7 +202,14 @@ namespace DPA_Musicsheets.Models
 
         public void print()
         {
+            bool firstBarPrinted = false;
+            //Staff is empty
+            if (Staffs.Count == 0)
+            {
+                Console.WriteLine("Track is empty");
+            }
 
+            Console.WriteLine("\\relative " + defaultRelativeOctave);
             foreach (var s in Staffs)
             {
                 if (s.Bars.Count != 0)
@@ -279,99 +285,6 @@ namespace DPA_Musicsheets.Models
                     Console.WriteLine("}");
                 }
             }
-        }
-
-        public string toLilypond()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            bool firstBarPrinted = false;
-
-            //Staff is empty
-            if (Staffs.Count == 0)
-            {
-                Console.WriteLine("Track is empty");
-                return stringBuilder.ToString();
-            }
-
-            stringBuilder.AppendLine("\\relative " + defaultRelativeOctave);
-
-            foreach (var s in Staffs)
-            {
-                if (s.Bars.Count != 0)
-                {
-                    if (s.relativeOctave != defaultRelativeOctave)
-                    {
-                        stringBuilder.AppendLine("\\relative " + s.relativeOctave);
-                    }
-
-                    stringBuilder.AppendLine("{");
-
-                    foreach (var b in s.Bars)
-                    {
-                        Bar bar = (Bar)b;
-
-                        if (bar.GetNotes().Count != 0)
-                        {
-
-                            if (!firstBarPrinted)
-                            {
-                                stringBuilder.AppendLine("\\clef " + bar.BarContext.ClefStyle);
-                                stringBuilder.AppendLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
-                                stringBuilder.AppendLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
-                                firstBarPrinted = true;
-                            }
-                            else
-                            {
-                                if (bar.BarContext.ClefStyle != DefaultBarContext.ClefStyle)
-                                {
-                                    stringBuilder.AppendLine("\\clef " + bar.BarContext.ClefStyle);
-                                }
-
-                                if (bar.BarContext.BeatsInBar.Item1 != DefaultBarContext.BeatsInBar.Item1
-                                    || bar.BarContext.BeatsInBar.Item2 != DefaultBarContext.BeatsInBar.Item2)
-                                {
-                                    stringBuilder.AppendLine("\\time " + bar.BarContext.BeatsInBar.Item1 + "/" + bar.BarContext.BeatsInBar.Item2);
-                                }
-
-                                if (bar.BarContext.Tempo != DefaultBarContext.Tempo
-                                    || bar.BarContext.BeatsPerMinute != DefaultBarContext.BeatsPerMinute)
-                                {
-                                    stringBuilder.AppendLine("\\tempo " + bar.BarContext.Tempo + "=" + bar.BarContext.BeatsPerMinute);
-                                }
-                            }
-
-                            foreach (var n in bar.GetNotes())
-                            {
-                                string notepitch = n.pitch + "";
-
-                                if (n.moleOrCross == MoleOrCross.Cross)
-                                {
-                                    notepitch += "is";
-                                }
-
-                                stringBuilder.Append(notepitch);
-
-                                if (n.octave == Octave.contra1)
-                                {
-                                    stringBuilder.Append(",");
-                                }
-                                if (n.octave == Octave.oneStriped)
-                                {
-                                    stringBuilder.Append("'");
-                                }
-                                int duration = (int)n.duration;
-                                stringBuilder.Append(duration);
-
-                                stringBuilder.Append(new string('.', n.points) + " ");
-                            }
-                            stringBuilder.Append("|" + "\n");
-                        }
-                    }
-                    stringBuilder.AppendLine("}");
-                }
-            }
-
-            return stringBuilder.ToString();
         }
 
         //Relative
