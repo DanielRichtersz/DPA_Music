@@ -165,7 +165,6 @@
     <Compile Include="Managers\FileLoader\MidiLoader.cs" />
     <Compile Include="Managers\MidiHelper.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
-    <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Interfaces\IStaffElement.cs" />
     <Compile Include="Managers\TrackConverter.cs" />
     <Compile Include="Managers\WpfStaffComponent.cs" />
