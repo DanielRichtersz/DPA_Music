@@ -36,8 +36,7 @@ namespace DPA_Musicsheets.Builder
             for (int i = 0; i < newNote.Length; i++)
             {
                 string subString = SubString(newNote, ref i);
-
-                // Chain of responsibility
+                
                 foreach (BuilderCommand bc in chain)
                 {
                     if (bc.Execute(subString))
@@ -48,8 +47,6 @@ namespace DPA_Musicsheets.Builder
             }
 
             Note note = noteBuilder.Build();
-            Console.Write("Made note: ");
-            note.PrintString();
             return note;
         }
 

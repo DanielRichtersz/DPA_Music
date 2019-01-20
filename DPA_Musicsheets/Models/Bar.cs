@@ -26,10 +26,6 @@ namespace DPA_Musicsheets.Models
 		public void AddNote(Note n)
 		{
 			Notes.Add(n);
-            if (!this.CheckNoteDurations())
-            {
-                //TODO: Error
-            }
 		}
 
         public void Print()
@@ -43,18 +39,6 @@ namespace DPA_Musicsheets.Models
 
             }
             Console.WriteLine(line);
-        }
-
-        private bool CheckNoteDurations()
-        {
-            return false;
-            //TODO
-            //Tuple<int, int> totalDuration = new Tuple<0, 0>();
-            //foreach (Note note in this.Notes)
-            //{
-            //    totalDuration += (1 / (int)note.duration);
-            //}
-            //return totalDuration == this.beatsInBar;
         }
     }
 }
